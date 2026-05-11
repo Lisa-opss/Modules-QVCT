@@ -804,7 +804,7 @@ function startInfAnim(){
   if(!dot || !path) return;
   const len = path.getTotalLength();
   let dist = 0;
-  const speed = len / (12 * 60); // one full loop per ~12s at 60fps — visibly faster
+  const speed = len / (20 * 60); // one full loop per ~20s at 60fps — slowed down
   function frame(){
     const pt = path.getPointAtLength(dist % len);
     dot.setAttribute('cx', pt.x);
