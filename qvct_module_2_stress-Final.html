@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 · Le bon et le mauvais stress · Brakson</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p1:#1a2fa8;--p2:#1e3bbf;--p3:#2347d4;--p4:#2e58f0;
+  --bg:#f0f4ff;--bgl:#e8eeff;
+  --acc:#A0EB9D;--accd:#8BCC88;
+  --ink:#0d1a3a;--gr:#6b7a99;--bo:#dde4f5;
+  --hub-bg:linear-gradient(160deg,#0d1f7a 0%,#1a2fa8 45%,#1e3bbf 100%);
+  --nav-bg:rgba(26,47,168,.96);
+  --w70:rgba(255,255,255,.70);--w40:rgba(255,255,255,.40);
+  --w15:rgba(255,255,255,.15);--w08:rgba(255,255,255,.08);
+  --shadow-sm:0 2px 8px rgba(13,26,58,.06);
+  --shadow-md:0 8px 24px rgba(13,26,58,.10);
+  --shadow-lg:0 20px 50px rgba(13,26,58,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:16px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes scaleIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes breathIn{0%{transform:scale(.5)}100%{transform:scale(1.4)}}
+@keyframes breathOut{0%{transform:scale(1.4)}100%{transform:scale(.5)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(160,235,157,.4)}50%{box-shadow:0 0 0 14px rgba(160,235,157,0)}}
+
+#login-overlay{position:fixed;inset:0;z-index:9000;background:var(--hub-bg);display:flex;align-items:center;justify-content:center;}
+#login-overlay::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.lb{position:relative;z-index:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(20px);border-radius:20px;padding:44px 40px;width:100%;max-width:440px;margin:20px;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:fadeUp .5s ease;}
+.lb-logo{width:56px;height:56px;background:var(--acc);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 22px;animation:float 3s ease-in-out infinite;}
+.lb-title{font-size:22px;font-weight:700;color:#fff;text-align:center;margin-bottom:6px;letter-spacing:-.02em;}
+.lb-sub{font-size:14px;color:var(--w70);text-align:center;margin-bottom:28px;line-height:1.55;}
+.lb-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--w40);margin-bottom:7px;display:block;}
+.lb-input{width:100%;padding:14px 17px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.20);border-radius:10px;font-family:inherit;font-size:15px;color:#fff;outline:none;transition:all .2s;}
+.lb-input::placeholder{color:var(--w40);}
+.lb-input:focus{border-color:var(--acc);background:rgba(255,255,255,.13);}
+.lb-field{margin-bottom:20px;}
+.lb-btn{width:100%;padding:15px;background:var(--acc);border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .25s;}
+.lb-btn:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 8px 22px rgba(160,235,157,.3);}
+.lb-err{margin-top:14px;padding:11px 16px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.3);border-radius:9px;font-size:13px;color:#ffb3ac;text-align:center;display:none;}
+.lb-err.show{display:block;animation:fadeUp .3s ease;}
+.lb-privacy{font-size:12px;color:var(--w40);text-align:center;margin-top:16px;line-height:1.5;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--w15);}
+.nlg{font-size:15px;font-weight:700;color:#fff;}
+.nlg .icn{display:inline-block;margin-right:8px;animation:pulse 2s ease-in-out infinite;}
+.nr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.user-pill{background:rgba(160,235,157,.15);border:1px solid rgba(160,235,157,.28);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--acc);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lang-toggle{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);border-radius:100px;padding:5px 14px;font-family:inherit;font-size:12px;font-weight:800;color:#fff;cursor:pointer;letter-spacing:.08em;transition:all .2s;}
+.lang-toggle:hover{background:rgba(160,235,157,.2);border-color:var(--acc);color:var(--acc);}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 20px;}nav{padding:0 18px;}}
+
+.screen{display:none;min-height:100vh;padding-top:66px;}
+.screen.active{display:block;animation:fadeUp .4s cubic-bezier(.4,0,.2,1);}
+.hero{padding:0;}
+.hero-card{background:var(--hub-bg);border-radius:0;padding:70px 80px 60px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);min-height:calc(100vh - 66px);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.hero-card .hero-sub{margin-left:auto;margin-right:auto;}
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1;justify-content:center;}
+#screen-0 .wrap{max-width:100%;padding:0;}
+#screen-3 .wrap{max-width:100%;padding:0;}
+.hero-card::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;}
+.hero-mod-badge{display:inline-block;background:rgba(160,235,157,.18);border:1px solid rgba(160,235,157,.3);color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:8px 16px;border-radius:100px;margin-bottom:24px;position:relative;z-index:1;}
+.hero-icon{width:88px;height:88px;background:var(--acc);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:22px;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1;box-shadow:0 0 0 8px rgba(160,235,157,.18);}
+.hero-title{font-size:clamp(34px,5vw,58px);font-weight:600;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;position:relative;z-index:1;}
+.hero-title .acc{color:var(--acc);font-weight:700;}
+.hero-sub{font-size:18px;color:var(--w70);line-height:1.65;max-width:560px;margin-bottom:30px;position:relative;z-index:1;}
+.btn-acc{background:var(--acc);color:var(--ink);border:none;border-radius:12px;padding:16px 32px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-acc:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 12px 28px rgba(160,235,157,.35);}
+.btn-alt-hero{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:12px;padding:15px 28px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-alt-hero:hover{background:rgba(255,255,255,.2);transform:translateY(-2px);}
+
+.scr-content{padding:50px 0 40px;}
+.mhd{margin-bottom:36px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--bo);padding-bottom:30px;}
+.mhd-l{flex:1;min-width:280px;}
+.mtag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--p2);margin-bottom:12px;}
+.mtag-d{width:18px;height:2px;background:var(--acc);border-radius:2px;}
+.mttl{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-.025em;line-height:1.1;color:var(--ink);}
+.mttl .g{color:var(--p2);}
+.mdsc{font-size:16px;color:var(--gr);line-height:1.7;margin-top:10px;max-width:600px;}
+.mnum{font-size:clamp(60px,8vw,100px);font-weight:800;color:#dde4f5;letter-spacing:-.05em;line-height:1;flex-shrink:0;user-select:none;}
+
+.intro-box{background:linear-gradient(135deg,#fff,var(--bgl));border-radius:14px;padding:24px 28px;margin-bottom:28px;border-left:4px solid var(--p3);box-shadow:var(--shadow-sm);}
+.intro-box p{font-size:16px;color:#3a4a6b;line-height:1.7;text-align:justify;}
+.intro-box strong{color:var(--ink);}
+.source-tag{display:inline-block;font-size:11px;color:var(--p2);background:var(--bgl);padding:3px 10px;border-radius:100px;margin-left:8px;font-weight:700;}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px;}
+@media(max-width:760px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:18px 16px;text-align:center;transition:all .25s;}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--p3);box-shadow:var(--shadow-md);}
+.stat-card .n{font-size:30px;font-weight:800;color:var(--p2);letter-spacing:-.03em;line-height:1;}
+.stat-card .l{font-size:12px;color:var(--gr);margin-top:6px;line-height:1.4;font-weight:600;}
+.stat-card .src{font-size:10px;color:var(--gr);margin-top:4px;opacity:.7;}
+
+.split-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:30px;}
+@media(max-width:760px){.split-cards{grid-template-columns:1fr;}}
+.split-card{border-radius:16px;padding:24px;position:relative;overflow:hidden;border:2px solid;transition:transform .25s;}
+.split-card:hover{transform:translateY(-3px);}
+.split-card.good{background:linear-gradient(135deg,#edfaf3,#fff);border-color:#A0EB9D;}
+.split-card.bad{background:linear-gradient(135deg,#fff2f0,#fff);border-color:#ffc0b8;}
+.split-emoji{font-size:34px;margin-bottom:8px;}
+.split-title{font-size:18px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.split-cap{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin-bottom:14px;}
+.split-card.good .split-cap{color:#27ae60;}
+.split-card.bad .split-cap{color:#c0392b;}
+.split-list{list-style:none;}
+.split-list li{padding:5px 0 5px 16px;font-size:14px;color:var(--gr);line-height:1.55;display:block;text-align:left;position:relative;}
+.split-list li::before{content:'•';color:var(--p2);font-weight:800;position:absolute;left:0;top:5px;}
+.split-list li.no-bullet::before{content:'';display:none;}
+.split-list li strong{white-space:nowrap;}
+
+.yd-wrap{background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:18px;padding:30px;color:#fff;margin-bottom:30px;position:relative;overflow:hidden;}
+.yd-wrap::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(160,235,157,.18),transparent 60%);pointer-events:none;}
+.yd-title{font-size:20px;font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
+.yd-sub{font-size:13px;color:var(--w70);margin-bottom:22px;position:relative;z-index:1;text-align:justify;}
+.yd-svg{position:relative;z-index:1;}
+.yd-control{margin-top:18px;position:relative;z-index:1;}
+.yd-slider{-webkit-appearance:none;appearance:none;width:100%;height:8px;background:rgba(255,255,255,.18);border-radius:100px;outline:none;}
+.yd-slider::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;background:var(--acc);border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+.yd-state{margin-top:14px;padding:14px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(160,235,157,.25);border-radius:12px;font-size:14px;line-height:1.65;position:relative;z-index:1;animation:fadeIn .3s ease;}
+.yd-state strong{color:var(--acc);}
+.yd-zone{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:4px 10px;border-radius:100px;margin-bottom:6px;}
+.yd-zone.under{background:rgba(160,235,157,.2);color:#A0EB9D;}
+.yd-zone.opt{background:rgba(160,235,157,.4);color:#fff;}
+.yd-zone.over{background:rgba(255,160,150,.3);color:#ffc0b8;}
+
+.breath-card{background:linear-gradient(135deg,#0d1f7a,#1e3bbf);border-radius:20px;padding:36px 28px;color:#fff;text-align:center;margin-bottom:30px;position:relative;overflow:hidden;}
+.breath-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(160,235,157,.15),transparent 60%);pointer-events:none;}
+.breath-title{font-size:18px;font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
+.breath-sub{font-size:13px;color:var(--w70);margin-bottom:24px;position:relative;z-index:1;text-align:justify;}
+.breath-stage{position:relative;z-index:1;height:240px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.breath-circle{width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(160,235,157,.5),rgba(160,235,157,.15));border:3px solid rgba(160,235,157,.6);display:flex;align-items:center;justify-content:center;transition:transform 5s cubic-bezier(.4,0,.2,1);}
+.breath-circle.in{transform:scale(1.4);}
+.breath-circle.out{transform:scale(.55);}
+.breath-text{font-size:20px;font-weight:800;color:#fff;letter-spacing:.04em;text-transform:uppercase;}
+.breath-counter{font-size:60px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;margin-bottom:8px;position:relative;z-index:1;}
+.breath-info{font-size:14px;color:var(--w70);margin-bottom:18px;position:relative;z-index:1;min-height:20px;}
+.breath-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;}
+.breath-btn{background:var(--acc);color:var(--ink);border:none;border-radius:100px;padding:11px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.breath-btn:hover{transform:translateY(-1px);background:var(--accd);}
+.breath-btn.alt{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);}
+
+.signal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px;}
+@media(max-width:760px){.signal-grid{grid-template-columns:1fr;}}
+.signal-cat{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:22px;}
+.signal-cat-h{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.signal-cat-i{width:38px;height:38px;background:var(--bgl);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.signal-cat-t{font-size:15px;font-weight:800;color:var(--ink);}
+.signal-list{display:flex;flex-direction:column;gap:6px;}
+.signal-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:background .15s;font-size:13.5px;color:var(--gr);}
+.signal-item:hover{background:var(--bgl);}
+.signal-item.checked{background:#fff5e0;color:var(--ink);font-weight:600;}
+.signal-cb{width:18px;height:18px;border:2px solid var(--bo);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .2s;}
+.signal-item.checked .signal-cb{background:#f0b840;border-color:#f0b840;}
+.signal-item.checked .signal-cb::after{content:'✓';color:#fff;font-size:11px;font-weight:800;}
+.signal-summary{margin-top:18px;padding:14px 18px;border-radius:11px;background:var(--bg);border:1.5px solid var(--bo);font-size:14px;line-height:1.6;color:var(--ink);}
+.signal-summary.warn{background:#fff7eb;border-color:#f0d060;color:#5a4500;}
+
+.ground-card{background:#fff;border:1.5px solid var(--bo);border-radius:16px;padding:26px;margin-bottom:30px;}
+.ground-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;}
+.ground-title{font-size:17px;font-weight:800;color:var(--ink);}
+.ground-step{font-size:13px;color:var(--gr);font-weight:600;}
+.ground-stage{background:var(--bgl);border-radius:12px;padding:24px;text-align:center;margin-bottom:14px;min-height:130px;display:flex;flex-direction:column;justify-content:center;}
+.ground-num{font-size:44px;font-weight:800;color:var(--p2);letter-spacing:-.04em;line-height:1;animation:scaleIn .35s ease;}
+.ground-sense{font-size:18px;font-weight:700;color:var(--ink);margin:6px 0 4px;}
+.ground-instr{font-size:14px;color:var(--gr);}
+.ground-input{width:100%;padding:10px 14px;background:#fff;border:1.5px solid var(--bo);border-radius:8px;font-family:inherit;font-size:14px;margin-top:10px;outline:none;transition:border-color .2s;}
+.ground-input:focus{border-color:var(--p3);}
+.ground-controls{display:flex;justify-content:space-between;gap:10px;}
+.ground-btn{background:var(--p1);color:#fff;border:none;border-radius:100px;padding:11px 22px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.ground-btn:hover{background:var(--p2);}
+.ground-btn:disabled{opacity:.4;cursor:not-allowed;}
+.ground-btn.alt{background:transparent;color:var(--gr);border:1.5px solid var(--bo);}
+
+.tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px;}
+@media(max-width:760px){.tips-grid{grid-template-columns:1fr;}}
+.tip{background:#fff;border:1.5px solid var(--bo);border-radius:13px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:all .25s;}
+.tip:hover{border-color:var(--p3);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.tip-i{font-size:24px;flex-shrink:0;width:40px;height:40px;background:var(--bgl);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.tip-t{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.tip-b{font-size:13px;color:var(--gr);line-height:1.6;text-align:justify;}
+
+.quiz-intro{background:linear-gradient(135deg,#fff,#edfaf3);border-radius:14px;padding:22px 26px;margin-bottom:28px;border-left:4px solid var(--acc);box-shadow:var(--shadow-sm);}
+.quiz-intro p{font-size:15px;color:#3a4a6b;line-height:1.7;}
+.quiz-q{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:24px 26px;margin-bottom:14px;animation:fadeUp .35s ease;}
+.quiz-qhead{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.quiz-qn{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--gr);background:var(--bgl);padding:5px 10px;border-radius:100px;}
+.quiz-qpts{font-size:11px;font-weight:800;color:var(--p2);margin-left:auto;}
+.quiz-qt{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:18px;line-height:1.45;}
+.quiz-os{display:flex;flex-direction:column;gap:8px;}
+.quiz-o{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:11px;border:1.5px solid var(--bo);background:#fff;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--ink);text-align:left;transition:all .2s;width:100%;position:relative;}
+.quiz-o:hover{border-color:var(--p3);background:var(--bgl);transform:translateX(3px);}
+.quiz-o-letter{width:30px;height:30px;border-radius:8px;background:var(--bgl);color:var(--p2);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.quiz-o.ok{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.ok .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.ok::after{content:'✓';position:absolute;right:18px;color:#27ae60;font-size:18px;font-weight:800;animation:scaleIn .3s ease;}
+.quiz-o.ko{border-color:#e74c3c;background:#fff2f0;cursor:default;}
+.quiz-o.ko .quiz-o-letter{background:#ffd5d0;color:#c0392b;}
+.quiz-o.ko::after{content:'✕';position:absolute;right:18px;color:#e74c3c;font-size:18px;font-weight:800;animation:scaleIn .3s ease;}
+.quiz-o.reveal{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.reveal .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.disabled{opacity:.5;pointer-events:none;}
+.qfb{display:none;margin-top:14px;padding:14px 18px;border-radius:11px;font-size:14px;line-height:1.65;}
+.qfb.show{display:block;animation:fadeUp .3s ease;}
+.qfb.pos{background:#edfaf3;color:#1a6b38;border:1px solid rgba(46,204,95,.2);}
+.qfb.neg{background:#fff7f5;color:#7a3a30;border:1px solid rgba(231,76,60,.2);}
+
+.score-box{display:none;background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:18px;padding:36px 28px;text-align:center;color:#fff;margin-top:24px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+.score-box.show{display:block;animation:scaleIn .5s ease;}
+.score-box::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(160,235,157,.2),transparent 60%);pointer-events:none;}
+.score-emoji{font-size:54px;margin-bottom:8px;display:inline-block;animation:float 2.5s ease-in-out infinite;position:relative;z-index:1;}
+.score-n{font-size:60px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;position:relative;z-index:1;}
+.score-pct{font-size:16px;color:var(--w70);font-weight:600;margin:6px 0 18px;position:relative;z-index:1;}
+.score-msg{font-size:16px;color:#fff;line-height:1.65;max-width:480px;margin:0 auto 22px;position:relative;z-index:1;}
+.score-cta{position:relative;z-index:1;}
+
+.snav{display:flex;justify-content:space-between;padding:32px 0;margin-top:14px;border-top:1px solid var(--bo);flex-wrap:wrap;gap:12px;}
+.btn-dk{background:var(--p1);color:#fff;border:none;border-radius:100px;padding:14px 30px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-dk:hover{background:var(--p2);transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.btn-gh{background:transparent;color:var(--gr);border:1.5px solid var(--bo);border-radius:100px;padding:13px 24px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-gh:hover{border-color:var(--ink);color:var(--ink);background:var(--bgl);}
+
+.pbar{display:flex;gap:6px;align-items:center;margin:18px 0 24px;}
+.pdot{height:5px;flex:1;border-radius:100px;background:var(--bo);transition:all .35s;}
+.pdot.active{background:linear-gradient(90deg,var(--p2),var(--acc));}
+.pdot.done{background:var(--acc);cursor:pointer;}
+.pdot.done:hover{background:var(--p3);transform:scaleY(1.6);}
+
+.sources-box{background:var(--bgl);border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:12px;color:var(--gr);line-height:1.7;}
+.sources-box strong{color:var(--ink);font-weight:800;display:block;margin-bottom:6px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
+
+/* Screen 3 — End screen */
+.s3-hero-card{background:var(--hub-bg);border-radius:0;padding:60px 80px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);min-height:calc(100vh - 66px);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.s3-hero-card::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;}
+.s3-score-big{font-size:72px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;position:relative;z-index:1;margin:8px 0 4px;}
+.s3-score-label{font-size:15px;color:var(--w70);position:relative;z-index:1;margin-bottom:28px;}
+.s3-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:820px;width:100%;margin:0 auto 28px;position:relative;z-index:1;}
+@media(max-width:700px){.s3-grid{grid-template-columns:1fr;}}
+.s3-panel{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:22px;backdrop-filter:blur(8px);text-align:left;}
+.s3-panel-h{font-size:11px;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:.14em;margin-bottom:14px;}
+.s3-learning{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.5;}
+.s3-learning:last-child{border-bottom:none;}
+.s3-check{color:var(--acc);font-weight:800;flex-shrink:0;margin-top:1px;}
+.s3-action{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:9px;cursor:pointer;transition:all .2s;margin-bottom:6px;}
+.s3-action:hover{background:rgba(255,255,255,.08);}
+.s3-action.checked{background:rgba(160,235,157,.12);}
+.s3-action-cb{width:20px;height:20px;border:2px solid rgba(255,255,255,.35);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.s3-action.checked .s3-action-cb{background:var(--acc);border-color:var(--acc);}
+.s3-action.checked .s3-action-cb::after{content:'✓';color:#0d4a1f;font-size:11px;font-weight:800;}
+.s3-action-text{font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.45;}
+.s3-action.checked .s3-action-text{text-decoration:line-through;opacity:.5;}
+
+.confetti{position:fixed;width:10px;height:10px;pointer-events:none;z-index:9999;}
+
+@media(max-width:600px){.hero-card{padding:40px 28px;}.s3-hero-card{padding:40px 24px;}.mhd{flex-direction:column;align-items:flex-start;}.mnum{display:none;}.stats-row{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div id="login-overlay">
+  <div class="lb">
+    <div class="lb-logo">🌊</div>
+    <div class="lb-title">Module 2 · Le bon et le mauvais stress</div>
+    <div class="lb-sub">Entrez votre email professionnel pour démarrer ce module de 6 minutes.</div>
+    <div class="lb-field">
+      <label class="lb-label" for="login-email">Adresse email</label>
+      <input class="lb-input" type="email" id="login-email" placeholder="prenom.nom@entreprise.fr" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="lb-btn" onclick="doLogin()">Démarrer le module →</button>
+    <div class="lb-err" id="login-err">Veuillez saisir une adresse email valide.</div>
+    <div class="lb-privacy">Votre email sert uniquement à enregistrer votre participation. Aucune donnée n'est transmise à des tiers.</div>
+  </div>
+</div>
+
+<div id="app" style="display:none;">
+
+<nav>
+  <span class="nlg"><span class="icn">🌊</span>Module 2 · Stress</span>
+  <div class="nr">
+    <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">EN</button>
+    <span class="user-pill" id="user-pill"></span>
+  </div>
+</nav>
+
+<!-- STEP 0 — HERO -->
+<div class="screen active" id="screen-0">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-card">
+        <div class="hero-mod-badge" data-i18n="hero-badge">Module 2 · ~6 min · Bien-être</div>
+        <h1 class="hero-title" data-i18n="hero-title">Le bon et le<br><span class="acc">mauvais stress</span></h1>
+        <p class="hero-sub" data-i18n="hero-sub">Comprendre la différence entre stress utile et stress négatif, repérer vos signaux d'alarme et apprendre à réguler votre système nerveux en quelques minutes.</p>
+        <div class="hero-cta-row">
+          <button class="btn-acc" onclick="goStep(1)" data-i18n="hero-btn">Commencer →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 1 — CONTENT -->
+<div class="screen" id="screen-1">
+  <div class="wrap scr-content">
+    <div class="pbar" id="pbar-1"><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div></div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-i18n="s1-mtag">Contenu · Selye, Yerkes-Dodson</span></div>
+        <h1 class="mttl" data-i18n="s1-mttl">Eustress <span class="g">vs</span> Distress</h1>
+        <p class="mdsc" data-i18n="s1-mdsc">Le stress n'est pas votre ennemi. Comprendre sa physiologie permet de l'utiliser comme un allié plutôt que de le subir.</p>
+      </div>
+      <div class="mnum">02</div>
+    </div>
+
+    <div class="intro-box" style="border-left-color:var(--p2);">
+      <p data-i18n="s1-selye">Hans Selye (1936) a été le premier à distinguer l'<strong>eustress</strong> (stress positif, moteur) du <strong>distress</strong> (stress négatif, délétère). La différence ne dépend pas uniquement de la situation, mais surtout de trois facteurs : <strong>l'intensité du stress, sa durée et le niveau de contrôle perçu par l'individu</strong>.</p>
+    </div>
+
+    <div class="split-cards">
+      <div class="split-card good">
+        <div class="split-emoji">🟢</div>
+        <div class="split-cap" data-i18n="good-cap">Le bon stress</div>
+        <div class="split-title" data-i18n="good-title">Eustress</div>
+        <ul class="split-list">
+          <li data-i18n="good-li-1"><strong>Activation :</strong> Vigilance, motivation, énergie mobilisée</li>
+          <li data-i18n="good-li-2"><strong>Effets positifs :</strong> Améliore la concentration, la mémoire et la performance</li>
+          <li data-i18n="good-li-3"><strong>Temporaire :</strong> Disparaît après l'effort ou la situation</li>
+          <li data-i18n="good-li-4"><strong>Contrôle perçu :</strong> Sentiment de maîtrise conservé</li>
+          <li class="no-bullet" data-i18n="good-li-ex">👉 <em>Exemples : deadline challengeante, prise de parole, nouvelle mission stimulante</em></li>
+        </ul>
+      </div>
+      <div class="split-card bad">
+        <div class="split-emoji">🔴</div>
+        <div class="split-cap" data-i18n="bad-cap">Le mauvais stress</div>
+        <div class="split-title" data-i18n="bad-title">Distress</div>
+        <ul class="split-list">
+          <li data-i18n="bad-li-1"><strong>Persistant et non maîtrisé :</strong> S'installe dans la durée, sans phase de récupération</li>
+          <li data-i18n="bad-li-2"><strong>Impact délétère :</strong> Affecte la santé physique et mentale</li>
+          <li data-i18n="bad-li-3"><strong>Conséquences possibles :</strong> Épuisement professionnel (burn-out), anxiété, troubles cardio-vasculaires (risque augmenté en cas de stress chronique selon l'OMS)</li>
+          <li data-i18n="bad-li-4"><strong>Sentiment d'impuissance :</strong> Perte de contrôle et de ressources face à la situation</li>
+          <li class="no-bullet" data-i18n="bad-li-ex">👉 <em>Exemples : surcharge chronique, conflits non résolus, ambiguïté de rôle prolongée</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 id="yd-h3" style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-i18n="yd-h3">📊 Courbe de Yerkes-Dodson</h3>
+    <div class="intro-box" style="margin-bottom:18px;">
+      <p data-i18n="yd-intro">La <strong>loi de Yerkes-Dodson (1908)</strong>, confirmée par des travaux en neurosciences, montre une relation en forme de cloche entre stress et performance : un niveau modéré de stress optimise les performances, tandis qu'un stress trop faible ou trop élevé les dégrade.</p>
+    </div>
+    <div class="yd-wrap">
+      <div class="yd-title" data-i18n="yd-title">Faites varier votre niveau de stress et observez la performance</div>
+      <div class="yd-sub" data-i18n="yd-sub">La loi de Yerkes-Dodson (1908), validée par les neurosciences modernes sur la mémoire (Lupien et al., 2007), montre une courbe en cloche : trop peu OU trop de stress dégradent la performance.</div>
+      <div class="yd-svg">
+        <svg id="yd-svg" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+          <defs><linearGradient id="ydg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#A0EB9D"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#ffc0b8"/></linearGradient></defs>
+          <line x1="50" y1="200" x2="570" y2="200" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+          <line x1="50" y1="30" x2="50" y2="200" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+          <path id="yd-path" d="M60,195 Q140,180 220,80 Q310,30 400,80 Q480,180 560,195" fill="none" stroke="url(#ydg)" stroke-width="5" stroke-linecap="round"/>
+          <rect x="225" y="35" width="160" height="130" rx="8" fill="rgba(160,235,157,.12)" stroke="rgba(160,235,157,.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="305" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#A0EB9D">ZONE OPTIMALE</text>
+          <circle id="yd-cursor" cx="305" cy="40" r="11" fill="#A0EB9D" stroke="#fff" stroke-width="3"/>
+          <text x="305" y="225" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.6)">Niveau de stress</text>
+          <text x="20" y="115" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.6)" transform="rotate(-90,20,115)">Performance</text>
+          <text x="100" y="220" text-anchor="middle" font-size="11" fill="rgba(160,235,157,.7)" font-weight="700">Bas (ennui)</text>
+          <text x="510" y="220" text-anchor="middle" font-size="11" fill="rgba(255,160,150,.8)" font-weight="700">Haut (épuisement)</text>
+        </svg>
+      </div>
+      <div class="yd-control">
+        <input type="range" min="0" max="100" value="50" class="yd-slider" id="yd-slider" oninput="updateYD()">
+      </div>
+      <div class="yd-state" id="yd-state"></div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-i18n="breath-h3">🫁 Cohérence cardiaque guidée — méthode 3·6·5</h3>
+
+    <!-- Encart présentation cohérence cardiaque -->
+    <div class="intro-box" style="border-left-color:#A0EB9D;margin-bottom:18px;background:linear-gradient(135deg,#edfaf3,#fff);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <span style="font-size:26px;">🫀</span>
+        <span style="font-size:15px;font-weight:800;color:var(--ink);" data-i18n="cc-title">Qu'est-ce que la cohérence cardiaque ?</span>
+      </div>
+      <p style="margin-bottom:10px;" data-i18n="cc-desc1">La <strong>cohérence cardiaque</strong> est une technique de respiration contrôlée qui synchronise le rythme cardiaque avec le cycle respiratoire. En respirant à un rythme lent et régulier — environ <strong>6 cycles par minute</strong> (5 secondes d'inspiration, 5 secondes d'expiration) — on active le système nerveux parasympathique, responsable du retour au calme.</p>
+      <p style="margin-bottom:10px;" data-i18n="cc-desc2">La méthode <strong>3·6·5</strong> recommande <strong>3 séances par jour</strong>, de <strong>6 minutes chacune</strong>, à pratiquer idéalement <strong>5 fois par semaine</strong>. Cette régularité permet de maintenir un niveau bas de cortisol (l'hormone du stress) tout au long de la journée et d'améliorer la variabilité de la fréquence cardiaque (VFC), un marqueur reconnu de résilience au stress.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+        <span style="background:rgba(46,88,240,.1);color:var(--p2);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700;" data-i18n="cc-tag1">⬇️ Cortisol réduit</span>
+        <span style="background:rgba(46,88,240,.1);color:var(--p2);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700;" data-i18n="cc-tag2">❤️ VFC améliorée</span>
+        <span style="background:rgba(46,88,240,.1);color:var(--p2);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700;" data-i18n="cc-tag3">🧠 Clarté mentale</span>
+        <span style="background:rgba(46,88,240,.1);color:var(--p2);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700;" data-i18n="cc-tag4">😴 Meilleur sommeil</span>
+      </div>
+    </div>
+
+    <div class="breath-card">
+      <div class="breath-title" data-i18n="breath-title">Respirez avec le cercle</div>
+      <div class="breath-sub" data-i18n="breath-sub">5s d'inspiration · 5s d'expiration · pendant 1 minute pour démarrer</div>
+      <div class="breath-stage">
+        <div class="breath-circle out" id="breath-circle"><span class="breath-text" id="breath-text">PRÊT</span></div>
+      </div>
+      <div class="breath-counter" id="breath-counter">60</div>
+      <div class="breath-info" id="breath-info" data-i18n="breath-ready">Démarrez quand vous êtes prêt(e) — installez-vous confortablement.</div>
+      <div class="breath-actions">
+        <button class="breath-btn" id="breath-start" onclick="breathStart()" data-i18n="breath-btn-1">▶ Démarrer 1 min</button>
+        <button class="breath-btn alt" onclick="breathDuration(180)" data-i18n="breath-btn-3">▶ 3 min</button>
+        <button class="breath-btn alt" onclick="breathDuration(300)" data-i18n="breath-btn-5">▶ 5 min (recommandé)</button>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;color:var(--ink);" data-i18n="signals-h3">⚠️ Vos signaux d'alarme — auto-évaluation</h3>
+    <p style="font-size:13px;color:var(--gr);margin-bottom:14px;" data-i18n="signals-p">Cochez ce que vous ressentez régulièrement (au moins 1 fois / semaine).</p>
+    <div class="signal-grid">
+      <div class="signal-cat">
+        <div class="signal-cat-h"><div class="signal-cat-i">🩺</div><div class="signal-cat-t" data-i18n="sig-phys-h">Physique</div></div>
+        <div class="signal-list">
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-p1">Tensions cervicales / dos</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-p2">Maux de tête fréquents</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-p3">Fatigue persistante au réveil</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-p4">Troubles du sommeil</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-p5">Troubles digestifs</span></div>
+        </div>
+      </div>
+      <div class="signal-cat">
+        <div class="signal-cat-h"><div class="signal-cat-i">💭</div><div class="signal-cat-t" data-i18n="sig-emo-h">Émotionnel</div></div>
+        <div class="signal-list">
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-e1">Irritabilité, énervement rapide</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-e2">Anxiété, ruminations</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-e3">Hypersensibilité (pleurs faciles)</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-e4">Perte de plaisir / désinvestissement</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-e5">Sentiment d'être dépassé(e)</span></div>
+        </div>
+      </div>
+      <div class="signal-cat">
+        <div class="signal-cat-h"><div class="signal-cat-i">🧠</div><div class="signal-cat-t" data-i18n="sig-cog-h">Cognitif</div></div>
+        <div class="signal-list">
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-c1">Oublis, trous de mémoire</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-c2">Difficultés de concentration</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-c3">Erreurs inhabituelles</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-c4">Indécision sur des choix simples</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-c5">Pensées intrusives répétitives</span></div>
+        </div>
+      </div>
+      <div class="signal-cat">
+        <div class="signal-cat-h"><div class="signal-cat-i">🚪</div><div class="signal-cat-t" data-i18n="sig-beh-h">Comportemental</div></div>
+        <div class="signal-list">
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-b1">Isolement, retrait social</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-b2">Procrastination forte</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-b3">Augmentation tabac/alcool/sucre</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-b4">Présentéisme (présent mais absent)</span></div>
+          <div class="signal-item" onclick="toggleSig(this)"><div class="signal-cb"></div><span data-i18n="sig-b5">Conflits relationnels accrus</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="signal-summary" id="signal-summary" data-i18n="sig-init"><strong>Cliquez sur les signaux qui vous concernent</strong> pour obtenir une lecture personnalisée de votre niveau d'alerte.</div>
+
+    <h3 style="font-size:18px;font-weight:800;margin:30px 0 6px;color:var(--ink);" data-i18n="ground-h3">🌿 Technique 5-4-3-2-1 — ancrage sensoriel guidé</h3>
+    <p style="font-size:13px;color:var(--gr);margin-bottom:14px;" data-i18n="ground-p">Une technique cognitivo-comportementale validée pour ramener au présent en cas de stress aigu, anxiété ou rumination.</p>
+    <div class="ground-card">
+      <div class="ground-h">
+        <div class="ground-title" data-i18n="ground-title-el">Ancrage progressif</div>
+        <div class="ground-step" id="ground-step">Étape 0 / 5</div>
+      </div>
+      <div class="ground-stage" id="ground-stage">
+        <div class="ground-num">5-4-3-2-1</div>
+        <div class="ground-sense" data-i18n="ground-ready-sense">Prêt à commencer ?</div>
+        <div class="ground-instr" data-i18n="ground-ready-instr">Cette technique ramène le cerveau au présent en mobilisant les 5 sens. Particulièrement efficace en cas de pic anxieux.</div>
+      </div>
+      <div class="ground-controls">
+        <button class="ground-btn alt" id="ground-prev" onclick="groundPrev()" disabled data-i18n="ground-prev-btn">← Précédent</button>
+        <button class="ground-btn" id="ground-next" onclick="groundNext()" data-i18n="ground-start-btn">Démarrer ▶</button>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip"><div class="tip-i">🫀</div><div><div class="tip-t" data-i18n="tip1-t">La cohérence cardiaque</div><div class="tip-b" data-i18n="tip1-b">Ce procédé consiste à respirer lentement (environ 6 cycles par minute) afin de réguler le système nerveux autonome. Des recherches récentes montrent des effets mesurables : une méta-analyse observe une amélioration de la variabilité de la fréquence cardiaque, un indicateur d'une meilleure régulation du stress. Des travaux cliniques indiquent également une baisse de la tension artérielle et du cortisol après plusieurs semaines de pratique régulière.</div></div></div>
+      <div class="tip"><div class="tip-i">🧘</div><div><div class="tip-t" data-i18n="tip2-t">Les rythmes respiratoires</div><div class="tip-b" data-i18n="tip2-b">Que vous utilisiez le 5-5 (cohérence équilibrée) ou le 4-6 (effet plus apaisant), ces rythmes de respiration lente favorisent l'activation du système nerveux parasympathique. Ils contribuent ainsi à réduire le stress, améliorer la régulation émotionnelle et installer un état de calme, particulièrement utile en fin de journée ou en situation de tension.</div></div></div>
+      <div class="tip"><div class="tip-i">⏱️</div><div><div class="tip-t" data-i18n="tip3-t">Persistance des effets</div><div class="tip-b" data-i18n="tip3-b">Les effets physiologiques de la cohérence cardiaque peuvent se maintenir plusieurs heures après une courte pratique (environ 5 minutes). C'est pourquoi il est recommandé de répéter l'exercice 2 à 3 fois par jour afin de stabiliser ses effets sur l'ensemble de la journée.</div></div></div>
+      <div class="tip"><div class="tip-i">🎯</div><div><div class="tip-t" data-i18n="tip4-t">Reconnaître son chronotype de stress</div><div class="tip-b" data-i18n="tip4-b">Identifier sa fenêtre de tolérance au stress permet de savoir quand la performance bascule en surcharge. Au-delà de ce seuil, il est plus efficace de faire une pause active de 2 à 5 minutes (respiration, marche, hydratation) pour réinitialiser le système nerveux plutôt que de "forcer" ou compenser par de la stimulation comme le café.</div></div></div>
+    </div>
+
+    <div class="sources-box">
+      <strong data-i18n="sources-label">Sources scientifiques</strong>
+      <span data-i18n="sources-text">Selye H. (1936). The Stress of Life · Yerkes &amp; Dodson (1908). Habit Formation Curve · Lupien S. et al. (2007). The effects of stress and stress hormones on human cognition · Mayo Clinic (2024). Slow Breathing &amp; BP · Méta-analyse Frontiers in Physiology (2022) · INRS (2024). Stress au travail · OMS / WHO (2023). Mental health at work.</span>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(0)" data-i18n="s1-back">← Retour</button>
+      <button class="btn-dk" onclick="goStep(2)" data-i18n="s1-next">Quiz interactif →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 — QUIZ -->
+<div class="screen" id="screen-2">
+  <div class="wrap scr-content">
+    <div class="pbar" id="pbar-2"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div></div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-i18n="s2-mtag">Quiz · 5 questions</span></div>
+        <h1 class="mttl" data-i18n="s2-mttl">Testez vos <span class="g">connaissances</span></h1>
+        <p class="mdsc" data-i18n="s2-mdsc">Cinq questions pour valider votre compréhension du stress et de sa régulation.</p>
+      </div>
+      <div class="mnum">02</div>
+    </div>
+
+    <div class="quiz-intro"><p data-i18n="s2-hint">💡 <strong>Astuce :</strong> chaque feedback vous donne une nuance scientifique souvent absente du sens commun.</p></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="score-box" id="score-box">
+      <div class="score-emoji" id="score-emoji">🎉</div>
+      <div class="score-n" id="score-n">0/5</div>
+      <div class="score-pct" id="score-pct">0%</div>
+      <div class="score-msg" id="score-msg"></div>
+      <div class="score-cta">
+        <button class="btn-acc" onclick="goStep(3)" data-i18n="score-cta-btn" style="margin:0 auto;">Voir mon bilan →</button>
+      </div>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(1)" data-i18n="s2-back">← Revoir le contenu</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 — FIN -->
+<div class="screen" id="screen-3">
+  <div class="wrap">
+    <div class="s3-hero-card">
+      <div class="pbar" id="pbar-3" style="max-width:320px;width:100%;margin-bottom:28px;"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot done"></div></div>
+      <div class="hero-mod-badge" data-i18n="s3-badge">🎓 Module terminé</div>
+      <div class="hero-icon">🧠</div>
+      <h1 class="hero-title" data-i18n="s3-title">Vous connaissez le stress</h1>
+      <p class="hero-sub" data-i18n="s3-sub">Vous avez exploré la physiologie du stress, compris la distinction eustress/distress et pratiqué des outils de régulation concrets.</p>
+      <div class="s3-score-big" id="s3-score-big">—/5</div>
+      <div class="s3-score-label" id="s3-score-label">—</div>
+      <div class="s3-grid">
+        <div class="s3-panel">
+          <div class="s3-panel-h" data-i18n="s3-learnings-h">🧠 Ce que vous avez appris</div>
+          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l1">La distinction eustress / distress de Hans Selye</span></div>
+          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l2">La courbe de Yerkes-Dodson et la zone optimale de performance</span></div>
+          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l3">La cohérence cardiaque 3·6·5 et ses effets sur le cortisol</span></div>
+          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l4">La technique 5-4-3-2-1 pour le pic anxieux</span></div>
+        </div>
+        <div class="s3-panel">
+          <div class="s3-panel-h" data-i18n="s3-actions-h">✅ 3 actions pour cette semaine</div>
+          <div class="s3-action" onclick="this.classList.toggle('checked')">
+            <div class="s3-action-cb"></div>
+            <div class="s3-action-text" data-i18n="s3-a1">Pratiquer 5 min de cohérence cardiaque demain matin</div>
+          </div>
+          <div class="s3-action" onclick="this.classList.toggle('checked')">
+            <div class="s3-action-cb"></div>
+            <div class="s3-action-text" data-i18n="s3-a2">Identifier mon principal signal d'alarme cette semaine</div>
+          </div>
+          <div class="s3-action" onclick="this.classList.toggle('checked')">
+            <div class="s3-action-cb"></div>
+            <div class="s3-action-text" data-i18n="s3-a3">Partager la distinction eustress/distress avec mon équipe</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-cta-row">
+        <button class="btn-acc" onclick="goStep(1)" data-i18n="s3-content">← Revoir le contenu</button>
+        <button class="btn-alt-hero" onclick="restartModule()" data-i18n="s3-restart">↺ Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- #app -->
+
+<script>
+const WEBHOOK='https://script.google.com/macros/s/AKfycbwv6rna5x-RVHNtXu8mcrT6tylZy6m70czPuO2-o4uXs62BxVYCdqJijSzFssawynhsIw/exec';
+const MODULE_ID='stress';
+let currentUser=null;
+const quizDone={};
+let quizScore=0;
+const QUIZ_TOTAL=5;
+let currentLang='fr';
+
+function sendData(p){fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).catch(()=>{});}
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
+function doLogin(){const email=document.getElementById('login-email').value.trim();const err=document.getElementById('login-err');if(!isValidEmail(email)){err.classList.add('show');return;}err.classList.remove('show');currentUser=email;document.getElementById('user-pill').textContent=email;document.getElementById('login-overlay').style.display='none';document.getElementById('app').style.display='block';renderQuiz();updateYD();sendData({email,module:MODULE_ID,event:'login',ts:new Date().toISOString()});}
+
+function goStep(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
+  // Setup clickable pbar dots for navigation back
+  setupPbarClicks(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function setupPbarClicks(step){
+  const pbar=document.getElementById('pbar-'+step);
+  if(!pbar)return;
+  pbar.querySelectorAll('.pdot').forEach((dot,i)=>{
+    if(dot.classList.contains('done')){
+      dot.onclick=()=>goStep(i);
+      dot.title=currentLang==='fr'?'Revenir à l\'étape '+(i+1):'Go back to step '+(i+1);
+    }
+  });
+}
+
+// ---- TRANSLATIONS ----
+const TR={
+  fr:{
+    'hero-badge':'Module 2 · ~6 min · Bien-être',
+    'hero-title':'Le bon et le<br><span class="acc">mauvais stress</span>',
+    'hero-sub':'Comprendre la différence entre stress utile et stress négatif, repérer vos signaux d\'alarme et apprendre à réguler votre système nerveux en quelques minutes.',
+    'hero-btn':'Commencer →',
+    's1-mtag':'Contenu · Selye, Yerkes-Dodson',
+    's1-mttl':'Eustress <span class="g">vs</span> Distress',
+    's1-mdsc':'Le stress n\'est pas votre ennemi. Comprendre sa physiologie permet de l\'utiliser comme un allié plutôt que de le subir.',
+    's1-selye':'Hans Selye (1936) a été le premier à distinguer l\'<strong>eustress</strong> (stress positif, moteur) du <strong>distress</strong> (stress négatif, délétère). La différence ne dépend pas uniquement de la situation, mais surtout de trois facteurs : <strong>l\'intensité du stress, sa durée et le niveau de contrôle perçu par l\'individu</strong>.',
+    'good-cap':'Le bon stress','good-title':'Eustress',
+    'good-li-1':'<strong>Activation :</strong> Vigilance, motivation, énergie mobilisée',
+    'good-li-2':'<strong>Effets positifs :</strong> Améliore la concentration, la mémoire et la performance',
+    'good-li-3':'<strong>Temporaire :</strong> Disparaît après l\'effort ou la situation',
+    'good-li-4':'<strong>Contrôle perçu :</strong> Sentiment de maîtrise conservé',
+    'good-li-ex':'👉 <em>Exemples : deadline challengeante, prise de parole, nouvelle mission stimulante</em>',
+    'bad-cap':'Le mauvais stress','bad-title':'Distress',
+    'bad-li-1':'<strong>Persistant et non maîtrisé :</strong> S\'installe dans la durée, sans phase de récupération',
+    'bad-li-2':'<strong>Impact délétère :</strong> Affecte la santé physique et mentale',
+    'bad-li-3':'<strong>Conséquences possibles :</strong> Épuisement professionnel (burn-out), anxiété, troubles cardio-vasculaires (risque augmenté en cas de stress chronique selon l\'OMS)',
+    'bad-li-4':'<strong>Sentiment d\'impuissance :</strong> Perte de contrôle et de ressources face à la situation',
+    'bad-li-ex':'👉 <em>Exemples : surcharge chronique, conflits non résolus, ambiguïté de rôle prolongée</em>',
+    'yd-h3':'📊 Courbe de Yerkes-Dodson',
+    'yd-intro':'La <strong>loi de Yerkes-Dodson (1908)</strong>, confirmée par des travaux en neurosciences, montre une relation en forme de cloche entre stress et performance : un niveau modéré de stress optimise les performances, tandis qu\'un stress trop faible ou trop élevé les dégrade.',
+    'yd-title':'Faites varier votre niveau de stress et observez la performance',
+    'yd-sub':'La loi de Yerkes-Dodson (1908), validée par les neurosciences modernes sur la mémoire (Lupien et al., 2007), montre une courbe en cloche : trop peu OU trop de stress dégradent la performance.',
+    'breath-h3':'🫁 Cohérence cardiaque guidée — méthode 3·6·5',
+    'cc-title':'Qu\'est-ce que la cohérence cardiaque ?',
+    'cc-desc1':'La <strong>cohérence cardiaque</strong> est une technique de respiration contrôlée qui synchronise le rythme cardiaque avec le cycle respiratoire. En respirant à un rythme lent et régulier — environ <strong>6 cycles par minute</strong> (5 secondes d\'inspiration, 5 secondes d\'expiration) — on active le système nerveux parasympathique, responsable du retour au calme.',
+    'cc-desc2':'La méthode <strong>3·6·5</strong> recommande <strong>3 séances par jour</strong>, de <strong>6 minutes chacune</strong>, à pratiquer idéalement <strong>5 fois par semaine</strong>. Cette régularité permet de maintenir un niveau bas de cortisol (l\'hormone du stress) tout au long de la journée et d\'améliorer la variabilité de la fréquence cardiaque (VFC), un marqueur reconnu de résilience au stress.',
+    'cc-tag1':'⬇️ Cortisol réduit','cc-tag2':'❤️ VFC améliorée','cc-tag3':'🧠 Clarté mentale','cc-tag4':'😴 Meilleur sommeil',
+    'breath-title':'Respirez avec le cercle',
+    'breath-sub':'5s d\'inspiration · 5s d\'expiration · pendant 1 minute pour démarrer',
+    'breath-ready':'Démarrez quand vous êtes prêt(e) — installez-vous confortablement.',
+    'breath-btn-1':'▶ Démarrer 1 min','breath-btn-3':'▶ 3 min','breath-btn-5':'▶ 5 min (recommandé)',
+    'signals-h3':'⚠️ Vos signaux d\'alarme — auto-évaluation',
+    'signals-p':'Cochez ce que vous ressentez régulièrement (au moins 1 fois / semaine).',
+    'sig-phys-h':'Physique','sig-emo-h':'Émotionnel','sig-cog-h':'Cognitif','sig-beh-h':'Comportemental',
+    'sig-p1':'Tensions cervicales / dos','sig-p2':'Maux de tête fréquents','sig-p3':'Fatigue persistante au réveil','sig-p4':'Troubles du sommeil','sig-p5':'Troubles digestifs',
+    'sig-e1':'Irritabilité, énervement rapide','sig-e2':'Anxiété, ruminations','sig-e3':'Hypersensibilité (pleurs faciles)','sig-e4':'Perte de plaisir / désinvestissement','sig-e5':'Sentiment d\'être dépassé(e)',
+    'sig-c1':'Oublis, trous de mémoire','sig-c2':'Difficultés de concentration','sig-c3':'Erreurs inhabituelles','sig-c4':'Indécision sur des choix simples','sig-c5':'Pensées intrusives répétitives',
+    'sig-b1':'Isolement, retrait social','sig-b2':'Procrastination forte','sig-b3':'Augmentation tabac/alcool/sucre','sig-b4':'Présentéisme (présent mais absent)','sig-b5':'Conflits relationnels accrus',
+    'sig-init':'<strong>Cliquez sur les signaux qui vous concernent</strong> pour obtenir une lecture personnalisée de votre niveau d\'alerte.',
+    'ground-h3':'🌿 Technique 5-4-3-2-1 — ancrage sensoriel guidé',
+    'ground-p':'Une technique cognitivo-comportementale validée pour ramener au présent en cas de stress aigu, anxiété ou rumination.',
+    'ground-title-el':'Ancrage progressif',
+    'ground-ready-sense':'Prêt à commencer ?',
+    'ground-ready-instr':'Cette technique ramène le cerveau au présent en mobilisant les 5 sens. Particulièrement efficace en cas de pic anxieux.',
+    'ground-prev-btn':'← Précédent','ground-start-btn':'Démarrer ▶',
+    'tip1-t':'La cohérence cardiaque','tip1-b':'Ce procédé consiste à respirer lentement (environ 6 cycles par minute) afin de réguler le système nerveux autonome. Des recherches récentes montrent des effets mesurables : une méta-analyse observe une amélioration de la variabilité de la fréquence cardiaque, un indicateur d\'une meilleure régulation du stress. Des travaux cliniques indiquent également une baisse de la tension artérielle et du cortisol après plusieurs semaines de pratique régulière.',
+    'tip2-t':'Les rythmes respiratoires','tip2-b':'Que vous utilisiez le 5-5 (cohérence équilibrée) ou le 4-6 (effet plus apaisant), ces rythmes de respiration lente favorisent l\'activation du système nerveux parasympathique. Ils contribuent ainsi à réduire le stress, améliorer la régulation émotionnelle et installer un état de calme, particulièrement utile en fin de journée ou en situation de tension.',
+    'tip3-t':'Persistance des effets','tip3-b':'Les effets physiologiques de la cohérence cardiaque peuvent se maintenir plusieurs heures après une courte pratique (environ 5 minutes). C\'est pourquoi il est recommandé de répéter l\'exercice 2 à 3 fois par jour afin de stabiliser ses effets sur l\'ensemble de la journée.',
+    'tip4-t':'Reconnaître son chronotype de stress','tip4-b':'Identifier sa fenêtre de tolérance au stress permet de savoir quand la performance bascule en surcharge. Au-delà de ce seuil, il est plus efficace de faire une pause active de 2 à 5 minutes (respiration, marche, hydratation) pour réinitialiser le système nerveux plutôt que de "forcer" ou compenser par de la stimulation comme le café.',
+    'sources-label':'Sources scientifiques',
+    'sources-text':'Selye H. (1936). The Stress of Life · Yerkes &amp; Dodson (1908). Habit Formation Curve · Lupien S. et al. (2007). The effects of stress and stress hormones on human cognition · Mayo Clinic (2024). Slow Breathing &amp; BP · Méta-analyse Frontiers in Physiology (2022) · INRS (2024). Stress au travail · OMS / WHO (2023). Mental health at work.',
+    's1-back':'← Retour','s1-next':'Quiz interactif →',
+    's2-mtag':'Quiz · 5 questions',
+    's2-mttl':'Testez vos <span class="g">connaissances</span>',
+    's2-mdsc':'Cinq questions pour valider votre compréhension du stress et de sa régulation.',
+    's2-hint':'💡 <strong>Astuce :</strong> chaque feedback vous donne une nuance scientifique souvent absente du sens commun.',
+    's2-back':'← Revoir le contenu',
+    'score-cta-btn':'Voir mon bilan →',
+    's3-badge':'🎓 Module terminé',
+    's3-title':'Vous connaissez le stress',
+    's3-sub':'Vous avez exploré la physiologie du stress, compris la distinction eustress/distress et pratiqué des outils de régulation concrets.',
+    's3-learnings-h':'🧠 Ce que vous avez appris',
+    's3-l1':'La distinction eustress / distress de Hans Selye',
+    's3-l2':'La courbe de Yerkes-Dodson et la zone optimale de performance',
+    's3-l3':'La cohérence cardiaque 3·6·5 et ses effets sur le cortisol',
+    's3-l4':'La technique 5-4-3-2-1 pour le pic anxieux',
+    's3-actions-h':'✅ 3 actions pour cette semaine',
+    's3-a1':'Pratiquer 5 min de cohérence cardiaque demain matin',
+    's3-a2':'Identifier mon principal signal d\'alarme cette semaine',
+    's3-a3':'Partager la distinction eustress/distress avec mon équipe',
+    's3-content':'← Revoir le contenu','s3-restart':'↺ Recommencer',
+  },
+  en:{
+    'hero-badge':'Module 2 · ~6 min · Well-being',
+    'hero-title':'Good stress vs<br><span class="acc">bad stress</span>',
+    'hero-sub':'Understand the difference between useful stress (eustress) and toxic stress (distress), spot your warning signals and learn to regulate your nervous system in a few minutes.',
+    'hero-btn':'Start →',
+    's1-mtag':'Content · Selye, Yerkes-Dodson',
+    's1-mttl':'Eustress <span class="g">vs</span> Distress',
+    's1-mdsc':'Stress is not your enemy. Understanding its physiology allows you to use it as an ally rather than endure it.',
+    's1-selye':'Hans Selye introduced the distinction between <strong>eustress</strong> (stimulating, performance-enhancing stress) and <strong>distress</strong> (harmful, exhausting stress). The difference depends not only on the situation, but mainly on three factors: <strong>the intensity of the stress, its duration, and the individual\'s perceived level of control</strong>.',
+    'good-cap':'Good stress','good-title':'Eustress',
+    'good-li-1':'<strong>Activation:</strong> Alertness, motivation, mobilized energy',
+    'good-li-2':'<strong>Positive effects:</strong> Improves concentration, memory and performance',
+    'good-li-3':'<strong>Temporary:</strong> Disappears after effort or situation ends',
+    'good-li-4':'<strong>Perceived control:</strong> Sense of mastery maintained',
+    'good-li-ex':'👉 <em>Examples: challenging deadline, public speaking, stimulating new assignment</em>',
+    'bad-cap':'Bad stress','bad-title':'Distress',
+    'bad-li-1':'<strong>Persistent and uncontrolled:</strong> Settles over time, without recovery phase',
+    'bad-li-2':'<strong>Harmful impact:</strong> Affects physical and mental health',
+    'bad-li-3':'<strong>Possible consequences:</strong> Burnout, anxiety, cardiovascular disorders (increased risk with chronic stress according to WHO)',
+    'bad-li-4':'<strong>Sense of helplessness:</strong> Loss of control and resources facing the situation',
+    'bad-li-ex':'👉 <em>Examples: chronic overload, unresolved conflicts, prolonged role ambiguity</em>',
+    'yd-h3':'📊 Yerkes-Dodson Curve',
+    'yd-intro':'The <strong>Yerkes-Dodson law (1908)</strong>, confirmed by neuroscience research, shows a bell-shaped relationship between stress and performance: a moderate level of stress optimizes performance, while too little or too much degrades it.',
+    'yd-title':'Adjust your stress level and observe performance',
+    'yd-sub':'The Yerkes-Dodson law (1908), validated by modern neuroscience on memory (Lupien et al., 2007), shows a bell-shaped curve: too little OR too much stress degrades performance.',
+    'breath-h3':'🫁 Guided cardiac coherence — 3·6·5 method',
+    'cc-title':'What is cardiac coherence?',
+    'cc-desc1':'<strong>Cardiac coherence</strong> is a controlled breathing technique that synchronizes heart rate with the breathing cycle. By breathing at a slow and regular pace — approximately <strong>6 cycles per minute</strong> (5 seconds inhale, 5 seconds exhale) — the parasympathetic nervous system is activated, responsible for calming the body.',
+    'cc-desc2':'The <strong>3·6·5</strong> method recommends <strong>3 sessions per day</strong>, <strong>6 minutes each</strong>, ideally practiced <strong>5 times per week</strong>. This regularity helps maintain low cortisol levels (the stress hormone) throughout the day and improves heart rate variability (HRV), a recognized marker of stress resilience.',
+    'cc-tag1':'⬇️ Reduced cortisol','cc-tag2':'❤️ Improved HRV','cc-tag3':'🧠 Mental clarity','cc-tag4':'😴 Better sleep',
+    'breath-title':'Breathe with the circle',
+    'breath-sub':'5s inhale · 5s exhale · for 1 minute to start',
+    'breath-ready':'Start when you\'re ready — sit comfortably.',
+    'breath-btn-1':'▶ Start 1 min','breath-btn-3':'▶ 3 min','breath-btn-5':'▶ 5 min (recommended)',
+    'signals-h3':'⚠️ Your warning signals — self-assessment',
+    'signals-p':'Check what you experience regularly (at least once a week).',
+    'sig-phys-h':'Physical','sig-emo-h':'Emotional','sig-cog-h':'Cognitive','sig-beh-h':'Behavioral',
+    'sig-p1':'Neck / back tension','sig-p2':'Frequent headaches','sig-p3':'Persistent fatigue upon waking','sig-p4':'Sleep disorders','sig-p5':'Digestive issues',
+    'sig-e1':'Irritability, quick to anger','sig-e2':'Anxiety, rumination','sig-e3':'Hypersensitivity (easy tears)','sig-e4':'Loss of pleasure / disengagement','sig-e5':'Feeling overwhelmed',
+    'sig-c1':'Forgetfulness, memory blanks','sig-c2':'Concentration difficulties','sig-c3':'Unusual mistakes','sig-c4':'Indecision on simple choices','sig-c5':'Repetitive intrusive thoughts',
+    'sig-b1':'Isolation, social withdrawal','sig-b2':'Strong procrastination','sig-b3':'Increased tobacco/alcohol/sugar','sig-b4':'Presenteeism (present but absent)','sig-b5':'Increased relational conflicts',
+    'sig-init':'<strong>Click on the signals that apply to you</strong> for a personalized reading of your alert level.',
+    'ground-h3':'🌿 5-4-3-2-1 technique — guided sensory grounding',
+    'ground-p':'A validated cognitive-behavioral technique to bring you back to the present in case of acute stress, anxiety or rumination.',
+    'ground-title-el':'Progressive grounding',
+    'ground-ready-sense':'Ready to start?',
+    'ground-ready-instr':'This technique brings the brain back to the present by mobilizing the 5 senses. Particularly effective during anxiety peaks.',
+    'ground-prev-btn':'← Previous','ground-start-btn':'Start ▶',
+    'tip1-t':'Cardiac coherence','tip1-b':'This technique consists of breathing slowly (approximately 6 cycles per minute) to regulate the autonomic nervous system. Recent research shows measurable effects: a meta-analysis observes an improvement in heart rate variability, an indicator of better stress regulation. Clinical studies also indicate a decrease in blood pressure and cortisol after several weeks of regular practice.',
+    'tip2-t':'Breathing rhythms','tip2-b':'Whether you use the 5-5 (balanced coherence) or 4-6 (more calming effect), these slow breathing rhythms promote activation of the parasympathetic nervous system. They contribute to reducing stress, improving emotional regulation and establishing a calm state, particularly useful at end of day or in tense situations.',
+    'tip3-t':'Persistence of effects','tip3-b':'The physiological effects of cardiac coherence can persist for several hours after a short practice (approximately 5 minutes). This is why it is recommended to repeat the exercise 2 to 3 times per day to stabilize its effects throughout the day.',
+    'tip4-t':'Recognize your stress chronotype','tip4-b':'Identifying your stress tolerance window helps you know when performance tips into overload. Beyond this threshold, it is more effective to take an active pause of 2 to 5 minutes (breathing, walking, hydration) to reset the nervous system rather than pushing through or compensating with stimulation like coffee.',
+    'sources-label':'Scientific sources',
+    'sources-text':'Selye H. (1936). The Stress of Life · Yerkes &amp; Dodson (1908). Habit Formation Curve · Lupien S. et al. (2007). The effects of stress and stress hormones on human cognition · Mayo Clinic (2024). Slow Breathing &amp; BP · Meta-analysis Frontiers in Physiology (2022) · INRS (2024). Work-related stress · WHO (2023). Mental health at work.',
+    's1-back':'← Back','s1-next':'Interactive quiz →',
+    's2-mtag':'Quiz · 5 questions',
+    's2-mttl':'Test your <span class="g">knowledge</span>',
+    's2-mdsc':'Five questions to validate your understanding of stress and its regulation.',
+    's2-hint':'💡 <strong>Tip:</strong> each feedback gives you a scientific nuance often absent from common knowledge.',
+    's2-back':'← Review content',
+    'score-cta-btn':'View my summary →',
+    's3-badge':'🎓 Module complete',
+    's3-title':'You know stress',
+    's3-sub':'You explored stress physiology, understood the eustress/distress distinction and practiced concrete regulation tools.',
+    's3-learnings-h':'🧠 What you learned',
+    's3-l1':'Hans Selye\'s eustress / distress distinction',
+    's3-l2':'The Yerkes-Dodson curve and the optimal performance zone',
+    's3-l3':'Cardiac coherence 3·6·5 and its effects on cortisol',
+    's3-l4':'The 5-4-3-2-1 technique for anxiety peaks',
+    's3-actions-h':'✅ 3 actions for this week',
+    's3-a1':'Practice 5 min of cardiac coherence tomorrow morning',
+    's3-a2':'Identify my main warning signal this week',
+    's3-a3':'Share the eustress/distress distinction with my team',
+    's3-content':'← Review content','s3-restart':'↺ Restart',
+  }
+};
+
+function applyLang(lang){
+  currentLang=lang;
+  const t=TR[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(t[key]!==undefined) el.innerHTML=t[key];
+  });
+  document.getElementById('lang-toggle').textContent=lang==='fr'?'EN':'FR';
+  document.documentElement.lang=lang;
+  renderQuiz();
+  updateYD();
+  // Reset signal summary to init text
+  const sum=document.getElementById('signal-summary');
+  const checked=document.querySelectorAll('.signal-item.checked').length;
+  if(checked===0) sum.innerHTML=t['sig-init'];
+}
+
+function toggleLang(){applyLang(currentLang==='fr'?'en':'fr');}
+
+// ---- Yerkes-Dodson ----
+function updateYD(){
+  const v=parseInt(document.getElementById('yd-slider').value);
+  const path=document.getElementById('yd-path');
+  const totalLength=path.getTotalLength();
+  const point=path.getPointAtLength((v/100)*totalLength);
+  const cur=document.getElementById('yd-cursor');
+  cur.setAttribute('cx',point.x);cur.setAttribute('cy',point.y);
+  let msg;
+  const isEn=currentLang==='en';
+  if(v<25){
+    msg=isEn
+      ?'<div class="yd-zone under">Under-stimulation</div><div><strong>Low performance</strong> from lack of activation. Boredom, disengagement, loss of meaning. Antidote: progressive challenge, new project, micro-objectives.</div>'
+      :'<div class="yd-zone under">Sous-stimulation</div><div><strong>Performance basse</strong> par manque d\'activation. Ennui, désengagement, perte de sens. Antidote : challenge progressif, nouveau projet, micro-objectifs.</div>';
+    cur.setAttribute('fill','#bbb');
+  } else if(v<=70){
+    msg=isEn
+      ?'<div class="yd-zone opt">Optimal zone</div><div><strong>Optimal performance.</strong> Moderate stress: noradrenaline and cortisol activate focus without saturating the brain. This is the territory of productive eustress.</div>'
+      :'<div class="yd-zone opt">Zone optimale</div><div><strong>Performance optimale.</strong> Stress modéré : la noradrénaline et le cortisol activent le focus sans saturer le cerveau. C\'est le territoire de l\'eustress productif.</div>';
+    cur.setAttribute('fill','#A0EB9D');
+  } else if(v<=85){
+    msg=isEn
+      ?'<div class="yd-zone over">Overload</div><div><strong>Declining performance.</strong> Cortisol begins degrading working memory (Lupien et al., 2007). Antidote: prioritize, delegate, 5-min break.</div>'
+      :'<div class="yd-zone over">Surcharge</div><div><strong>Performance qui chute.</strong> Le cortisol commence à dégrader la mémoire de travail (Lupien et al., 2007). Antidote : prioriser, déléguer, pause de 5 min.</div>';
+    cur.setAttribute('fill','#ff8a7a');
+  } else {
+    msg=isEn
+      ?'<div class="yd-zone over">Exhaustion</div><div><strong>Risk of chronic distress.</strong> Severely degraded performance, errors, irritability. Immediate antidote: cardiac coherence, micro-break, talk about workload.</div>'
+      :'<div class="yd-zone over">Épuisement</div><div><strong>Risque de distress chronique.</strong> Performance fortement dégradée, erreurs, irritabilité. Antidote immédiat : cohérence cardiaque, micro-pause, parler de la charge.</div>';
+    cur.setAttribute('fill','#ff8a7a');
+  }
+  document.getElementById('yd-state').innerHTML=msg;
+}
+
+// ---- Cardiac coherence ----
+let breathInt=null,breathSec=60,breathTotal=60,breathRun=false,breathPhase='in',breathSwapAt=0;
+function breathStart(){
+  if(breathRun){breathStop();return;}
+  breathRun=true;breathSec=breathTotal;
+  const isEn=currentLang==='en';
+  document.getElementById('breath-start').textContent='⏸ Stop';
+  breathPhase='in';breathSwapAt=Date.now()+5000;
+  document.getElementById('breath-circle').classList.remove('out');
+  document.getElementById('breath-circle').classList.add('in');
+  document.getElementById('breath-text').textContent=isEn?'INHALE':'INSPIREZ';
+  document.getElementById('breath-info').textContent=isEn?'5 seconds — gently expand your belly then chest':'5 secondes — gonflez doucement le ventre puis la poitrine';
+  breathLoop();
+}
+function breathLoop(){
+  breathInt=setInterval(()=>{
+    breathSec--;
+    document.getElementById('breath-counter').textContent=breathSec;
+    const isEn=currentLang==='en';
+    if(Date.now()>=breathSwapAt){
+      if(breathPhase==='in'){
+        breathPhase='out';
+        document.getElementById('breath-circle').classList.remove('in');
+        document.getElementById('breath-circle').classList.add('out');
+        document.getElementById('breath-text').textContent=isEn?'EXHALE':'EXPIREZ';
+        document.getElementById('breath-info').textContent=isEn?'5 seconds — let the air out slowly':'5 secondes — laissez sortir l\'air lentement';
+      } else {
+        breathPhase='in';
+        document.getElementById('breath-circle').classList.remove('out');
+        document.getElementById('breath-circle').classList.add('in');
+        document.getElementById('breath-text').textContent=isEn?'INHALE':'INSPIREZ';
+        document.getElementById('breath-info').textContent=isEn?'5 seconds — gently expand your belly then chest':'5 secondes — gonflez doucement le ventre puis la poitrine';
+      }
+      breathSwapAt=Date.now()+5000;
+    }
+    if(breathSec<=0){
+      clearInterval(breathInt);breathRun=false;
+      document.getElementById('breath-text').textContent=isEn?'✓ DONE':'✓ TERMINÉ';
+      document.getElementById('breath-info').textContent=isEn?'Well done. Physiological effects for 4 to 6 hours.':'Bravo. Effets physiologiques pour 4 à 6 heures.';
+      document.getElementById('breath-start').textContent=isEn?'▶ Restart':'▶ Recommencer';
+      document.getElementById('breath-circle').classList.remove('in','out');
+      sendData({email:currentUser,module:MODULE_ID,event:'breath_complete',duration:breathTotal,ts:new Date().toISOString()});
+    }
+  },1000);
+}
+function breathStop(){
+  clearInterval(breathInt);breathRun=false;
+  const isEn=currentLang==='en';
+  document.getElementById('breath-start').textContent=isEn?'▶ Resume':'▶ Reprendre';
+  document.getElementById('breath-info').textContent=isEn?'Paused. Breathe freely when you want to resume.':'Pause. Respirez librement quand vous voulez reprendre.';
+}
+function breathDuration(d){
+  clearInterval(breathInt);breathRun=false;breathTotal=d;breathSec=d;
+  const isEn=currentLang==='en';
+  document.getElementById('breath-counter').textContent=d;
+  document.getElementById('breath-start').textContent=(isEn?'▶ Start ':'▶ Démarrer ')+(d/60)+' min';
+  document.getElementById('breath-info').textContent=d===300?(isEn?'Recommended duration — maximum effect on cortisol and HRV':'Durée recommandée — effet maximal sur le cortisol et la VFC'):(isEn?'Pre-set duration. Click Start to begin.':'Durée pré-réglée. Cliquez Démarrer pour lancer.');
+}
+
+// ---- Signal checklist ----
+function toggleSig(el){
+  el.classList.toggle('checked');
+  const total=document.querySelectorAll('.signal-item.checked').length;
+  const sum=document.getElementById('signal-summary');
+  const isEn=currentLang==='en';
+  let msg;
+  if(isEn){
+    if(total===0) msg='<strong>Click on the signals that apply to you</strong> for a personalized reading of your alert level.';
+    else if(total<=3) msg=`<strong>${total} signal(s) checked — Vigilance.</strong> These signals are normal occasionally. If they persist beyond a week, implement a recovery routine: sleep, cardiac coherence, walking.`;
+    else if(total<=7) msg=`<strong>${total} signals checked — Orange alert.</strong> Multiple dimensions affected: your system is in overdrive. Identify the main source (workload, conflict, ambiguity) and deliberately reduce pressure over 1–2 weeks. Talk to someone close.`;
+    else msg=`<strong>⚠️ ${total} signals checked — Red alert.</strong> Concerning level compatible with a pre-burnout state. <strong>Key step: make an appointment with occupational health or a healthcare professional this week.</strong> Don't carry this alone.`;
+  } else {
+    if(total===0) msg='<strong>Cliquez sur les signaux qui vous concernent</strong> pour obtenir une lecture personnalisée.';
+    else if(total<=3) msg=`<strong>${total} signal(aux) cochés — Vigilance.</strong> Ces signaux sont normaux ponctuellement. S'ils persistent au-delà d'une semaine, mettez en place une routine de récupération : sommeil, cohérence cardiaque, marche.`;
+    else if(total<=7) msg=`<strong>${total} signaux cochés — Alerte orange.</strong> Plusieurs dimensions touchées : votre système est en sur-régime. Identifiez la source principale (charge, conflit, ambiguïté) et réduisez délibérément la pression sur 1-2 semaines. Parlez-en à un proche.`;
+    else msg=`<strong>⚠️ ${total} signaux cochés — Alerte rouge.</strong> Niveau préoccupant compatible avec un état de pré-burnout. <strong>Étape clé : prendre rendez-vous avec la médecine du travail ou un professionnel de santé cette semaine.</strong> Ne portez pas ça seul(e).`;
+  }
+  sum.innerHTML=msg;
+  sum.className='signal-summary'+(total>=8?' warn':'');
+}
+
+// ---- 5-4-3-2-1 grounding ----
+const GROUND_FR=[
+  {n:5,sense:'Vous voyez',instr:'Nommez 5 choses que vous voyez autour de vous. Soyez précis : la couleur, la forme, le détail.',placeholder:'Tapez ici (optionnel)…'},
+  {n:4,sense:'Vous entendez',instr:'Nommez 4 sons que vous percevez. Le clavier, votre respiration, un bruit lointain.',placeholder:'Tapez ici (optionnel)…'},
+  {n:3,sense:'Vous touchez',instr:'Nommez 3 textures que vous touchez. Le tissu de vos vêtements, la table, votre peau.',placeholder:'Tapez ici (optionnel)…'},
+  {n:2,sense:'Vous sentez',instr:'Nommez 2 odeurs ou parfums présents (ou imaginables : café, savon, air frais).',placeholder:'Tapez ici (optionnel)…'},
+  {n:1,sense:'Vous goûtez',instr:'Nommez 1 saveur dans votre bouche. Si rien, prenez une gorgée d\'eau et ressentez-la.',placeholder:'Tapez ici (optionnel)…'}
+];
+const GROUND_EN=[
+  {n:5,sense:'You see',instr:'Name 5 things you see around you. Be specific: the color, shape, detail.',placeholder:'Type here (optional)…'},
+  {n:4,sense:'You hear',instr:'Name 4 sounds you perceive. The keyboard, your breathing, a distant noise.',placeholder:'Type here (optional)…'},
+  {n:3,sense:'You touch',instr:'Name 3 textures you touch. The fabric of your clothes, the table, your skin.',placeholder:'Type here (optional)…'},
+  {n:2,sense:'You smell',instr:'Name 2 smells or scents present (or imaginable: coffee, soap, fresh air).',placeholder:'Type here (optional)…'},
+  {n:1,sense:'You taste',instr:'Name 1 flavor in your mouth. If nothing, take a sip of water and feel it.',placeholder:'Type here (optional)…'}
+];
+let groundIdx=-1;
+function groundNext(){
+  const GROUND=currentLang==='en'?GROUND_EN:GROUND_FR;
+  const isEn=currentLang==='en';
+  groundIdx++;
+  if(groundIdx>=GROUND.length){
+    document.getElementById('ground-stage').innerHTML=`<div class="ground-num">✓</div><div class="ground-sense">${isEn?'Well done, grounding complete.':'Bravo, ancrage terminé.'}</div><div class="ground-instr">${isEn?'Note your level of calm. Repeat whenever rumination returns.':'Notez votre niveau d\'apaisement. À refaire dès que la rumination revient.'}</div>`;
+    document.getElementById('ground-step').textContent=isEn?'Complete':'Terminé';
+    document.getElementById('ground-next').textContent=isEn?'↺ Restart':'↺ Recommencer';
+    document.getElementById('ground-next').onclick=()=>{groundIdx=-1;groundNext();document.getElementById('ground-next').onclick=groundNext;};
+    sendData({email:currentUser,module:MODULE_ID,event:'grounding_complete',ts:new Date().toISOString()});
+    return;
+  }
+  const s=GROUND[groundIdx];
+  document.getElementById('ground-stage').innerHTML=`<div class="ground-num">${s.n}</div><div class="ground-sense">${s.sense}</div><div class="ground-instr">${s.instr}</div><input type="text" class="ground-input" placeholder="${s.placeholder}">`;
+  document.getElementById('ground-step').textContent=(isEn?'Step ':'Étape ')+(groundIdx+1)+' / 5';
+  document.getElementById('ground-prev').disabled=groundIdx===0;
+  document.getElementById('ground-next').textContent=groundIdx===GROUND.length-1?(isEn?'Finish ✓':'Terminer ✓'):(isEn?'Next →':'Suivant →');
+}
+function groundPrev(){if(groundIdx>0){groundIdx-=2;groundNext();}}
+
+// ---- QUIZ ----
+const QUIZ_FR=[
+  {q:'Qui a introduit la distinction entre eustress (bon stress) et distress (mauvais stress) ?',
+   opts:['Sigmund Freud (1895)','Hans Selye (1936)','Aaron Beck (1960)','Daniel Goleman (1995)'],correct:1,
+   fb:[
+    'Freud est le père de la psychanalyse. Ses travaux portent sur l\'inconscient et les névroses, non sur la physiologie du stress.',
+    '✓ Exact. Hans Selye, physiologiste austro-canadien, a formalisé ces concepts dans The Stress of Life (1936) en observant que l\'organisme ne réagit pas de la même façon selon que le stress est stimulant (eustress) ou épuisant (distress).',
+    'Aaron Beck a développé la thérapie cognitive et comportementale (TCC) dans les années 1960. Il s\'intéresse aux schémas de pensée négatifs, pas à la physiologie du stress.',
+    'Daniel Goleman a popularisé l\'intelligence émotionnelle en 1995 — soit 60 ans après que Selye ait théorisé l\'eustress et le distress.'
+   ]},
+  {q:'Selon la courbe de Yerkes-Dodson (1908), quel niveau de stress produit la meilleure performance ?',
+   opts:['Le stress le plus faible possible','Un niveau de stress modéré et optimal','Le stress le plus élevé possible','Il n\'y a pas de relation entre stress et performance'],correct:1,
+   fb:[
+    'Un niveau de stress trop bas entraîne ennui et désengagement. L\'activation est nécessaire pour mobiliser l\'attention et la motivation.',
+    '✓ Correct. La courbe en cloche (U inversé) montre un optimum intermédiaire : assez de stress pour activer le cerveau, mais pas trop pour éviter la saturation cognitive — c\'est la zone de l\'eustress productif.',
+    'Au-delà du seuil optimal, le cortisol en excès dégrade la mémoire de travail et les fonctions exécutives (Lupien et al., 2007). On entre alors dans le distress.',
+    'Faux. La relation entre stress et performance est bien documentée depuis 1908 et confirmée par les neurosciences modernes : elle suit une courbe en U inversé.'
+   ]},
+  {q:'La méthode 3·6·5 de cohérence cardiaque recommande combien de respirations par minute ?',
+   opts:['2 respirations / min','6 respirations / min','10 respirations / min','12 respirations / min'],correct:1,
+   fb:[
+    '2 respirations/min est physiologiquement très difficile à tenir et ne correspond pas à la fréquence de résonance du système nerveux autonome (0,1 Hz).',
+    '✓ Juste. 6 respirations/min (5s inspiration + 5s expiration) correspond à 0,1 Hz, la fréquence de résonance du nerf vague. C\'est le cœur du protocole 3×/jour, 6 respirations/min, 5 min.',
+    '10/min s\'approche mais ne correspond pas au protocole. La fréquence cible précise est 6/min pour maximiser l\'activation vagale.',
+    '12/min est le rythme basal de repos. Il n\'active pas suffisamment le nerf vague pour induire l\'état de cohérence cardiaque.'
+   ]},
+  {q:'Combien de temps les effets physiologiques d\'une session de cohérence cardiaque persistent-ils ?',
+   opts:['10 à 20 minutes','1 à 2 heures','4 à 6 heures','Ils disparaissent dès l\'arrêt de l\'exercice'],correct:2,
+   fb:[
+    'Très sous-estimé. Les effets sur la variabilité de la fréquence cardiaque (VFC), la tension artérielle et le cortisol durent bien plus longtemps.',
+    'Proche, mais encore en deçà. Les études cliniques montrent une persistance plus longue, d\'où la recommandation de 3 sessions par jour.',
+    '✓ Exact. Après 5 minutes de cohérence cardiaque, les effets sur la VFC, la réduction du cortisol et le tonus vagal persistent 4 à 6 heures — raison pour laquelle on recommande 3 sessions quotidiennes pour couvrir la journée.',
+    'Faux. L\'un des atouts majeurs de la cohérence cardiaque est précisément la durée de ses effets, bien au-delà de la session elle-même.'
+   ]},
+  {q:'En cas de pic anxieux soudain, quelle technique cognitive est validée pour ramener au présent ?',
+   opts:['Boire un café noir','La technique 5-4-3-2-1 (ancrage sensoriel)','Analyser mentalement la source du stress','Pratiquer la pensée positive'],correct:1,
+   fb:[
+    'La caféine stimule le système nerveux sympathique et amplifie les symptômes de l\'anxiété : tachycardie, tensions musculaires, hypervigilance.',
+    '✓ Correct. La technique 5-4-3-2-1 mobilise séquentiellement les 5 sens pour ancrer le cerveau dans le présent. Elle active le cortex sensoriel et interrompt la boucle de rumination de l\'amygdale — une des rares techniques validées pour le pic anxieux aigu.',
+    'Analyser la source du stress en plein pic anxieux entretient la boucle de rumination et amplifie la réponse de stress. Mieux vaut d\'abord réguler physiologiquement, puis analyser.',
+    'La pensée positive seule ne suffit pas à interrompre la réponse physiologique d\'anxiété. Les techniques d\'ancrage sensoriel (comme le 5-4-3-2-1) agissent directement sur le circuit amygdale-cortex.'
+   ]}
+];
+const QUIZ_EN=[
+  {q:'Who introduced the distinction between eustress (good stress) and distress (bad stress)?',
+   opts:['Sigmund Freud (1895)','Hans Selye (1936)','Aaron Beck (1960)','Daniel Goleman (1995)'],correct:1,
+   fb:[
+    'Freud is the father of psychoanalysis. His work focuses on the unconscious and neuroses, not the physiology of stress.',
+    '✓ Correct. Hans Selye, austro-canadian physiologist, formalized these concepts in The Stress of Life (1936) by observing that the body reacts differently depending on whether stress is stimulating (eustress) or exhausting (distress).',
+    'Aaron Beck developed cognitive behavioral therapy (CBT) in the 1960s. His work focuses on negative thought patterns, not the physiology of stress.',
+    'Daniel Goleman popularized emotional intelligence in 1995 — 60 years after Selye theorized eustress and distress.'
+   ]},
+  {q:'According to the Yerkes-Dodson curve (1908), which stress level produces the best performance?',
+   opts:['The lowest possible stress','A moderate, optimal stress level','The highest possible stress','There is no relationship between stress and performance'],correct:1,
+   fb:[
+    'Too low a stress level leads to boredom and disengagement. Activation is needed to mobilize attention and motivation.',
+    '✓ Correct. The bell-shaped curve (inverted U) shows an intermediate optimum: enough stress to activate the brain, but not so much as to cause cognitive saturation — this is the zone of productive eustress.',
+    'Beyond the optimal threshold, excess cortisol degrades working memory and executive functions (Lupien et al., 2007). This is the territory of distress.',
+    'False. The relationship between stress and performance has been well documented since 1908 and confirmed by modern neuroscience: it follows an inverted U-curve.'
+   ]},
+  {q:'The cardiac coherence 3·6·5 method recommends how many breaths per minute?',
+   opts:['2 breaths / min','6 breaths / min','10 breaths / min','12 breaths / min'],correct:1,
+   fb:[
+    '2 breaths/min is physiologically very difficult to sustain and does not match the resonance frequency of the autonomic nervous system (0.1 Hz).',
+    '✓ Correct. 6 breaths/min (5s inhale + 5s exhale) corresponds to 0.1 Hz, the resonance frequency of the vagus nerve. This is the core of the 3×/day, 6 breaths/min, 5 min protocol.',
+    '10/min is close but does not match the protocol. The precise target frequency is 6/min to maximize vagal activation.',
+    '12/min is the normal resting rate. It does not sufficiently activate the vagus nerve to induce the cardiac coherence state.'
+   ]},
+  {q:'How long do the physiological effects of a cardiac coherence session last?',
+   opts:['10 to 20 minutes','1 to 2 hours','4 to 6 hours','They disappear as soon as the exercise stops'],correct:2,
+   fb:[
+    'Greatly underestimated. The effects on heart rate variability (HRV), blood pressure and cortisol last much longer.',
+    'Close, but still below. Clinical studies show longer persistence, which is why 3 sessions per day are recommended.',
+    '✓ Correct. After 5 minutes of cardiac coherence, effects on HRV, cortisol reduction and vagal tone persist 4 to 6 hours — which is why 3 daily sessions are recommended to cover the whole day.',
+    'False. One of the key advantages of cardiac coherence is precisely the duration of its effects, well beyond the session itself.'
+   ]},
+  {q:'In case of a sudden anxiety peak, which cognitive technique is validated to bring you back to the present?',
+   opts:['Drink a black coffee','The 5-4-3-2-1 technique (sensory grounding)','Mentally analyze the source of stress','Practice positive thinking'],correct:1,
+   fb:[
+    'Caffeine stimulates the sympathetic nervous system and amplifies anxiety symptoms: tachycardia, muscle tension, hypervigilance.',
+    '✓ Correct. The 5-4-3-2-1 technique sequentially mobilizes the 5 senses to anchor the brain in the present. It activates the sensory cortex and interrupts the amygdala\'s rumination loop — one of the few techniques validated for acute anxiety peaks.',
+    'Analyzing the source of stress during an anxiety peak maintains the rumination loop and amplifies the stress response. It is better to first regulate physiologically, then analyze.',
+    'Positive thinking alone is not enough to interrupt the physiological anxiety response. Sensory grounding techniques (like 5-4-3-2-1) act directly on the amygdala-cortex circuit.'
+   ]}
+];
+
+function renderQuiz(){
+  const QUIZ=currentLang==='en'?QUIZ_EN:QUIZ_FR;
+  const isEn=currentLang==='en';
+  const c=document.getElementById('quiz-container');c.innerHTML='';
+  QUIZ.forEach((q,i)=>{
+    const div=document.createElement('div');div.className='quiz-q';div.id='quiz-q-'+i;
+    div.innerHTML=`<div class="quiz-qhead"><span class="quiz-qn">${isEn?'Question':'Question'} ${i+1} / ${QUIZ.length}</span><span class="quiz-qpts">+1 pt</span></div><div class="quiz-qt">${q.q}</div><div class="quiz-os" id="quiz-os-${i}">${q.opts.map((o,oi)=>`<button class="quiz-o" onclick="answerQ(${i},${oi})"><span class="quiz-o-letter">${String.fromCharCode(65+oi)}</span><span>${o}</span></button>`).join('')}</div><div class="qfb" id="qfb-${i}"></div>`;
+    c.appendChild(div);
+  });
+}
+function answerQ(qi,oi){
+  if(quizDone[qi])return;quizDone[qi]=true;
+  const QUIZ=currentLang==='en'?QUIZ_EN:QUIZ_FR;
+  const q=QUIZ[qi];if(oi===q.correct)quizScore++;
+  const cont=document.getElementById('quiz-os-'+qi);
+  cont.querySelectorAll('.quiz-o').forEach((btn,i)=>{
+    if(i===oi&&oi===q.correct)btn.classList.add('ok');
+    else if(i===oi&&oi!==q.correct)btn.classList.add('ko');
+    else if(i===q.correct&&oi!==q.correct)btn.classList.add('reveal');
+    else btn.classList.add('disabled');
+  });
+  const fb=document.getElementById('qfb-'+qi);fb.textContent=q.fb[oi];fb.className='qfb show '+(oi===q.correct?'pos':'neg');
+  if(Object.keys(quizDone).length===QUIZ.length)setTimeout(showScore,500);
+}
+function showScore(){
+  const sb=document.getElementById('score-box');
+  const pct=Math.round(quizScore/QUIZ_TOTAL*100);
+  const isEn=currentLang==='en';
+  let msg2,emoji2;
+  if(pct>=80){msg2=isEn?'Excellent! You understand the stress mechanism and know what to do to regulate it.':'Excellent ! Vous comprenez le mécanisme du stress et savez quoi faire pour le réguler.';emoji2='🏆';confettiBurst();}
+  else if(pct>=60){msg2=isEn?'Good score. Some nuances to review to properly distinguish eustress from distress.':'Bon score. Quelques nuances à revoir pour bien distinguer eustress et distress.';emoji2='🌟';}
+  else{msg2=isEn?'Some points to explore further. Review especially the cardiac coherence and Yerkes-Dodson sections.':'Quelques points à approfondir. Reprenez surtout les sections cohérence cardiaque et Yerkes-Dodson.';emoji2='💪';}
+  document.getElementById('score-emoji').textContent=emoji2;
+  document.getElementById('score-n').textContent=quizScore+'/'+QUIZ_TOTAL;
+  document.getElementById('score-pct').textContent=pct+'% · Score';
+  document.getElementById('score-msg').textContent=msg2;
+  sb.classList.add('show');
+  // Populate screen-3 score
+  document.getElementById('s3-score-big').textContent=quizScore+'/'+QUIZ_TOTAL;
+  document.getElementById('s3-score-label').textContent=pct+'% · '+(isEn?'Score':'Score');
+  sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:QUIZ_TOTAL,event:'quiz_done',ts:new Date().toISOString()});
+}
+
+function confettiBurst(){const colors=['#A0EB9D','#1e3bbf','#2347d4','#FFD700','#FF6B6B'];for(let i=0;i<60;i++){const c=document.createElement('div');c.className='confetti';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=(50+Math.random()*40-20)+'%';c.style.top='40%';c.style.borderRadius=Math.random()>.5?'50%':'2px';c.style.transform=`rotate(${Math.random()*360}deg)`;document.body.appendChild(c);const dx=(Math.random()-.5)*600,dy=Math.random()*500+200,dur=1500+Math.random()*1500;c.animate([{transform:c.style.transform,opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.4,1)'});setTimeout(()=>c.remove(),dur);}}
+
+function restartModule(){
+  Object.keys(quizDone).forEach(k=>delete quizDone[k]);
+  quizScore=0;
+  document.getElementById('score-box').classList.remove('show');
+  document.getElementById('s3-score-big').textContent='—/5';
+  document.getElementById('s3-score-label').textContent='—';
+  renderQuiz();
+  goStep(0);
+}
+
+// Init
+updateYD();
+setupPbarClicks(0);
+</script>
+</body>
+</html>

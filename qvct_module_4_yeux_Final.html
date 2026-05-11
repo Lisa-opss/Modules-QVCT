@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4 · Fatigue visuelle numérique · Brakson</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p1:#1a2fa8;--p2:#1e3bbf;--p3:#2347d4;--p4:#2e58f0;
+  --bg:#f0f4ff;--bgl:#e8eeff;
+  --acc:#A0EB9D;--accd:#8BCC88;
+  --ink:#0d1a3a;--gr:#6b7a99;--bo:#dde4f5;
+  --hub-bg:linear-gradient(160deg,#0d1f7a 0%,#1a2fa8 45%,#1e3bbf 100%);
+  --nav-bg:rgba(26,47,168,.96);
+  --w70:rgba(255,255,255,.70);--w40:rgba(255,255,255,.40);
+  --w15:rgba(255,255,255,.15);--w08:rgba(255,255,255,.08);
+  --shadow-sm:0 2px 8px rgba(13,26,58,.06);
+  --shadow-md:0 8px 24px rgba(13,26,58,.10);
+  --shadow-lg:0 20px 50px rgba(13,26,58,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:16px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes scaleIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes blink{0%,90%,100%{transform:scaleY(1)}45%{transform:scaleY(.05)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(160,235,157,.4)}50%{box-shadow:0 0 0 14px rgba(160,235,157,0)}}
+
+#login-overlay{position:fixed;inset:0;z-index:9000;background:var(--hub-bg);display:flex;align-items:center;justify-content:center;}
+#login-overlay::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.lb{position:relative;z-index:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(20px);border-radius:20px;padding:44px 40px;width:100%;max-width:440px;margin:20px;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:fadeUp .5s ease;}
+.lb-logo{width:56px;height:56px;background:var(--acc);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 22px;animation:float 3s ease-in-out infinite;}
+.lb-title{font-size:22px;font-weight:700;color:#fff;text-align:center;margin-bottom:6px;}
+.lb-sub{font-size:14px;color:var(--w70);text-align:center;margin-bottom:28px;line-height:1.55;}
+.lb-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--w40);margin-bottom:7px;display:block;}
+.lb-input{width:100%;padding:14px 17px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.20);border-radius:10px;font-family:inherit;font-size:15px;color:#fff;outline:none;transition:all .2s;}
+.lb-input::placeholder{color:var(--w40);}
+.lb-input:focus{border-color:var(--acc);background:rgba(255,255,255,.13);}
+.lb-field{margin-bottom:20px;}
+.lb-btn{width:100%;padding:15px;background:var(--acc);border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .25s;}
+.lb-btn:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 8px 22px rgba(160,235,157,.3);}
+.lb-err{margin-top:14px;padding:11px 16px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.3);border-radius:9px;font-size:13px;color:#ffb3ac;text-align:center;display:none;}
+.lb-err.show{display:block;animation:fadeUp .3s ease;}
+.lb-privacy{font-size:12px;color:var(--w40);text-align:center;margin-top:16px;line-height:1.5;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--w15);}
+.nlg{font-size:15px;font-weight:700;color:#fff;letter-spacing:.01em;}
+.nlg .icn{display:inline-block;margin-right:8px;animation:pulse 2s ease-in-out infinite;}
+.nr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.user-pill{background:rgba(160,235,157,.15);border:1px solid rgba(160,235,157,.28);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--acc);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.toggle-btn{background:rgba(160,235,157,.18);border:1px solid rgba(160,235,157,.4);border-radius:100px;padding:7px 16px;font-family:inherit;font-size:12px;font-weight:800;color:var(--acc);cursor:pointer;transition:all .2s;letter-spacing:.08em;}
+.toggle-btn:hover{background:rgba(160,235,157,.28);transform:translateY(-1px);}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 20px;}nav{padding:0 18px;}}
+
+.screen{display:none;min-height:100vh;padding-top:66px;}
+.screen.active{display:block;animation:fadeUp .4s cubic-bezier(.4,0,.2,1);}
+
+/* HERO — full bleed like feedback module */
+.hero-card{background:var(--hub-bg);border-radius:0;min-height:calc(100vh - 66px);display:flex;align-items:center;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);}
+.hero-card::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;}
+.hero-inner{position:relative;z-index:1;width:100%;text-align:center;padding:60px 0;}
+.hero-mod-badge{display:inline-block;background:rgba(160,235,157,.18);border:1px solid rgba(160,235,157,.3);color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:8px 16px;border-radius:100px;margin-bottom:24px;}
+.hero-icon{width:88px;height:88px;background:var(--acc);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 22px;animation:float 3.5s ease-in-out infinite;box-shadow:0 0 0 8px rgba(160,235,157,.18);}
+.hero-title{font-size:clamp(34px,5vw,58px);font-weight:600;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;}
+.hero-title .acc{color:var(--acc);font-weight:700;}
+.hero-sub{font-size:18px;color:var(--w70);line-height:1.65;max-width:560px;margin:0 auto 30px;}
+.hero-stats{display:flex;gap:32px;margin-bottom:32px;flex-wrap:wrap;justify-content:center;}
+.hstat-n{font-size:34px;font-weight:800;color:var(--acc);letter-spacing:-.03em;line-height:1;}
+.hstat-l{font-size:13px;color:var(--w70);margin-top:4px;}
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.btn-acc{background:var(--acc);color:var(--ink);border:none;border-radius:12px;padding:16px 32px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-acc:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 12px 28px rgba(160,235,157,.35);}
+
+.scr-content{padding:50px 0 40px;}
+.mhd{margin-bottom:36px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--bo);padding-bottom:30px;}
+.mhd-l{flex:1;min-width:280px;}
+.mtag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--p2);margin-bottom:12px;}
+.mtag-d{width:18px;height:2px;background:var(--acc);border-radius:2px;}
+.mttl{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-.025em;line-height:1.1;color:var(--ink);}
+.mttl .g{color:var(--p2);}
+.mdsc{font-size:16px;color:var(--gr);line-height:1.7;margin-top:10px;max-width:600px;}
+.mnum{font-size:clamp(60px,8vw,100px);font-weight:800;color:#dde4f5;letter-spacing:-.05em;line-height:1;flex-shrink:0;user-select:none;}
+
+.intro-box{background:linear-gradient(135deg,#fff,var(--bgl));border-radius:14px;padding:24px 28px;margin-bottom:28px;border-left:4px solid var(--p3);box-shadow:var(--shadow-sm);}
+.intro-box p{font-size:16px;color:#3a4a6b;line-height:1.7;}
+.intro-box strong{color:var(--ink);}
+.source-tag{display:inline-block;font-size:11px;color:var(--p2);background:var(--bgl);padding:3px 10px;border-radius:100px;margin-left:8px;font-weight:700;}
+
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:30px;}
+@media(max-width:760px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:18px 16px;text-align:center;transition:all .25s;}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--p3);box-shadow:var(--shadow-md);}
+.stat-card .n{font-size:30px;font-weight:800;color:var(--p2);letter-spacing:-.03em;line-height:1;}
+.stat-card .l{font-size:12px;color:var(--gr);margin-top:6px;line-height:1.4;font-weight:600;}
+.stat-card .src{font-size:10px;color:var(--gr);margin-top:4px;opacity:.7;}
+
+/* Symptoms checker */
+.symp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+@media(max-width:760px){.symp-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.symp-grid{grid-template-columns:1fr;}}
+.symp-pill{padding:11px 14px;border-radius:11px;border:1.5px solid var(--bo);background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:var(--gr);transition:all .2s;display:flex;align-items:center;gap:8px;}
+.symp-pill:hover{border-color:var(--p3);background:var(--bgl);}
+.symp-pill.on{background:#fff5e0;border-color:#f0b840;color:var(--ink);}
+.symp-pill .em{font-size:18px;}
+.symp-result{padding:14px 18px;border-radius:11px;background:var(--bg);border:1.5px solid var(--bo);font-size:14px;line-height:1.6;color:var(--ink);margin-bottom:30px;}
+.symp-result.warn{background:#fff7eb;border-color:#f0d060;color:#5a4500;}
+
+/* 20-20-20 active timer */
+.t20-card{background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:20px;padding:36px 28px;color:#fff;text-align:center;margin-bottom:30px;position:relative;overflow:hidden;}
+.t20-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(160,235,157,.15),transparent 60%);pointer-events:none;}
+.t20-title{font-size:18px;font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
+.t20-sub{font-size:13px;color:var(--w70);margin-bottom:22px;position:relative;z-index:1;}
+.t20-circle{width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(160,235,157,.15),rgba(160,235,157,.04));border:5px solid rgba(160,235,157,.4);margin:0 auto 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1;transition:all .3s;}
+.t20-circle.alert{background:radial-gradient(circle,rgba(255,200,100,.4),rgba(255,200,100,.1));border-color:#ffd000;animation:glow 1.2s infinite;}
+.t20-time{font-size:54px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;}
+.t20-label{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--w70);text-transform:uppercase;margin-top:6px;}
+.t20-cycles{font-size:14px;color:var(--w70);margin-bottom:14px;position:relative;z-index:1;}
+.t20-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;}
+.t20-btn{background:var(--acc);color:var(--ink);border:none;border-radius:100px;padding:11px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.t20-btn:hover{transform:translateY(-1px);background:var(--accd);}
+.t20-btn.alt{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);}
+
+/* Rule strip */
+.rule-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:30px;}
+@media(max-width:600px){.rule-strip{grid-template-columns:1fr;}}
+.rule-card{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:24px 16px;text-align:center;position:relative;overflow:hidden;}
+.rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--p2),var(--acc));}
+.rule-n{font-size:54px;font-weight:800;color:var(--p2);letter-spacing:-.04em;line-height:1;}
+.rule-unit{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--gr);margin:4px 0;}
+.rule-d{font-size:13px;color:var(--gr);line-height:1.5;}
+
+/* Exercises */
+.ex-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:30px;}
+.ex-card{background:#fff;border:1.5px solid var(--bo);border-radius:14px;overflow:hidden;transition:all .25s;}
+.ex-card:hover{box-shadow:var(--shadow-md);border-color:var(--p3);}
+.ex-head{display:flex;align-items:center;gap:14px;padding:18px 22px;cursor:pointer;}
+.ex-num{width:42px;height:42px;background:linear-gradient(135deg,var(--p1),var(--p3));color:#fff;border-radius:11px;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ex-name{flex:1;}
+.ex-t{font-size:15px;font-weight:800;color:var(--ink);}
+.ex-meta{font-size:12px;color:var(--gr);margin-top:2px;}
+.ex-go{background:var(--bgl);color:var(--p2);border:none;border-radius:100px;padding:8px 16px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.ex-go:hover{background:var(--p2);color:#fff;}
+.ex-body{display:none;padding:20px 22px 24px;border-top:1px solid var(--bo);background:linear-gradient(135deg,var(--bgl),#fff);}
+.ex-card.open .ex-body{display:block;animation:fadeIn .3s ease;}
+.ex-card.open .ex-go{background:var(--p2);color:#fff;}
+.ex-instr{font-size:14px;color:var(--gr);line-height:1.65;margin-bottom:16px;}
+/* Orbit stage: constrained so dot never leaves white frame */
+.ex-stage{height:220px;background:#fff;border-radius:11px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1.5px solid var(--bo);}
+.ex-controls{margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.ex-time{font-size:24px;font-weight:800;color:var(--p2);letter-spacing:-.03em;font-variant-numeric:tabular-nums;}
+.ex-btn{background:var(--p1);color:#fff;border:none;border-radius:100px;padding:10px 20px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.ex-btn:hover{background:var(--p2);}
+.ex-btn.alt{background:transparent;color:var(--gr);border:1.5px solid var(--bo);}
+
+/* Stage animations */
+.stage-blink{font-size:80px;animation:none;}
+.stage-blink.active{animation:blink 2.5s infinite;}
+
+/* Rotation orbit — SVG-based, stays inside frame */
+#orbit-svg{width:100%;height:100%;position:absolute;top:0;left:0;}
+.orbit-dot{transition:none;}
+
+/* Palm */
+.stage-palm{font-size:80px;}
+.stage-palm.warmup{animation:pulse 1s infinite;}
+
+/* Near/far */
+.stage-near{display:flex;align-items:center;gap:40px;}
+.stage-near .near{font-size:36px;}
+.stage-near .far{font-size:14px;color:var(--gr);}
+@keyframes nearfarAnim{0%{transform:scale(1)}50%{transform:scale(.4)}100%{transform:scale(1)}}
+.stage-near .near.active{animation:nearfarAnim 4s ease-in-out infinite;}
+
+/* Infinity 8 — SVG animated path */
+#inf-svg{width:260px;height:130px;}
+.inf-dot{fill:var(--p2);}
+
+.stage-inf{font-size:80px;font-weight:800;color:var(--p2);}
+.stage-inf.active{animation:pulse 4s ease-in-out infinite;}
+
+/* Ergo */
+.ergo-card{background:#fff;border:1.5px solid var(--bo);border-radius:16px;padding:26px;margin-bottom:30px;}
+.ergo-h{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+.ergo-sub{font-size:13px;color:var(--gr);margin-bottom:16px;}
+.ergo-list{display:flex;flex-direction:column;gap:8px;}
+.ergo-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border-radius:10px;cursor:pointer;border:1.5px solid transparent;transition:all .15s;}
+.ergo-item:hover{border-color:var(--p3);}
+.ergo-item.checked{background:#edfaf3;border-color:rgba(39,174,96,.3);}
+.ergo-cb{width:22px;height:22px;border:2px solid var(--bo);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .2s;}
+.ergo-item.checked .ergo-cb{background:var(--acc);border-color:var(--acc);}
+.ergo-item.checked .ergo-cb::after{content:'✓';color:#0d4a1f;font-weight:800;font-size:12px;}
+.ergo-text{flex:1;font-size:14px;color:var(--ink);}
+.ergo-summary{margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--bgl);font-size:14px;color:var(--ink);line-height:1.6;font-weight:600;}
+
+/* Tips */
+.tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px;}
+@media(max-width:760px){.tips-grid{grid-template-columns:1fr;}}
+.tip{background:#fff;border:1.5px solid var(--bo);border-radius:13px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:all .25s;}
+.tip:hover{border-color:var(--p3);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.tip-i{font-size:24px;flex-shrink:0;width:40px;height:40px;background:var(--bgl);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.tip-t{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.tip-b{font-size:13px;color:var(--gr);line-height:1.6;}
+
+/* Quiz */
+.quiz-intro{background:linear-gradient(135deg,#fff,#edfaf3);border-radius:14px;padding:22px 26px;margin-bottom:28px;border-left:4px solid var(--acc);}
+.quiz-intro p{font-size:15px;color:#3a4a6b;line-height:1.7;}
+.quiz-q{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:24px 26px;margin-bottom:14px;animation:fadeUp .35s ease;}
+.quiz-qhead{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.quiz-qn{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--gr);background:var(--bgl);padding:5px 10px;border-radius:100px;}
+.quiz-qpts{font-size:11px;font-weight:800;color:var(--p2);margin-left:auto;}
+.quiz-qt{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:18px;line-height:1.45;}
+.quiz-os{display:flex;flex-direction:column;gap:8px;}
+.quiz-o{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:11px;border:1.5px solid var(--bo);background:#fff;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--ink);text-align:left;transition:all .2s;width:100%;position:relative;}
+.quiz-o:hover{border-color:var(--p3);background:var(--bgl);transform:translateX(3px);}
+.quiz-o-letter{width:30px;height:30px;border-radius:8px;background:var(--bgl);color:var(--p2);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.quiz-o.ok{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.ok .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.ok::after{content:'✓';position:absolute;right:18px;color:#27ae60;font-size:18px;font-weight:800;}
+.quiz-o.ko{border-color:#e74c3c;background:#fff2f0;cursor:default;}
+.quiz-o.ko .quiz-o-letter{background:#ffd5d0;color:#c0392b;}
+.quiz-o.ko::after{content:'✕';position:absolute;right:18px;color:#e74c3c;font-size:18px;font-weight:800;}
+.quiz-o.reveal{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.reveal .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.disabled{opacity:.5;pointer-events:none;}
+.qfb{display:none;margin-top:14px;padding:14px 18px;border-radius:11px;font-size:14px;line-height:1.65;}
+.qfb.show{display:block;animation:fadeUp .3s ease;}
+.qfb.pos{background:#edfaf3;color:#1a6b38;border:1px solid rgba(46,204,95,.2);}
+.qfb.neg{background:#fff7f5;color:#7a3a30;border:1px solid rgba(231,76,60,.2);}
+
+.score-box{display:none;background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:18px;padding:36px 28px;text-align:center;color:#fff;margin-top:24px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+.score-box.show{display:block;animation:scaleIn .5s ease;}
+.score-box::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(160,235,157,.2),transparent 60%);pointer-events:none;}
+.score-emoji{font-size:54px;margin-bottom:8px;display:inline-block;animation:float 2.5s ease-in-out infinite;position:relative;z-index:1;}
+.score-n{font-size:60px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;position:relative;z-index:1;}
+.score-pct{font-size:16px;color:var(--w70);font-weight:600;margin:6px 0 18px;position:relative;z-index:1;}
+.score-msg{font-size:16px;color:#fff;line-height:1.65;max-width:480px;margin:0 auto;position:relative;z-index:1;}
+
+.snav{display:flex;justify-content:space-between;padding:32px 0;margin-top:14px;border-top:1px solid var(--bo);flex-wrap:wrap;gap:12px;}
+.btn-dk{background:var(--p1);color:#fff;border:none;border-radius:100px;padding:14px 30px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;}
+.btn-dk:hover{background:var(--p2);transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.btn-gh{background:transparent;color:var(--gr);border:1.5px solid var(--bo);border-radius:100px;padding:13px 24px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;}
+.btn-gh:hover{border-color:var(--ink);color:var(--ink);background:var(--bgl);}
+
+/* Progress bar — clickable like feedback module */
+.pbar{display:flex;gap:6px;align-items:center;margin:18px 0 24px;}
+.pdot{height:6px;flex:1;border-radius:100px;background:var(--bo);transition:all .25s;cursor:pointer;border:none;padding:0;font:inherit;}
+.pdot:hover{transform:scaleY(1.4);background:var(--p3);}
+.pdot.active{background:linear-gradient(90deg,var(--p2),var(--acc));cursor:default;}
+.pdot.active:hover{transform:scaleY(1);}
+.pdot.done{background:var(--acc);}
+.pdot.done:hover{transform:scaleY(1.4);background:var(--p2);}
+
+.sources-box{background:var(--bgl);border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:12px;color:var(--gr);line-height:1.7;}
+.sources-box strong{color:var(--ink);font-weight:800;display:block;margin-bottom:6px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
+
+.confetti{position:fixed;width:10px;height:10px;pointer-events:none;z-index:9999;}
+
+@media(max-width:600px){.mhd{flex-direction:column;align-items:flex-start;}.mnum{display:none;}.stats-row{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div id="login-overlay">
+  <div class="lb">
+    <div class="lb-logo">👁️</div>
+    <div class="lb-title" id="lb-title">Module 4 · Fatigue visuelle numérique</div>
+    <div class="lb-sub" id="lb-sub">Entrez votre email professionnel pour démarrer ce module de 5 minutes.</div>
+    <div class="lb-field">
+      <label class="lb-label" id="lb-label" for="login-email">Adresse email</label>
+      <input class="lb-input" type="email" id="login-email" placeholder="prenom.nom@entreprise.fr" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="lb-btn" id="lb-btn" onclick="doLogin()">Démarrer le module →</button>
+    <div class="lb-err" id="login-err">Veuillez saisir une adresse email valide.</div>
+    <div class="lb-privacy" id="lb-privacy">Votre email sert uniquement à enregistrer votre participation. Aucune donnée n'est transmise à des tiers.</div>
+  </div>
+</div>
+
+<div id="app" style="display:none;">
+
+<nav>
+  <span class="nlg"><span class="icn">👁️</span><span id="nav-title">Module 4 · Yeux</span></span>
+  <div class="nr">
+    <button class="toggle-btn" id="lang-btn" onclick="toggleLang()">EN</button>
+    <span class="user-pill" id="user-pill"></span>
+  </div>
+</nav>
+
+<!-- STEP 0 — HERO (full bleed, like feedback module) -->
+<div class="screen active" id="screen-0">
+  <div class="hero-card">
+    <div class="wrap hero-inner">
+      <div class="hero-mod-badge" data-fr="Module 4 · ~5 min · Prévention" data-en="Module 4 · ~5 min · Prevention">Module 4 · ~5 min · Prévention</div>
+      <h1 class="hero-title" data-fr="Prévenir la<br><span class='acc'>fatigue visuelle</span>" data-en="Preventing<br><span class='acc'>digital eye strain</span>">Prévenir la<br><span class="acc">fatigue visuelle</span></h1>
+      <p class="hero-sub" data-fr="Prévenir la fatigue visuelle numérique avec la règle 20-20-20, 5 exercices guidés interactifs et un timer actif intégré." data-en="Preventing digital eye strain with the 20-20-20 rule, 5 interactive guided exercises and an integrated active timer.">Prévenir la fatigue visuelle numérique avec la règle 20-20-20, 5 exercices guidés interactifs et un timer actif intégré.</p>
+      <div class="hero-cta-row">
+        <button class="btn-acc" onclick="goStep(1)" data-fr="Commencer →" data-en="Start →">Commencer →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 1 — CONTENT -->
+<div class="screen" id="screen-1">
+  <div class="wrap scr-content">
+    <div class="pbar">
+      <button class="pdot done" onclick="goStep(0)"></button>
+      <button class="pdot active"></button>
+      <button class="pdot" onclick="goStep(2)"></button>
+      <button class="pdot" onclick="goStep(3)"></button>
+    </div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-fr="Contenu · Règle 20-20-20" data-en="Content · 20-20-20 rule">Contenu · Règle 20-20-20</span></div>
+        <h1 class="mttl" data-fr="Protégez <span class='g'>vos yeux</span>" data-en="Protect <span class='g'>your eyes</span>">Protégez <span class="g">vos yeux</span></h1>
+        <p class="mdsc" data-fr="La fatigue visuelle numérique (Digital Eye Strain) touche entre 60 et 70 % des travailleurs sur écran. Bonne nouvelle : quelques minutes régulières suffisent à en limiter les effets." data-en="Digital Eye Strain affects between 60 and 70% of screen workers. Good news: a few regular minutes are enough to limit its effects.">La fatigue visuelle numérique (Digital Eye Strain) touche entre 60 et 70 % des travailleurs sur écran. Bonne nouvelle : quelques minutes régulières suffisent à en limiter les effets.</p>
+      </div>
+      <div class="mnum">04</div>
+    </div>
+
+    <div class="intro-box">
+      <p data-fr="<strong>La fatigue visuelle numérique (Digital Eye Strain) est devenue un enjeu de santé publique</strong> : une méta-analyse publiée dans Nature Scientific Reports (2023) rapporte que environ 66 % des personnes exposées aux écrans présentent des symptômes de fatigue visuelle, tels que : yeux secs, maux de tête, vision floue, douleurs cervicales. La règle 20-20-20 est recommandée par les organisations en santé visuelle pour réduire la fatigue oculaire et les symptômes associés." data-en="<strong>Digital Eye Strain (DES) has become a public health issue</strong>: a meta-analysis published in Nature Scientific Reports (2023) reports that approximately 66% of people exposed to screens show symptoms of visual fatigue, such as: dry eyes, headaches, blurred vision, and neck pain. The 20-20-20 rule is recommended by visual health organisations to reduce eye fatigue and associated symptoms."><strong>La fatigue visuelle numérique (Digital Eye Strain) est devenue un enjeu de santé publique</strong> : une méta-analyse publiée dans Nature Scientific Reports (2023) rapporte que environ 66 % des personnes exposées aux écrans présentent des symptômes de fatigue visuelle, tels que : yeux secs, maux de tête, vision floue, douleurs cervicales. La règle 20-20-20 est recommandée par les organisations en santé visuelle pour réduire la fatigue oculaire et les symptômes associés.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="n">66%</div><div class="l" data-fr="Prévalence DES" data-en="DES Prevalence">Prévalence DES</div><div class="src">Nature Sci Reports 2023</div></div>
+      <div class="stat-card"><div class="n">3×</div><div class="l" data-fr="Moins de clignements" data-en="Fewer blinks">Moins de clignements</div><div class="src">Ophthalmology Review</div></div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;color:var(--ink);" data-fr="🩺 Vos symptômes — diagnostic rapide" data-en="🩺 Your symptoms — quick check">🩺 Vos symptômes — diagnostic rapide</h3>
+    <p style="font-size:13px;color:var(--gr);margin-bottom:14px;" data-fr="Cliquez sur ce que vous ressentez régulièrement (≥ 1 fois / semaine)." data-en="Click what you experience regularly (≥ 1 time / week).">Cliquez sur ce que vous ressentez régulièrement (≥ 1 fois / semaine).</p>
+    <div class="symp-grid">
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">😣</span><span data-fr="Yeux secs / picotements" data-en="Dry eyes / stinging">Yeux secs / picotements</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">🤕</span><span data-fr="Maux de tête" data-en="Headaches">Maux de tête</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">🔍</span><span data-fr="Vision floue intermittente" data-en="Intermittent blurred vision">Vision floue intermittente</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">💧</span><span data-fr="Larmoiement" data-en="Watery eyes">Larmoiement</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">💡</span><span data-fr="Sensibilité à la lumière" data-en="Light sensitivity">Sensibilité à la lumière</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">😴</span><span data-fr="Fatigue oculaire en soirée" data-en="Eye fatigue in the evening">Fatigue oculaire en soirée</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">🦴</span><span data-fr="Douleurs cervicales / épaules" data-en="Neck / shoulder pain">Douleurs cervicales / épaules</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">👀</span><span data-fr="Difficulté de focalisation" data-en="Focusing difficulties">Difficulté de focalisation</span></div>
+      <div class="symp-pill" onclick="toggleSymp(this)"><span class="em">🔥</span><span data-fr="Sensation de brûlure" data-en="Burning sensation">Sensation de brûlure</span></div>
+    </div>
+    <div class="symp-result" id="symp-result"><strong data-fr="Cliquez sur les symptômes" data-en="Click on symptoms">Cliquez sur les symptômes</strong> <span data-fr="qui vous concernent pour obtenir une évaluation et des recommandations." data-en="that apply to you for an assessment and recommendations.">qui vous concernent pour obtenir une évaluation et des recommandations.</span></div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="📐 La règle 20-20-20" data-en="📐 The 20-20-20 rule">📐 La règle 20-20-20</h3>
+    <div class="rule-strip">
+      <div class="rule-card"><div class="rule-n">20</div><div class="rule-unit" data-fr="minutes" data-en="minutes">minutes</div><div class="rule-d" data-fr="Toutes les 20 minutes passées sur écran…" data-en="Every 20 minutes spent on screen…">Toutes les 20 minutes passées sur écran…</div></div>
+      <div class="rule-card"><div class="rule-n">20</div><div class="rule-unit" data-fr="secondes" data-en="seconds">secondes</div><div class="rule-d" data-fr="…regardez pendant 20 secondes…" data-en="…look for 20 seconds…">…regardez pendant 20 secondes…</div></div>
+      <div class="rule-card"><div class="rule-n">20</div><div class="rule-unit" data-fr="pieds / 6 m" data-en="feet / 6 m">pieds / 6 m</div><div class="rule-d" data-fr="…un objet situé à au moins 6 m." data-en="…at an object at least 6 m away.">…un objet situé à au moins 6 m.</div></div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="⏱️ Activez votre minuteur 20-20-20" data-en="⏱️ Activate your 20-20-20 timer">⏱️ Activez votre minuteur 20-20-20</h3>
+    <div class="t20-card">
+      <div class="t20-title" data-fr="Minuteur 20-20-20 actif" data-en="Active 20-20-20 timer">Minuteur 20-20-20 actif</div>
+      <div class="t20-sub" data-fr="Lance un cycle continu : alarme + animation toutes les 20 min, pause de 20 s guidée." data-en="Starts a continuous cycle: alarm + animation every 20 min, guided 20 s break.">Lance un cycle continu : alarme + animation toutes les 20 min, pause de 20 s guidée.</div>
+      <div class="t20-circle" id="t20-circle">
+        <div class="t20-time" id="t20-time">20:00</div>
+        <div class="t20-label" id="t20-label" data-fr="Focus écran" data-en="Screen focus">Focus écran</div>
+      </div>
+      <div class="t20-cycles" id="t20-cycles" data-fr-prefix="Cycles complétés : " data-en-prefix="Completed cycles: ">Cycles complétés : 0</div>
+      <div class="t20-actions">
+        <button class="t20-btn" id="t20-start" onclick="t20Start()" data-fr="▶ Démarrer le minuteur" data-en="▶ Start timer">▶ Démarrer le minuteur</button>
+        <button class="t20-btn alt" onclick="t20Reset()" data-fr="↺ Reset" data-en="↺ Reset">↺ Reset</button>
+        <button class="t20-btn alt" onclick="t20Test()" data-fr="🔔 Tester l'alarme" data-en="🔔 Test alarm">🔔 Tester l'alarme</button>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="🧘 5 exercices guidés (cliquez pour démarrer)" data-en="🧘 5 guided exercises (click to start)">🧘 5 exercices guidés (cliquez pour démarrer)</h3>
+    <div class="ex-grid" id="ex-grid">
+
+      <div class="ex-card" id="ex-1">
+        <div class="ex-head" onclick="toggleEx(1)">
+          <div class="ex-num">1</div>
+          <div class="ex-name">
+            <div class="ex-t" data-fr="Clignement conscient" data-en="Conscious blinking">Clignement conscient</div>
+            <div class="ex-meta" data-fr="30 secondes · ré-hydratation oculaire" data-en="30 seconds · eye rehydration">30 secondes · ré-hydratation oculaire</div>
+          </div>
+          <button class="ex-go" id="ex-btn-1" data-fr="Démarrer ▶" data-en="Start ▶">Démarrer ▶</button>
+        </div>
+        <div class="ex-body">
+          <div class="ex-instr" data-fr="Clignez lentement et délibérément 10 fois. Pause de 3 secondes à chaque fermeture. Le clignement réflexe est divisé par 3 devant un écran — il faut le forcer pour ré-hydrater la surface oculaire." data-en="Blink slowly and deliberately 10 times. Pause 3 seconds at each closure. Reflex blinking is divided by 3 in front of screens — you need to force it to rehydrate the ocular surface.">Clignez lentement et délibérément 10 fois. Pause de 3 secondes à chaque fermeture. Le clignement réflexe est divisé par 3 devant un écran — il faut le forcer pour ré-hydrater la surface oculaire.</div>
+          <div class="ex-stage"><div class="stage-blink" id="stage-blink-1">👁️</div></div>
+          <div class="ex-controls">
+            <div class="ex-time" id="time-1">30</div>
+            <button class="ex-btn" onclick="exStart(1)" id="run-1" data-fr="▶ Démarrer" data-en="▶ Start">▶ Démarrer</button>
+            <button class="ex-btn alt" onclick="exStop(1)" data-fr="■ Arrêter" data-en="■ Stop">■ Arrêter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-card" id="ex-2">
+        <div class="ex-head" onclick="toggleEx(2)">
+          <div class="ex-num">2</div>
+          <div class="ex-name">
+            <div class="ex-t" data-fr="Palming — chaleur et obscurité" data-en="Palming — warmth and darkness">Palming — chaleur et obscurité</div>
+            <div class="ex-meta" data-fr="60 secondes · détente profonde" data-en="60 seconds · deep relaxation">60 secondes · détente profonde</div>
+          </div>
+          <button class="ex-go" id="ex-btn-2" data-fr="Démarrer ▶" data-en="Start ▶">Démarrer ▶</button>
+        </div>
+        <div class="ex-body">
+          <div class="ex-instr" data-fr="Frottez vigoureusement vos paumes 5 secondes. Fermez les yeux, posez les paumes en coupe sans appuyer sur les globes. Respirez lentement et ressentez la chaleur. Détend les muscles péri-oculaires." data-en="Rub your palms vigorously for 5 seconds. Close your eyes, cup your palms over them without pressing on the eyeballs. Breathe slowly and feel the warmth. Relaxes the peri-ocular muscles.">Frottez vigoureusement vos paumes 5 secondes. Fermez les yeux, posez les paumes en coupe sans appuyer sur les globes. Respirez lentement et ressentez la chaleur. Détend les muscles péri-oculaires.</div>
+          <div class="ex-stage"><div class="stage-palm" id="stage-palm-2">🤲</div></div>
+          <div class="ex-controls">
+            <div class="ex-time" id="time-2">60</div>
+            <button class="ex-btn" onclick="exStart(2)" id="run-2" data-fr="▶ Démarrer" data-en="▶ Start">▶ Démarrer</button>
+            <button class="ex-btn alt" onclick="exStop(2)" data-fr="■ Arrêter" data-en="■ Stop">■ Arrêter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-card" id="ex-3">
+        <div class="ex-head" onclick="toggleEx(3)">
+          <div class="ex-num">3</div>
+          <div class="ex-name">
+            <div class="ex-t" data-fr="Rotations oculaires guidées" data-en="Guided eye rotations">Rotations oculaires guidées</div>
+            <div class="ex-meta" data-fr="45 secondes · muscles extra-oculaires" data-en="45 seconds · extra-ocular muscles">45 secondes · muscles extra-oculaires</div>
+          </div>
+          <button class="ex-go" id="ex-btn-3" data-fr="Démarrer ▶" data-en="Start ▶">Démarrer ▶</button>
+        </div>
+        <div class="ex-body">
+          <div class="ex-instr" data-fr="Suivez le point bleu avec vos yeux pendant qu'il fait des rotations à l'intérieur du cadre. Tête immobile, yeux seulement. Étire les 6 muscles extra-oculaires qui font bouger le globe." data-en="Follow the blue dot with your eyes as it rotates inside the frame. Head still, eyes only. Stretches the 6 extra-ocular muscles that move the eyeball.">Suivez le point bleu avec vos yeux pendant qu'il fait des rotations à l'intérieur du cadre. Tête immobile, yeux seulement. Étire les 6 muscles extra-oculaires qui font bouger le globe.</div>
+          <div class="ex-stage" id="stage-orbit-3">
+            <!-- SVG orbit: dot constrained within the white area -->
+            <svg id="orbit-svg" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+              <circle id="orbit-dot" cx="170" cy="100" r="14" fill="#1e3bbf"/>
+            </svg>
+          </div>
+          <div class="ex-controls">
+            <div class="ex-time" id="time-3">45</div>
+            <button class="ex-btn" onclick="exStart(3)" id="run-3" data-fr="▶ Démarrer" data-en="▶ Start">▶ Démarrer</button>
+            <button class="ex-btn alt" onclick="exStop(3)" data-fr="■ Arrêter" data-en="■ Stop">■ Arrêter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-card" id="ex-4">
+        <div class="ex-head" onclick="toggleEx(4)">
+          <div class="ex-num">4</div>
+          <div class="ex-name">
+            <div class="ex-t" data-fr="Mise au point proche / lointain" data-en="Near / far focus">Mise au point proche / lointain</div>
+            <div class="ex-meta" data-fr="60 secondes · muscles ciliaires (cristallin)" data-en="60 seconds · ciliary muscles (lens)">60 secondes · muscles ciliaires (cristallin)</div>
+          </div>
+          <button class="ex-go" id="ex-btn-4" data-fr="Démarrer ▶" data-en="Start ▶">Démarrer ▶</button>
+        </div>
+        <div class="ex-body">
+          <div class="ex-instr" data-fr="Tenez votre pouce à 25 cm. Fixez-le 5 secondes. Regardez ensuite un objet à 6 m pendant 5 secondes. Alternez. Travaille les muscles ciliaires qui contrôlent l'accommodation du cristallin." data-en="Hold your thumb at 25 cm. Focus on it for 5 seconds. Then look at an object 6 m away for 5 seconds. Alternate. Works the ciliary muscles that control lens accommodation.">Tenez votre pouce à 25 cm. Fixez-le 5 secondes. Regardez ensuite un objet à 6 m pendant 5 secondes. Alternez. Travaille les muscles ciliaires qui contrôlent l'accommodation du cristallin.</div>
+          <div class="ex-stage"><div class="stage-near"><span class="near" id="near-thumb">👍</span><span class="far" data-fr="… 6 m → 🌳" data-en="… 6 m → 🌳">… 6 m → 🌳</span></div></div>
+          <div class="ex-controls">
+            <div class="ex-time" id="time-4">60</div>
+            <button class="ex-btn" onclick="exStart(4)" id="run-4" data-fr="▶ Démarrer" data-en="▶ Start">▶ Démarrer</button>
+            <button class="ex-btn alt" onclick="exStop(4)" data-fr="■ Arrêter" data-en="■ Stop">■ Arrêter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-card" id="ex-5">
+        <div class="ex-head" onclick="toggleEx(5)">
+          <div class="ex-num">5</div>
+          <div class="ex-name">
+            <div class="ex-t" data-fr="Le 8 de l'infini" data-en="The infinity 8">Le 8 de l'infini</div>
+            <div class="ex-meta" data-fr="30 secondes · coordination & relaxation" data-en="30 seconds · coordination & relaxation">30 secondes · coordination & relaxation</div>
+          </div>
+          <button class="ex-go" id="ex-btn-5" data-fr="Démarrer ▶" data-en="Start ▶">Démarrer ▶</button>
+        </div>
+        <div class="ex-body">
+          <div class="ex-instr" data-fr="Suivez le point bleu avec vos yeux en suivant le tracé du 8 couché pendant 30 secondes. Excellent pour la coordination des deux yeux et la relaxation musculaire." data-en="Follow the blue dot with your eyes along the figure-eight path for 30 seconds. Excellent for both-eye coordination and muscle relaxation.">Suivez le point bleu avec vos yeux en suivant le tracé du 8 couché pendant 30 secondes. Excellent pour la coordination des deux yeux et la relaxation musculaire.</div>
+          <div class="ex-stage" style="height:400px;">
+            <svg id="inf-svg" viewBox="30 10 640 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="display:block;width:100%;height:100%;">
+              <path id="inf-path-visible"
+                d="M 350,210
+                   C 350,10  650,10  650,210
+                   C 650,410 350,410 350,210
+                   C 350,10   50,10   50,210
+                   C  50,410 350,410 350,210 Z"
+                fill="none" stroke="#c8d4f8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle id="inf-dot" cx="350" cy="210" r="16" fill="#1e3bbf" opacity="0.95"/>
+            </svg>
+          </div>
+          <div class="ex-controls">
+            <div class="ex-time" id="time-5">30</div>
+            <button class="ex-btn" onclick="exStart(5)" id="run-5" data-fr="▶ Démarrer" data-en="▶ Start">▶ Démarrer</button>
+            <button class="ex-btn alt" onclick="exStop(5)" data-fr="■ Arrêter" data-en="■ Stop">■ Arrêter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="🖥️ Vérification ergonomie écran" data-en="🖥️ Screen ergonomics check">🖥️ Vérification ergonomie écran</h3>
+    <div class="ergo-card">
+      <div class="ergo-h" data-fr="Cochez ce qui est vrai pour votre poste actuel" data-en="Check what applies to your current workstation">Cochez ce qui est vrai pour votre poste actuel</div>
+      <div class="ergo-sub" data-fr="Une bonne ergonomie réduit jusqu'à 50 % les symptômes de DES." data-en="Good ergonomics reduces DES symptoms by up to 50%.">Une bonne ergonomie réduit jusqu'à 50 % les symptômes de DES.</div>
+      <div class="ergo-list">
+        <div class="ergo-item" onclick="toggleErgo(this)"><div class="ergo-cb"></div><div class="ergo-text" data-fr="<strong>Distance écran :</strong> 50 à 70 cm de mes yeux" data-en="<strong>Screen distance:</strong> 50 to 70 cm from my eyes"><strong>Distance écran :</strong> 50 à 70 cm de mes yeux</div></div>
+        <div class="ergo-item" onclick="toggleErgo(this)"><div class="ergo-cb"></div><div class="ergo-text" data-fr="<strong>Hauteur :</strong> bord supérieur de l'écran au niveau de mes yeux" data-en="<strong>Height:</strong> top of screen at eye level"><strong>Hauteur :</strong> bord supérieur de l'écran au niveau de mes yeux</div></div>
+        <div class="ergo-item" onclick="toggleErgo(this)"><div class="ergo-cb"></div><div class="ergo-text" data-fr="<strong>Luminosité :</strong> équivalente à celle de la pièce" data-en="<strong>Brightness:</strong> equivalent to the room"><strong>Luminosité :</strong> équivalente à celle de la pièce</div></div>
+        <div class="ergo-item" onclick="toggleErgo(this)"><div class="ergo-cb"></div><div class="ergo-text" data-fr="<strong>Reflets :</strong> écran perpendiculaire à la fenêtre, pas en face" data-en="<strong>Glare:</strong> screen perpendicular to window, not facing it"><strong>Reflets :</strong> écran perpendiculaire à la fenêtre, pas en face</div></div>
+        <div class="ergo-item" onclick="toggleErgo(this)"><div class="ergo-cb"></div><div class="ergo-text" data-fr="<strong>Mode sombre</strong> activé en soirée et avec faible lumière ambiante" data-en="<strong>Dark mode</strong> on in the evening and with low ambient light"><strong>Mode sombre</strong> activé en soirée et avec faible lumière ambiante</div></div>
+        <div class="ergo-item" onclick="toggleErgo(this)"><div class="ergo-cb"></div><div class="ergo-text" data-fr="<strong>Pause planifiée</strong> toutes les 20 min (timer activé)" data-en="<strong>Scheduled break</strong> every 20 min (timer activated)"><strong>Pause planifiée</strong> toutes les 20 min (timer activé)</div></div>
+        <div class="ergo-item" onclick="toggleErgo(this)"><div class="ergo-cb"></div><div class="ergo-text" data-fr="<strong>Hydratation visible</strong> sur le bureau (gourde / verre rempli)" data-en="<strong>Visible hydration</strong> on the desk (bottle / filled glass)"><strong>Hydratation visible</strong> sur le bureau (gourde / verre rempli)</div></div>
+      </div>
+      <div class="ergo-summary" id="ergo-summary" data-fr-prefix="📊 Score ergonomie : " data-en-prefix="📊 Ergonomics score: ">📊 Score ergonomie : <strong id="ergo-score">0 / 7</strong> · <span data-fr="Cochez ce qui s'applique à votre poste." data-en="Check what applies to your workstation.">Cochez ce qui s'applique à votre poste.</span></div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip"><div class="tip-i">🚫</div><div>
+        <div class="tip-t" data-fr="Lunettes anti-lumière bleue ?" data-en="Blue-light glasses?">Lunettes anti-lumière bleue ?</div>
+        <div class="tip-b" data-fr="La Méta-analyse Cochrane (2023) : ne met pas en évidence d'effet sur la fatigue oculaire et le sommeil. La règle 20-20-20 et l'ergonomie restent les principaux leviers de prévention." data-en="The Cochrane Meta-analysis (2023): does not demonstrate any effect on eye fatigue and sleep. The 20-20-20 rule and ergonomics remain the main prevention levers.">La Méta-analyse Cochrane (2023) : ne met pas en évidence d'effet sur la fatigue oculaire et le sommeil. La règle 20-20-20 et l'ergonomie restent les principaux leviers de prévention.</div>
+      </div></div>
+      <div class="tip"><div class="tip-i">💧</div><div>
+        <div class="tip-t" data-fr="Pourquoi vous clignez moins ?" data-en="Why do you blink less?">Pourquoi vous clignez moins ?</div>
+        <div class="tip-b" data-fr="La concentration visuelle inhibe le réflexe de clignement (passe de ~15/min à 5-7/min). Résultat : évaporation lacrymale plus rapide. Pensez à cligner volontairement plus régulièrement pour réhydrater la surface de l'œil." data-en="Visual concentration inhibits the blinking reflex (drops from ~15/min to 5-7/min). Result: faster tear evaporation. Remember to blink voluntarily more regularly to rehydrate the surface of the eye.">La concentration visuelle inhibe le réflexe de clignement (passe de ~15/min à 5-7/min). Résultat : évaporation lacrymale plus rapide. Pensez à cligner volontairement plus régulièrement pour réhydrater la surface de l'œil.</div>
+      </div></div>
+      <div class="tip"><div class="tip-i">📏</div><div>
+        <div class="tip-t" data-fr="Distance & règle empirique" data-en="Distance & rule of thumb">Distance & règle empirique</div>
+        <div class="tip-b" data-fr="Bras tendu, votre poing à hauteur d'œil : c'est environ 50-70 cm. Si la pulpe de votre pouce est nette, vous êtes à bonne distance." data-en="Arm extended, fist at eye height: that's approximately 50-70 cm. If the tip of your thumb is sharp, you're at the right distance.">Bras tendu, votre poing à hauteur d'œil : c'est environ 50-70 cm. Si la pulpe de votre pouce est nette, vous êtes à bonne distance.</div>
+      </div></div>
+      <div class="tip"><div class="tip-i">🌳</div><div>
+        <div class="tip-t" data-fr="Le 6 m magique" data-en="The magic 6 m">Le 6 m magique</div>
+        <div class="tip-b" data-fr="Au-delà de 6 mètres, les muscles ciliaires se relâchent complètement (vision passive). C'est pourquoi cette distance précise est dans la règle 20-20-20." data-en="Beyond 6 metres, the ciliary muscles relax completely (passive vision). That's why this precise distance is in the 20-20-20 rule.">Au-delà de 6 mètres, les muscles ciliaires se relâchent complètement (vision passive). C'est pourquoi cette distance précise est dans la règle 20-20-20.</div>
+      </div></div>
+    </div>
+
+    <div class="sources-box">
+      <strong data-fr="Sources scientifiques" data-en="Scientific sources">Sources scientifiques</strong>
+      <span data-fr="Sheppard A.L. & Wolffsohn J.S. (2018). Digital eye strain: prevalence, measurement and amelioration. BMJ Open Ophthalmology · Vilela M.A.P. et al. (2023). Prevalence of visual symptoms in computer vision syndrome: a systematic review and meta-analysis. Nature Scientific Reports · Algorri J.F. et al. (2022). Effect of breaks on digital eye strain in office workers. Optometry and Vision Science · Lawrenson J.G. et al. (2023). The effect of blue-light blocking spectacle lenses on visual performance, macular health and the sleep-wake cycle: a systematic review and meta-analysis. Cochrane Database · American Optometric Association. Computer vision syndrome · INRS (Institut national de recherche et de sécurité). Travail sur écran." data-en="Sheppard A.L. & Wolffsohn J.S. (2018). Digital eye strain: prevalence, measurement and amelioration. BMJ Open Ophthalmology · Vilela M.A.P. et al. (2023). Prevalence of visual symptoms in computer vision syndrome: a systematic review and meta-analysis. Nature Scientific Reports · Algorri J.F. et al. (2022). Effect of breaks on digital eye strain in office workers. Optometry and Vision Science · Lawrenson J.G. et al. (2023). The effect of blue-light blocking spectacle lenses on visual performance, macular health and the sleep-wake cycle: a systematic review and meta-analysis. Cochrane Database · American Optometric Association. Computer vision syndrome · INRS (Institut national de recherche et de sécurité). Travail sur écran.">Sheppard A.L. &amp; Wolffsohn J.S. (2018). Digital eye strain: prevalence, measurement and amelioration. BMJ Open Ophthalmology · Vilela M.A.P. et al. (2023). Prevalence of visual symptoms in computer vision syndrome: a systematic review and meta-analysis. Nature Scientific Reports · Algorri J.F. et al. (2022). Effect of breaks on digital eye strain in office workers. Optometry and Vision Science · Lawrenson J.G. et al. (2023). The effect of blue-light blocking spectacle lenses on visual performance, macular health and the sleep-wake cycle: a systematic review and meta-analysis. Cochrane Database · American Optometric Association. Computer vision syndrome · INRS (Institut national de recherche et de sécurité). Travail sur écran.</span>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(0)" data-fr="← Retour" data-en="← Back">← Retour</button>
+      <button class="btn-dk" onclick="goStep(2)" data-fr="Quiz interactif →" data-en="Interactive quiz →">Quiz interactif →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 — QUIZ -->
+<div class="screen" id="screen-2">
+  <div class="wrap scr-content">
+    <div class="pbar">
+      <button class="pdot done" onclick="goStep(0)"></button>
+      <button class="pdot done" onclick="goStep(1)"></button>
+      <button class="pdot active"></button>
+      <button class="pdot" onclick="goStep(3)"></button>
+    </div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-fr="Quiz · 5 questions" data-en="Quiz · 5 questions">Quiz · 5 questions</span></div>
+        <h1 class="mttl" data-fr="Testez vos <span class='g'>connaissances</span>" data-en="Test your <span class='g'>knowledge</span>">Testez vos <span class="g">connaissances</span></h1>
+        <p class="mdsc" data-fr="Cinq questions pour valider les bonnes pratiques et démêler les mythes." data-en="Five questions to validate best practices and debunk myths.">Cinq questions pour valider les bonnes pratiques et démêler les mythes.</p>
+      </div>
+      <div class="mnum">04</div>
+    </div>
+
+    <div class="quiz-intro"><p data-fr="💡 <strong>Astuce :</strong> certaines questions piègent les idées reçues (ex : lumière bleue). Lisez bien les feedbacks." data-en="💡 <strong>Tip:</strong> some questions challenge common misconceptions (e.g. blue light). Read the feedback carefully.">💡 <strong>Astuce :</strong> certaines questions piègent les idées reçues (ex : lumière bleue). Lisez bien les feedbacks.</p></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="score-box" id="score-box">
+      <div class="score-emoji" id="score-emoji">🎉</div>
+      <div class="score-n" id="score-n">0/5</div>
+      <div class="score-pct" id="score-pct">0% · Score</div>
+      <div class="score-msg" id="score-msg"></div>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(1)" data-fr="← Revoir le contenu" data-en="← Review content">← Revoir le contenu</button>
+      <button class="btn-dk" id="btn-finish" onclick="goStep(3)" style="display:none;" data-fr="Terminer le module ✓" data-en="Finish module ✓">Terminer le module ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 — FIN DE MODULE (like feedback module, no action plan) -->
+<div class="screen" id="screen-3">
+  <div class="wrap scr-content">
+    <div class="pbar">
+      <button class="pdot done" onclick="goStep(0)"></button>
+      <button class="pdot done" onclick="goStep(1)"></button>
+      <button class="pdot done" onclick="goStep(2)"></button>
+      <button class="pdot active"></button>
+    </div>
+    <div style="text-align:center;padding:60px 30px 40px;max-width:560px;margin:0 auto;">
+      <div style="font-size:64px;margin-bottom:18px;" id="finish-emoji">🎉</div>
+      <h2 style="font-size:30px;font-weight:800;color:var(--ink);letter-spacing:-.025em;margin-bottom:14px;" id="finish-title" data-fr="Module terminé" data-en="Module completed">Module terminé</h2>
+      <p style="font-size:16px;color:var(--gr);line-height:1.65;margin-bottom:30px;" id="finish-p" data-fr="Bravo, vous avez complété le module <strong>Fatigue visuelle numérique</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant." data-en="Well done! You have completed the <strong>Digital Eye Strain</strong> module. Your participation has been recorded. Now put it into practice.">Bravo, vous avez complété le module <strong>Fatigue visuelle numérique</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-dk" onclick="restartModule()" data-fr="↺ Recommencer le module" data-en="↺ Restart the module">↺ Recommencer le module</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const WEBHOOK='https://script.google.com/macros/s/AKfycbwv6rna5x-RVHNtXu8mcrT6tylZy6m70czPuO2-o4uXs62BxVYCdqJijSzFssawynhsIw/exec';
+const MODULE_ID='yeux';
+let currentUser=null;const quizDone={};let quizScore=0;const QUIZ_TOTAL=5;
+let currentLang='fr';
+
+// Lang button init — currentLang is already 'fr' by default
+
+// ─── LANG TOGGLE ──────────────────────────────────────────────────────────────
+function toggleLang(){
+  currentLang = currentLang==='fr' ? 'en' : 'fr';
+  const isEn = currentLang==='en';
+  document.getElementById('lang-btn').textContent = isEn ? 'FR' : 'EN';
+
+  // 1. Re-render quiz FIRST — before any other DOM manipulation
+  //    This ensures quiz questions/answers/feedbacks are in the correct language
+  //    and the quiz-container children are fresh (no data-fr, so safe from step 2)
+  renderQuiz();
+
+  // 2. Translate all static elements with data-fr / data-en
+  //    quiz-container has no data-fr children so renderQuiz output is untouched
+  document.querySelectorAll('[data-fr]').forEach(el=>{
+    // Skip elements inside quiz-container (generated dynamically, no data-fr anyway)
+    if(el.closest('#quiz-container')) return;
+    const val = isEn ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+    if(val !== null) el.innerHTML = val;
+  });
+
+  // 3. Login overlay (uses ids, not data-fr)
+  document.getElementById('lb-title').textContent = isEn ? 'Module 4 · Digital Eye Strain' : 'Module 4 · Fatigue visuelle numérique';
+  document.getElementById('lb-sub').textContent = isEn ? 'Enter your professional email to start this 5-minute module.' : 'Entrez votre email professionnel pour démarrer ce module de 5 minutes.';
+  document.getElementById('lb-label').textContent = isEn ? 'Email address' : 'Adresse email';
+  document.getElementById('login-email').placeholder = isEn ? 'firstname.lastname@company.com' : 'prenom.nom@entreprise.fr';
+  document.getElementById('lb-btn').textContent = isEn ? 'Start the module →' : 'Démarrer le module →';
+  document.getElementById('login-err').textContent = isEn ? 'Please enter a valid email address.' : 'Veuillez saisir une adresse email valide.';
+  document.getElementById('lb-privacy').textContent = isEn ? 'Your email is used only to record your participation. No data is shared with third parties.' : "Votre email sert uniquement à enregistrer votre participation. Aucune donnée n'est transmise à des tiers.";
+  document.getElementById('nav-title').textContent = isEn ? 'Module 4 · Eyes' : 'Module 4 · Yeux';
+
+  // 4. Timer dynamic labels (data-fr sets static default but timer state is dynamic)
+  const cyclesEl = document.getElementById('t20-cycles');
+  const cycleCount = cyclesEl.textContent.replace(/[^0-9]/g,'');
+  cyclesEl.textContent = (isEn ? 'Completed cycles: ' : 'Cycles complétés : ') + cycleCount;
+  const t20LabelEl = document.getElementById('t20-label');
+  if(t20LabelEl) t20LabelEl.textContent = t20Phase==='focus' ? (isEn ? 'Screen focus' : 'Focus écran') : (isEn ? '20 s break — look 6 m away' : 'Pause 20 s — regardez à 6 m');
+  if(!t20Run) document.getElementById('t20-start').textContent = isEn ? '▶ Start timer' : '▶ Démarrer le minuteur';
+
+  // 5. Ergo summary (dynamic)
+  updateErgoSummary();
+
+  // 6. Finish screen (has data-fr but also managed here for safety)
+  document.getElementById('finish-title').textContent = isEn ? 'Module completed' : 'Module terminé';
+  document.getElementById('finish-p').innerHTML = isEn
+    ? 'Well done! You have completed the <strong>Digital Eye Strain</strong> module. Your participation has been recorded. Now put it into practice.'
+    : 'Bravo, vous avez complété le module <strong>Fatigue visuelle numérique</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.';
+
+  // 7. Page title
+  document.title = isEn ? 'Module 4 · Digital Eye Strain · Brakson' : 'Module 4 · Fatigue visuelle numérique · Brakson';
+
+  // 8. Quiz nav buttons (have data-fr, already translated in step 2, but explicit for clarity)
+  const reviewBtn = document.querySelector('#screen-2 .btn-gh');
+  const finishModuleBtn = document.getElementById('btn-finish');
+  if(reviewBtn) reviewBtn.textContent = isEn ? '← Review content' : '← Revoir le contenu';
+  if(finishModuleBtn) finishModuleBtn.textContent = isEn ? 'Finish module ✓' : 'Terminer le module ✓';
+
+  // 9. Re-translate score message only if score box is actually visible
+  const sb = document.getElementById('score-box');
+  if(sb && sb.classList.contains('show')){
+    const parts = document.getElementById('score-n').textContent.split('/');
+    const scoreN = parseInt(parts[0]) || 0;
+    const tot = (QUIZ[currentLang]||QUIZ.fr).length;
+    const p = Math.round(scoreN / tot * 100);
+    let msg,emoji;
+    if(p>=80){msg=isEn?'Excellent! You know what works, what is myth and how to protect yourself durably.':'Excellent ! Vous savez ce qui marche, ce qui est mythe et comment vous protéger durablement.';emoji='🏆';}
+    else if(p>=60){msg=isEn?'Good score. The nuances around blue light and ciliary muscles deserve a second round.':'Bon score. Les nuances sur la lumière bleue et les muscles ciliaires méritent un second tour.';emoji='🌟';}
+    else{msg=isEn?'A few points to deepen — focus especially on the 20-20-20 rule and near/far focus.':'Quelques points à approfondir — reprenez surtout la règle 20-20-20 et la mise au point proche/lointain.';emoji='💪';}
+    document.getElementById('score-msg').textContent=msg;
+    document.getElementById('score-emoji').textContent=emoji;
+    document.getElementById('score-pct').textContent=p+'% · Score';
+  }
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function sendData(p){fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).catch(()=>{});}
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
+function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const err=document.getElementById('login-err');
+  if(!isValidEmail(email)){err.classList.add('show');return;}
+  err.classList.remove('show');
+  currentUser=email;
+  document.getElementById('user-pill').textContent=email;
+  document.getElementById('login-overlay').style.display='none';
+  document.getElementById('app').style.display='block';
+  renderQuiz();
+  sendData({email,module:MODULE_ID,event:'login',ts:new Date().toISOString()});
+}
+function goStep(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // Update progress bars on all screens
+  document.querySelectorAll('.pbar').forEach(bar=>{
+    bar.querySelectorAll('.pdot').forEach((d,i)=>{
+      d.classList.remove('active','done');
+      if(i<n) d.classList.add('done');
+      if(i===n) d.classList.add('active');
+    });
+  });
+}
+
+// ─── SYMPTOMS ─────────────────────────────────────────────────────────────────
+function toggleSymp(el){
+  el.classList.toggle('on');
+  const total=document.querySelectorAll('.symp-pill.on').length;
+  const r=document.getElementById('symp-result');
+  const isEn = currentLang==='en';
+  let msg;
+  if(total===0) msg=isEn?'<strong>Click on symptoms</strong> that apply to you for an assessment.':'<strong>Cliquez sur les symptômes</strong> qui vous concernent pour obtenir une évaluation.';
+  else if(total<=2) msg=isEn?`<strong>${total} symptom(s) — Vigilance.</strong> Occasional symptoms, likely linked to long sessions. The 20-20-20 rule and palming should be enough.`:`<strong>${total} symptôme(s) — Vigilance.</strong> Symptômes occasionnels, probablement liés à des séances longues. La règle 20-20-20 et le palming devraient suffire.`;
+  else if(total<=5) msg=isEn?`<strong>${total} symptoms — Moderate visual fatigue.</strong> You match the typical DES profile. Activate the 20-20-20 timer and do the exercises below.`:`<strong>${total} symptômes — Fatigue visuelle modérée.</strong> Vous correspondez au profil DES typique. Activez le timer 20-20-20 et faites les exercices ci-dessous.`;
+  else msg=isEn?`<strong>⚠️ ${total} symptoms — Marked visual fatigue.</strong> Consider an ophthalmological examination to check vergence, accommodation, and rule out an unsuitable correction.`:`<strong>⚠️ ${total} symptômes — Fatigue visuelle marquée.</strong> Pensez à un examen ophtalmologique pour vérifier vergence, accommodation, et écarter une correction inadaptée.`;
+  r.innerHTML=msg;r.className='symp-result'+(total>=6?' warn':'');
+}
+
+// ─── 20-20-20 TIMER ───────────────────────────────────────────────────────────
+let t20Int=null,t20Sec=20*60,t20Phase='focus',t20Cycles=0,t20Run=false;
+function t20Update(){
+  const m=Math.floor(t20Sec/60),s=t20Sec%60;
+  document.getElementById('t20-time').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function t20Start(){
+  if(t20Run){t20Pause();return;}
+  t20Run=true;
+  const isEn=currentLang==='en';
+  document.getElementById('t20-start').textContent='⏸ Pause';
+  document.getElementById('t20-circle').classList.toggle('alert',t20Phase==='break');
+  t20Int=setInterval(()=>{
+    t20Sec--;t20Update();
+    if(t20Sec<=0){
+      if(t20Phase==='focus'){
+        t20Phase='break';t20Sec=20;
+        document.getElementById('t20-label').textContent=isEn?'20 s break — look 6 m away':'Pause 20 s — regardez à 6 m';
+        document.getElementById('t20-circle').classList.add('alert');
+        try{const a=new AudioContext();const o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.15;o.start();setTimeout(()=>o.stop(),200);}catch(e){}
+      } else {
+        t20Phase='focus';t20Sec=20*60;t20Cycles++;
+        const prefix=isEn?'Completed cycles: ':'Cycles complétés : ';
+        document.getElementById('t20-cycles').textContent=prefix+t20Cycles;
+        document.getElementById('t20-label').textContent=isEn?'Screen focus':'Focus écran';
+        document.getElementById('t20-circle').classList.remove('alert');
+        sendData({email:currentUser,module:MODULE_ID,event:'t20_cycle',cycles:t20Cycles,ts:new Date().toISOString()});
+      }
+      t20Update();
+    }
+  },1000);
+}
+function t20Pause(){clearInterval(t20Int);t20Run=false;const isEn=currentLang==='en';document.getElementById('t20-start').textContent=isEn?'▶ Resume':'▶ Reprendre';document.getElementById('t20-circle').classList.remove('alert');}
+function t20Reset(){
+  clearInterval(t20Int);t20Run=false;t20Sec=20*60;t20Phase='focus';t20Cycles=0;
+  const isEn=currentLang==='en';
+  document.getElementById('t20-cycles').textContent=(isEn?'Completed cycles: ':'Cycles complétés : ')+'0';
+  document.getElementById('t20-start').textContent=isEn?'▶ Start timer':'▶ Démarrer le minuteur';
+  document.getElementById('t20-label').textContent=isEn?'Screen focus':'Focus écran';
+  document.getElementById('t20-circle').classList.remove('alert');t20Update();
+}
+function t20Test(){document.getElementById('t20-circle').classList.add('alert');try{const a=new AudioContext();const o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.15;o.start();setTimeout(()=>o.stop(),200);}catch(e){}setTimeout(()=>document.getElementById('t20-circle').classList.remove('alert'),1500);}
+t20Update();
+
+// ─── EXERCISES ────────────────────────────────────────────────────────────────
+const exDur={1:30,2:60,3:45,4:60,5:30};
+const exInt={};
+let orbitRAF=null, infRAF=null, nearRAF=null;
+
+function toggleEx(n){
+  const card=document.getElementById('ex-'+n);
+  document.querySelectorAll('.ex-card.open').forEach(c=>{if(c.id!=='ex-'+n)c.classList.remove('open');});
+  card.classList.toggle('open');
+}
+
+// Orbit animation — constrained ellipse inside the SVG viewBox
+function startOrbitAnim(){
+  const dot = document.getElementById('orbit-dot');
+  if(!dot) return;
+  const cx=170, cy=100, rx=140, ry=72; // stays inside 340×200 frame with dot radius 14
+  let angle=0;
+  function frame(){
+    const x = cx + rx * Math.cos(angle);
+    const y = cy + ry * Math.sin(angle);
+    dot.setAttribute('cx', x);
+    dot.setAttribute('cy', y);
+    angle += 0.012;
+    orbitRAF = requestAnimationFrame(frame);
+  }
+  orbitRAF = requestAnimationFrame(frame);
+}
+function stopOrbitAnim(){
+  if(orbitRAF) cancelAnimationFrame(orbitRAF); orbitRAF=null;
+  const dot = document.getElementById('orbit-dot');
+  if(dot){dot.setAttribute('cx',170);dot.setAttribute('cy',100);}
+}
+
+// Infinity path animation — dot follows the visible SVG path exactly
+function startInfAnim(){
+  const dot = document.getElementById('inf-dot');
+  const path = document.getElementById('inf-path-visible');
+  if(!dot || !path) return;
+  const len = path.getTotalLength();
+  let dist = 0;
+  const speed = len / (12 * 60); // one full loop per ~12s at 60fps — visibly faster
+  function frame(){
+    const pt = path.getPointAtLength(dist % len);
+    dot.setAttribute('cx', pt.x);
+    dot.setAttribute('cy', pt.y);
+    dist += speed;
+    infRAF = requestAnimationFrame(frame);
+  }
+  infRAF = requestAnimationFrame(frame);
+}
+function stopInfAnim(){
+  if(infRAF) cancelAnimationFrame(infRAF); infRAF=null;
+  const dot = document.getElementById('inf-dot');
+  if(dot){dot.setAttribute('cx',350);dot.setAttribute('cy',210);}
+}
+
+// Near/far animation
+function startNearFar(){
+  const el = document.getElementById('near-thumb');
+  if(!el) return;
+  let growing=false, scale=1;
+  function frame(){
+    scale = growing ? scale+0.015 : scale-0.015;
+    if(scale<=0.4){growing=true;}
+    if(scale>=1.0){growing=false;}
+    el.style.transform=`scale(${scale})`;
+    nearRAF = requestAnimationFrame(frame);
+  }
+  nearRAF = requestAnimationFrame(frame);
+}
+function stopNearFar(){
+  if(nearRAF) cancelAnimationFrame(nearRAF); nearRAF=null;
+  const el = document.getElementById('near-thumb');
+  if(el) el.style.transform='scale(1)';
+}
+
+function exStart(n){
+  exStop(n);
+  let t=exDur[n];
+  document.getElementById('time-'+n).textContent=t;
+  const isEn=currentLang==='en';
+  document.getElementById('run-'+n).textContent=isEn?'⏸ Running':'⏸ En cours';
+  if(n===1) document.getElementById('stage-blink-1').classList.add('active');
+  if(n===2) document.getElementById('stage-palm-2').classList.add('warmup');
+  if(n===3) startOrbitAnim();
+  if(n===4) startNearFar();
+  if(n===5) startInfAnim();
+  exInt[n]=setInterval(()=>{
+    t--;document.getElementById('time-'+n).textContent=t;
+    if(t<=0){
+      clearInterval(exInt[n]);
+      document.getElementById('run-'+n).textContent=isEn?'✓ Done':'✓ Terminé';
+      if(n===1) document.getElementById('stage-blink-1').classList.remove('active');
+      if(n===2) document.getElementById('stage-palm-2').classList.remove('warmup');
+      if(n===3) stopOrbitAnim();
+      if(n===4) stopNearFar();
+      if(n===5) stopInfAnim();
+      sendData({email:currentUser,module:MODULE_ID,event:'exercise_done',exercise:n,ts:new Date().toISOString()});
+      setTimeout(()=>{document.getElementById('run-'+n).textContent=isEn?'▶ Restart':'▶ Recommencer';},1500);
+    }
+  },1000);
+}
+function exStop(n){
+  if(exInt[n]){clearInterval(exInt[n]);}
+  const isEn=currentLang==='en';
+  document.getElementById('time-'+n).textContent=exDur[n];
+  document.getElementById('run-'+n).textContent=isEn?'▶ Start':'▶ Démarrer';
+  if(n===1) document.getElementById('stage-blink-1').classList.remove('active');
+  if(n===2) document.getElementById('stage-palm-2').classList.remove('warmup');
+  if(n===3) stopOrbitAnim();
+  if(n===4) stopNearFar();
+  if(n===5) stopInfAnim();
+}
+
+// ─── ERGO ─────────────────────────────────────────────────────────────────────
+function toggleErgo(el){
+  el.classList.toggle('checked');
+  updateErgoSummary();
+}
+function updateErgoSummary(){
+  const tot=document.querySelectorAll('.ergo-item').length;
+  const ck=document.querySelectorAll('.ergo-item.checked').length;
+  document.getElementById('ergo-score').textContent=ck+' / '+tot;
+  const sum=document.getElementById('ergo-summary');
+  const isEn=currentLang==='en';
+  const prefix=isEn?'📊 Ergonomics score: ':'📊 Score ergonomie : ';
+  let msg;
+  if(ck<3) msg=isEn?`${prefix}<strong>${ck} / ${tot}</strong> · ⚠️ Several simple adjustments could significantly reduce fatigue.`:`${prefix}<strong>${ck} / ${tot}</strong> · ⚠️ Plusieurs ajustements simples permettraient de réduire significativement la fatigue.`;
+  else if(ck<6) msg=isEn?`${prefix}<strong>${ck} / ${tot}</strong> · 👍 Good base. A few optimisations to reach the next level.`:`${prefix}<strong>${ck} / ${tot}</strong> · 👍 Bonne base. Quelques optimisations à mettre en place pour passer au niveau supérieur.`;
+  else msg=isEn?`${prefix}<strong>${ck} / ${tot}</strong> · 🌟 Excellent! Your workstation is correctly set up. Keep up the 20-20-20 routine.`:`${prefix}<strong>${ck} / ${tot}</strong> · 🌟 Excellent ! Votre poste est correctement configuré. Maintenez la routine de pauses 20-20-20.`;
+  sum.innerHTML=msg;
+}
+
+// ─── QUIZ ─────────────────────────────────────────────────────────────────────
+const QUIZ={
+  fr:[
+    {q:'La règle 20-20-20 recommande de regarder à 6 mètres pendant combien de secondes ?',opts:['5 secondes','10 secondes','20 secondes','2 minutes'],correct:2,
+      fb:['5 s est insuffisant pour relâcher complètement les muscles ciliaires.','10 s est mieux mais en-dessous du standard validé.','✓ Exact. 20 s à 6 m (20 pieds) toutes les 20 min : étude Optometry & Vision Science (2022) — réduction significative des symptômes.','2 min serait excellent mais n\'est pas la règle. Le 20-20-20 est conçu pour être facile à appliquer en flux de travail.']},
+    {q:'Pourquoi les utilisateurs d\'écrans clignent-ils moins ?',opts:['La concentration inhibe le réflexe de clignement','Les écrans lubrifient les yeux','Par habitude liée à l\'âge','La lumière bleue stimule moins le clignement'],correct:0,
+      fb:['✓ Exact. La concentration visuelle intense passe le clignement de ~15/min à 5-7/min. L\'évaporation lacrymale est plus rapide → yeux secs.','Faux : les écrans ne lubrifient rien. C\'est l\'inverse — l\'air sec autour des écrans aggrave l\'évaporation.','L\'âge influence la qualité du film lacrymal mais le phénomène de réduction du clignement est universel.','La lumière bleue n\'est pas en cause sur le clignement. Mythe diffusé.']},
+    {q:'Quel exercice étire spécifiquement les muscles ciliaires (responsables de l\'accommodation du cristallin) ?',opts:['Le palming','Les rotations oculaires','La mise au point proche/lointain','Le clignement conscient'],correct:2,
+      fb:['Le palming détend par chaleur et obscurité — pas de travail des muscles ciliaires.','Les rotations travaillent les muscles extra-oculaires (qui font bouger le globe), pas le cristallin.','✓ Exact. Alterner pouce à 25 cm et objet à 6 m fait travailler les muscles ciliaires qui pilotent la mise au point. C\'est l\'équivalent musculaire d\'un étirement.','Le clignement ré-hydrate la surface, sans toucher aux muscles ciliaires.']},
+    {q:'Que dit la méta-analyse Cochrane (2023) sur les lunettes anti-lumière bleue ?',opts:['Effet majeur sur la fatigue oculaire','Effet majeur sur le sommeil','Bénéfice minimal voire nul sur la fatigue et le sommeil','Effet uniquement la nuit'],correct:2,
+      fb:['Faux selon les preuves récentes. Effet largement surévalué par le marketing.','Faux. L\'effet sur le sommeil est anecdotique selon Cochrane.','✓ Exact. Méta-analyse Cochrane 2023 : bénéfice minimal voire nul sur la fatigue oculaire et le sommeil. La règle 20-20-20 et l\'ergonomie restent les principaux leviers de prévention.','Pas de différence significative démontrée selon le moment de la journée.']},
+    {q:'Quelle est la prévalence du Computer Vision Syndrome selon la méta-analyse 2023 ?',opts:['Environ 15 %','Environ 35 %','Environ 66 %','Environ 95 %'],correct:2,
+      fb:['Très sous-évalué — la prévalence est bien plus élevée chez les travailleurs sur écran.','Encore en-dessous des chiffres consolidés.','✓ Correct. Méta-analyse Nature Scientific Reports (2023) : prévalence pondérée à 66 % chez les travailleurs sur écrans, avec variations géographiques importantes.','Surévalué — la prévalence est élevée mais pas universelle.']}
+  ],
+  en:[
+    {q:'The 20-20-20 rule recommends looking at 6 metres for how many seconds?',opts:['5 seconds','10 seconds','20 seconds','2 minutes'],correct:2,
+      fb:['5 s is insufficient to fully relax the ciliary muscles.','10 s is better but below the validated standard.','✓ Correct. 20 s at 6 m (20 feet) every 20 min: Optometry & Vision Science (2022) study — significant reduction in symptoms.','2 min would be excellent but is not the rule. The 20-20-20 is designed to be easy to apply in a work flow.']},
+    {q:'Why do screen users blink less?',opts:['Concentration inhibits the blinking reflex','Screens lubricate the eyes','A habit related to age','Blue light stimulates less blinking'],correct:0,
+      fb:['✓ Correct. Intense visual concentration drops blinking from ~15/min to 5-7/min. Tear evaporation is faster → dry eyes.','False: screens do not lubricate anything. The opposite — dry air around screens worsens evaporation.','Age influences tear film quality but the blinking reduction phenomenon is universal.','Blue light is not implicated in blinking. A widespread myth.']},
+    {q:'Which exercise specifically stretches the ciliary muscles (responsible for lens accommodation)?',opts:['Palming','Eye rotations','Near/far focus','Conscious blinking'],correct:2,
+      fb:['Palming relaxes through warmth and darkness — no work on ciliary muscles.','Rotations work the extra-ocular muscles (that move the eyeball), not the lens.','✓ Correct. Alternating between thumb at 25 cm and object at 6 m works the ciliary muscles that control focus. It is the muscular equivalent of a stretch.','Blinking rehydrates the surface, without touching the ciliary muscles.']},
+    {q:'What does the Cochrane meta-analysis (2023) say about blue-light glasses?',opts:['Major effect on eye fatigue','Major effect on sleep','Minimal to no benefit on fatigue and sleep','Effect only at night'],correct:2,
+      fb:['False according to recent evidence. Effect largely overstated by marketing.','False. The effect on sleep is anecdotal according to Cochrane.','✓ Correct. Cochrane meta-analysis 2023: minimal to no benefit on eye fatigue and sleep. The 20-20-20 rule and ergonomics remain the main prevention levers.','No significant difference demonstrated based on time of day.']},
+    {q:'What is the prevalence of Computer Vision Syndrome according to the 2023 meta-analysis?',opts:['About 15%','About 35%','About 66%','About 95%'],correct:2,
+      fb:['Greatly underestimated — prevalence is much higher among screen workers.','Still below the consolidated figures.','✓ Correct. Nature Scientific Reports meta-analysis (2023): weighted prevalence of 66% among screen workers, with significant geographic variations.','Overestimated — prevalence is high but not universal.']}
+  ]
+};
+
+function renderQuiz(){
+  const questions = QUIZ[currentLang] || QUIZ.fr;
+  const qLabel = currentLang==='en' ? 'Question' : 'Question';
+  const c=document.getElementById('quiz-container');c.innerHTML='';
+  questions.forEach((q,i)=>{
+    const div=document.createElement('div');div.className='quiz-q';div.id='quiz-q-'+i;
+    div.innerHTML=`<div class="quiz-qhead"><span class="quiz-qn">${qLabel} ${i+1} / ${questions.length}</span><span class="quiz-qpts">+1 pt</span></div><div class="quiz-qt">${q.q}</div><div class="quiz-os" id="quiz-os-${i}">${q.opts.map((o,oi)=>`<button class="quiz-o" onclick="answerQ(${i},${oi})"><span class="quiz-o-letter">${String.fromCharCode(65+oi)}</span><span>${o}</span></button>`).join('')}</div><div class="qfb" id="qfb-${i}"></div>`;
+    c.appendChild(div);
+    // Restore visual state if this question was already answered
+    if(quizDone[i] !== undefined){
+      const chosen = quizDone[i];
+      const cont = document.getElementById('quiz-os-'+i);
+      cont.querySelectorAll('.quiz-o').forEach((btn,bi)=>{
+        if(bi===chosen && chosen===q.correct) btn.classList.add('ok');
+        else if(bi===chosen && chosen!==q.correct) btn.classList.add('ko');
+        else if(bi===q.correct && chosen!==q.correct) btn.classList.add('reveal');
+        else btn.classList.add('disabled');
+      });
+      const fb=document.getElementById('qfb-'+i);
+      fb.textContent=q.fb[chosen];
+      fb.className='qfb show '+(chosen===q.correct?'pos':'neg');
+    }
+  });
+}
+function answerQ(qi,oi){
+  if(quizDone[qi] !== undefined) return;
+  quizDone[qi]=oi; // store chosen option index, not just true
+  const questions=QUIZ[currentLang]||QUIZ.fr;
+  const q=questions[qi];
+  if(oi===q.correct) quizScore++;
+  const cont=document.getElementById('quiz-os-'+qi);
+  cont.querySelectorAll('.quiz-o').forEach((btn,i)=>{
+    if(i===oi&&oi===q.correct) btn.classList.add('ok');
+    else if(i===oi&&oi!==q.correct) btn.classList.add('ko');
+    else if(i===q.correct&&oi!==q.correct) btn.classList.add('reveal');
+    else btn.classList.add('disabled');
+  });
+  const fb=document.getElementById('qfb-'+qi);
+  fb.textContent=q.fb[oi];fb.className='qfb show '+(oi===q.correct?'pos':'neg');
+  if(Object.keys(quizDone).length===questions.length) setTimeout(showScore,500);
+}
+function showScore(){
+  const sb=document.getElementById('score-box');
+  const total=(QUIZ[currentLang]||QUIZ.fr).length;
+  const pct=Math.round(quizScore/total*100);
+  document.getElementById('score-n').textContent=quizScore+'/'+total;
+  document.getElementById('score-pct').textContent=pct+'% · Score';
+  const isEn=currentLang==='en';
+  let msg,emoji;
+  if(pct>=80){
+    msg=isEn?'Excellent! You know what works, what is myth and how to protect yourself durably.':'Excellent ! Vous savez ce qui marche, ce qui est mythe et comment vous protéger durablement.';
+    emoji='🏆';confettiBurst();
+  }else if(pct>=60){
+    msg=isEn?'Good score. The nuances around blue light and ciliary muscles deserve a second round.':'Bon score. Les nuances sur la lumière bleue et les muscles ciliaires méritent un second tour.';
+    emoji='🌟';
+  }else{
+    msg=isEn?'A few points to deepen — focus especially on the 20-20-20 rule and near/far focus.':'Quelques points à approfondir — reprenez surtout la règle 20-20-20 et la mise au point proche/lointain.';
+    emoji='💪';
+  }
+  document.getElementById('score-emoji').textContent=emoji;
+  document.getElementById('score-msg').textContent=msg;
+  sb.classList.add('show');
+  document.getElementById('btn-finish').style.display='inline-flex';
+  document.getElementById('finish-emoji').textContent=emoji;
+  // Translate quiz navigation buttons to match current lang
+  const reviewBtn=document.querySelector('#screen-2 .btn-gh');
+  const finishModuleBtn=document.getElementById('btn-finish');
+  if(isEn){
+    if(reviewBtn) reviewBtn.textContent='← Review content';
+    if(finishModuleBtn) finishModuleBtn.textContent='Finish module ✓';
+  } else {
+    if(reviewBtn) reviewBtn.textContent='← Revoir le contenu';
+    if(finishModuleBtn) finishModuleBtn.textContent='Terminer le module ✓';
+  }
+  sendData({email:currentUser,module:MODULE_ID,score:quizScore,total,event:'quiz_done',ts:new Date().toISOString()});
+}
+function confettiBurst(){
+  const colors=['#A0EB9D','#1e3bbf','#2347d4','#FFD700','#FF6B6B'];
+  for(let i=0;i<60;i++){
+    const c=document.createElement('div');c.className='confetti';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.left=(50+Math.random()*40-20)+'%';c.style.top='40%';
+    c.style.borderRadius=Math.random()>.5?'50%':'2px';
+    c.style.transform=`rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    const dx=(Math.random()-.5)*600,dy=Math.random()*500+200,dur=1500+Math.random()*1500;
+    c.animate([{transform:c.style.transform,opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.4,1)'});
+    setTimeout(()=>c.remove(),dur);
+  }
+}
+function restartModule(){
+  Object.keys(quizDone).forEach(k=>delete quizDone[k]);
+  quizScore=0;
+  document.getElementById('score-box').classList.remove('show');
+  document.getElementById('btn-finish').style.display='none';
+  const isEn=currentLang==='en';
+  const reviewBtn=document.querySelector('#screen-2 .btn-gh');
+  const finishModuleBtn=document.getElementById('btn-finish');
+  if(isEn){
+    if(reviewBtn) reviewBtn.textContent='← Review content';
+    if(finishModuleBtn) finishModuleBtn.textContent='Finish module ✓';
+  } else {
+    if(reviewBtn) reviewBtn.textContent='← Revoir le contenu';
+    if(finishModuleBtn) finishModuleBtn.textContent='Terminer le module ✓';
+  }
+  renderQuiz();
+  goStep(0);
+}
+</script>
+</body>
+</html>

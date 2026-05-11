@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 · Réussir ses feedbacks · Brakson</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p1:#1a2fa8;--p2:#1e3bbf;--p3:#2347d4;--p4:#2e58f0;
+  --bg:#f0f4ff;--bgl:#e8eeff;
+  --acc:#A0EB9D;--accd:#8BCC88;
+  --ink:#0d1a3a;--gr:#6b7a99;--bo:#dde4f5;
+  --hub-bg:linear-gradient(160deg,#0d1f7a 0%,#1a2fa8 45%,#1e3bbf 100%);
+  --nav-bg:rgba(26,47,168,.96);
+  --w70:rgba(255,255,255,.70);--w40:rgba(255,255,255,.40);
+  --w15:rgba(255,255,255,.15);--w08:rgba(255,255,255,.08);
+  --shadow-sm:0 2px 8px rgba(13,26,58,.06);
+  --shadow-md:0 8px 24px rgba(13,26,58,.10);
+  --shadow-lg:0 20px 50px rgba(13,26,58,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:16px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes scaleIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideR{from{transform:translateX(-30px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+#login-overlay{position:fixed;inset:0;z-index:9000;background:var(--hub-bg);display:flex;align-items:center;justify-content:center;}
+#login-overlay::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.lb{position:relative;z-index:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(20px);border-radius:20px;padding:44px 40px;width:100%;max-width:440px;margin:20px;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:fadeUp .5s ease;}
+.lb-logo{width:56px;height:56px;background:var(--acc);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 22px;animation:float 3s ease-in-out infinite;}
+.lb-title{font-size:22px;font-weight:700;color:#fff;text-align:center;margin-bottom:6px;}
+.lb-sub{font-size:14px;color:var(--w70);text-align:center;margin-bottom:28px;line-height:1.55;}
+.lb-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--w40);margin-bottom:7px;display:block;}
+.lb-input{width:100%;padding:14px 17px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.20);border-radius:10px;font-family:inherit;font-size:15px;color:#fff;outline:none;transition:all .2s;}
+.lb-input::placeholder{color:var(--w40);}
+.lb-input:focus{border-color:var(--acc);background:rgba(255,255,255,.13);}
+.lb-field{margin-bottom:20px;}
+.lb-btn{width:100%;padding:15px;background:var(--acc);border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .25s;}
+.lb-btn:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 8px 22px rgba(160,235,157,.3);}
+.lb-err{margin-top:14px;padding:11px 16px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.3);border-radius:9px;font-size:13px;color:#ffb3ac;text-align:center;display:none;}
+.lb-err.show{display:block;animation:fadeUp .3s ease;}
+.lb-privacy{font-size:12px;color:var(--w40);text-align:center;margin-top:16px;line-height:1.5;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--w15);}
+.nlg{font-size:15px;font-weight:700;color:#fff;letter-spacing:.01em;}
+.nlg .icn{display:inline-block;margin-right:8px;animation:pulse 2s ease-in-out infinite;}
+.nr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.user-pill{background:rgba(160,235,157,.15);border:1px solid rgba(160,235,157,.28);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--acc);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.toggle-btn{background:rgba(160,235,157,.18);border:1px solid rgba(160,235,157,.4);border-radius:100px;padding:7px 16px;font-family:inherit;font-size:12px;font-weight:800;color:var(--acc);cursor:pointer;transition:all .2s;letter-spacing:.08em;}
+.toggle-btn:hover{background:rgba(160,235,157,.28);transform:translateY(-1px);}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 20px;}nav{padding:0 18px;}}
+
+.screen{display:none;min-height:100vh;padding-top:66px;}
+.screen.active{display:block;animation:fadeUp .4s cubic-bezier(.4,0,.2,1);}
+.hero{padding:70px 0 60px;}
+.hero-card{background:var(--hub-bg);border-radius:24px;padding:60px 50px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);}
+.hero-card::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;}
+.hero-mod-badge{display:inline-block;background:rgba(160,235,157,.18);border:1px solid rgba(160,235,157,.3);color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:8px 16px;border-radius:100px;margin-bottom:24px;position:relative;z-index:1;}
+.hero-icon{width:88px;height:88px;background:var(--acc);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:22px;animation:float 3.5s ease-in-out infinite;position:relative;z-index:1;box-shadow:0 0 0 8px rgba(160,235,157,.18);}
+.hero-title{font-size:clamp(34px,5vw,58px);font-weight:600;line-height:1.05;letter-spacing:-.025em;margin-bottom:18px;position:relative;z-index:1;}
+.hero-title .acc{color:var(--acc);font-weight:700;}
+.hero-sub{font-size:18px;color:var(--w70);line-height:1.65;max-width:560px;margin-bottom:30px;position:relative;z-index:1;}
+.hero-stats{display:flex;gap:32px;margin-bottom:32px;flex-wrap:wrap;position:relative;z-index:1;}
+.hstat-n{font-size:34px;font-weight:800;color:var(--acc);letter-spacing:-.03em;line-height:1;}
+.hstat-l{font-size:13px;color:var(--w70);margin-top:4px;}
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1;}
+.btn-acc{background:var(--acc);color:var(--ink);border:none;border-radius:12px;padding:16px 32px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-acc:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 12px 28px rgba(160,235,157,.35);}
+
+.scr-content{padding:50px 0 40px;}
+.mhd{margin-bottom:36px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--bo);padding-bottom:30px;}
+.mhd-l{flex:1;min-width:280px;}
+.mtag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--p2);margin-bottom:12px;}
+.mtag-d{width:18px;height:2px;background:var(--acc);border-radius:2px;}
+.mttl{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-.025em;line-height:1.1;color:var(--ink);}
+.mttl .g{color:var(--p2);}
+.mdsc{font-size:16px;color:var(--gr);line-height:1.7;margin-top:10px;max-width:600px;}
+.mnum{font-size:clamp(60px,8vw,100px);font-weight:800;color:#dde4f5;letter-spacing:-.05em;line-height:1;flex-shrink:0;user-select:none;}
+
+.intro-box{background:linear-gradient(135deg,#fff,var(--bgl));border-radius:14px;padding:24px 28px;margin-bottom:28px;border-left:4px solid var(--p3);box-shadow:var(--shadow-sm);}
+.intro-box p{font-size:16px;color:#3a4a6b;line-height:1.7;}
+.intro-box strong{color:var(--ink);}
+.source-tag{display:inline-block;font-size:11px;color:var(--p2);background:var(--bgl);padding:3px 10px;border-radius:100px;margin-left:8px;font-weight:700;}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px;}
+@media(max-width:760px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:18px 16px;text-align:center;transition:all .25s;}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--p3);box-shadow:var(--shadow-md);}
+.stat-card .n{font-size:30px;font-weight:800;color:var(--p2);letter-spacing:-.03em;line-height:1;}
+.stat-card .l{font-size:12px;color:var(--gr);margin-top:6px;line-height:1.4;font-weight:600;}
+.stat-card .src{font-size:10px;color:var(--gr);margin-top:4px;opacity:.7;}
+
+/* Method tabs */
+.tabs{display:flex;gap:6px;background:var(--bgl);padding:6px;border-radius:14px;margin-bottom:18px;}
+.tab{flex:1;background:transparent;border:none;padding:12px 18px;font-family:inherit;font-size:14px;font-weight:700;color:var(--gr);cursor:pointer;border-radius:10px;transition:all .2s;}
+.tab.active{background:#fff;color:var(--p1);box-shadow:var(--shadow-sm);}
+.tab-pane{display:none;animation:fadeIn .3s ease;}
+.tab-pane.active{display:block;}
+
+.method-card{background:#fff;border:1.5px solid var(--bo);border-radius:16px;padding:28px;margin-bottom:14px;}
+.method-row{display:grid;grid-template-columns:60px 1fr;gap:16px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--bo);}
+.method-row:last-child{border:none;}
+.method-letter{width:48px;height:48px;background:linear-gradient(135deg,var(--p1),var(--p3));color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;flex-shrink:0;}
+.method-h{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.method-d{font-size:14px;color:var(--gr);line-height:1.55;}
+.method-ex{font-size:13px;color:var(--p2);background:var(--bgl);padding:8px 12px;border-radius:8px;margin-top:8px;font-style:italic;}
+
+/* SBI builder */
+.builder-card{background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:18px;padding:32px;color:#fff;margin-bottom:30px;position:relative;overflow:hidden;}
+.builder-card::after{content:'';position:absolute;top:-30%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(160,235,157,.15),transparent 60%);pointer-events:none;}
+.builder-title{font-size:22px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em;position:relative;z-index:1;}
+.builder-sub{font-size:14px;color:var(--w70);margin-bottom:24px;position:relative;z-index:1;}
+.builder-step{margin-bottom:18px;position:relative;z-index:1;}
+.builder-label{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--w70);margin-bottom:8px;}
+.builder-label-l{display:inline-flex;width:28px;height:28px;background:var(--acc);color:var(--ink);border-radius:8px;align-items:center;justify-content:center;font-size:13px;font-weight:800;}
+.builder-input{width:100%;padding:12px 16px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.20);border-radius:10px;font-family:inherit;font-size:14px;color:#fff;outline:none;transition:all .2s;resize:vertical;min-height:54px;}
+.builder-input::placeholder{color:var(--w40);}
+.builder-input:focus{border-color:var(--acc);background:rgba(255,255,255,.15);}
+.builder-output{margin-top:22px;padding:20px;background:rgba(160,235,157,.12);border:1.5px solid rgba(160,235,157,.4);border-radius:12px;position:relative;z-index:1;animation:fadeIn .3s ease;}
+.builder-out-l{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--acc);margin-bottom:10px;}
+.builder-out-t{font-size:15px;color:#fff;line-height:1.7;}
+.builder-out-t mark{background:rgba(160,235,157,.4);color:#fff;padding:1px 4px;border-radius:4px;}
+.builder-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;position:relative;z-index:1;}
+.bld-btn{background:var(--acc);color:var(--ink);border:none;border-radius:100px;padding:11px 22px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;}
+.bld-btn:hover{background:var(--accd);transform:translateY(-1px);}
+.bld-btn.alt{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);}
+.builder-quality{margin-top:14px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--w70);position:relative;z-index:1;}
+.qbar{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:100px;overflow:hidden;}
+.qfill{height:100%;background:linear-gradient(90deg,#ff8a7a,var(--acc));border-radius:100px;width:0;transition:width .35s;}
+
+/* Eval vs Fact */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:30px;}
+@media(max-width:760px){.compare-grid{grid-template-columns:1fr;}}
+.compare-card{border-radius:14px;padding:22px;border:2px solid;}
+.compare-card.bad{background:#fff2f0;border-color:#ffc0b8;}
+.compare-card.good{background:#edfaf3;border-color:#A0EB9D;}
+.compare-cap{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;margin-bottom:10px;}
+.compare-card.bad .compare-cap{color:#c0392b;}
+.compare-card.good .compare-cap{color:#27ae60;}
+.compare-quote{font-size:15px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.5;margin-bottom:12px;padding-left:10px;border-left:3px solid;}
+.compare-card.bad .compare-quote{border-color:#e74c3c;}
+.compare-card.good .compare-quote{border-color:#27ae60;}
+.compare-why{font-size:13px;color:var(--gr);line-height:1.6;}
+
+/* Scenarios */
+.scenario{background:#fff;border:1.5px solid var(--bo);border-radius:14px;overflow:hidden;margin-bottom:14px;transition:box-shadow .25s;}
+.scenario:hover{box-shadow:var(--shadow-sm);}
+.sc-head{background:linear-gradient(135deg,var(--p1),var(--p3));padding:14px 22px;color:#fff;font-size:14px;font-weight:800;letter-spacing:.04em;}
+.sc-body{padding:22px;}
+.sc-ctx{background:var(--bg);border-radius:11px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:#3a4a6b;margin-bottom:18px;border-left:3px solid var(--p3);}
+.sc-ctx strong{color:var(--ink);}
+.sc-q{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;}
+.choices{display:flex;flex-direction:column;gap:8px;}
+.ch{display:flex;align-items:flex-start;gap:12px;padding:13px 17px;border-radius:11px;border:1.5px solid var(--bo);background:#fff;cursor:pointer;font-family:inherit;font-size:14px;color:var(--ink);text-align:left;transition:all .2s;width:100%;}
+.ch:hover{border-color:var(--p3);background:var(--bgl);transform:translateX(3px);}
+.ch.ok{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.ch.ko{border-color:#e74c3c;background:#fff2f0;cursor:default;}
+.ch.reveal{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.ch.disabled{opacity:.5;pointer-events:none;}
+.cl{width:28px;height:28px;border-radius:8px;background:var(--bgl);color:var(--p2);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ch.ok .cl{background:var(--acc);color:#0d4a1f;}
+.ch.ko .cl{background:#ffd5d0;color:#c0392b;}
+.ch.reveal .cl{background:var(--acc);color:#0d4a1f;}
+.fb{display:none;margin-top:12px;padding:13px 17px;border-radius:10px;font-size:14px;line-height:1.65;}
+.fb.show{display:block;animation:fadeUp .3s ease;}
+.fb.pos{background:#edfaf3;color:#1a6b38;border:1px solid rgba(46,204,95,.2);}
+.fb.neg{background:#fff7f5;color:#7a3a30;border:1px solid rgba(231,76,60,.2);}
+
+/* Tips */
+.tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px;}
+@media(max-width:760px){.tips-grid{grid-template-columns:1fr;}}
+.tip{background:#fff;border:1.5px solid var(--bo);border-radius:13px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:all .25s;}
+.tip:hover{border-color:var(--p3);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.tip-i{font-size:24px;flex-shrink:0;width:40px;height:40px;background:var(--bgl);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.tip-t{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.tip-b{font-size:13px;color:var(--gr);line-height:1.6;}
+
+/* Quiz */
+.quiz-intro{background:linear-gradient(135deg,#fff,#edfaf3);border-radius:14px;padding:22px 26px;margin-bottom:28px;border-left:4px solid var(--acc);}
+.quiz-intro p{font-size:15px;color:#3a4a6b;line-height:1.7;}
+.quiz-q{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:24px 26px;margin-bottom:14px;animation:fadeUp .35s ease;}
+.quiz-qhead{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.quiz-qn{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--gr);background:var(--bgl);padding:5px 10px;border-radius:100px;}
+.quiz-qpts{font-size:11px;font-weight:800;color:var(--p2);margin-left:auto;}
+.quiz-qt{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:18px;line-height:1.45;}
+.quiz-os{display:flex;flex-direction:column;gap:8px;}
+.quiz-o{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:11px;border:1.5px solid var(--bo);background:#fff;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--ink);text-align:left;transition:all .2s;width:100%;position:relative;}
+.quiz-o:hover{border-color:var(--p3);background:var(--bgl);transform:translateX(3px);}
+.quiz-o-letter{width:30px;height:30px;border-radius:8px;background:var(--bgl);color:var(--p2);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.quiz-o.ok{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.ok .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.ok::after{content:'✓';position:absolute;right:18px;color:#27ae60;font-size:18px;font-weight:800;}
+.quiz-o.ko{border-color:#e74c3c;background:#fff2f0;cursor:default;}
+.quiz-o.ko .quiz-o-letter{background:#ffd5d0;color:#c0392b;}
+.quiz-o.ko::after{content:'✕';position:absolute;right:18px;color:#e74c3c;font-size:18px;font-weight:800;}
+.quiz-o.reveal{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.reveal .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.disabled{opacity:.5;pointer-events:none;}
+.qfb{display:none;margin-top:14px;padding:14px 18px;border-radius:11px;font-size:14px;line-height:1.65;}
+.qfb.show{display:block;animation:fadeUp .3s ease;}
+.qfb.pos{background:#edfaf3;color:#1a6b38;border:1px solid rgba(46,204,95,.2);}
+.qfb.neg{background:#fff7f5;color:#7a3a30;border:1px solid rgba(231,76,60,.2);}
+
+.score-box{display:none;background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:18px;padding:36px 28px;text-align:center;color:#fff;margin-top:24px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+.score-box.show{display:block;animation:scaleIn .5s ease;}
+.score-box::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(160,235,157,.2),transparent 60%);pointer-events:none;}
+.score-emoji{font-size:54px;margin-bottom:8px;display:inline-block;animation:float 2.5s ease-in-out infinite;position:relative;z-index:1;}
+.score-n{font-size:60px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;position:relative;z-index:1;}
+.score-pct{font-size:16px;color:var(--w70);font-weight:600;margin:6px 0 18px;position:relative;z-index:1;}
+.score-msg{font-size:16px;color:#fff;line-height:1.65;max-width:480px;margin:0 auto;position:relative;z-index:1;}
+
+.action-plan{background:#fff;border:1.5px solid var(--bo);border-radius:16px;padding:28px;margin-top:22px;}
+.action-plan-h{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.action-plan-i{width:42px;height:42px;background:var(--bgl);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.action-plan-t{font-size:17px;font-weight:800;color:var(--ink);}
+.action-list{display:flex;flex-direction:column;gap:10px;}
+.action-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg);border-radius:11px;cursor:pointer;transition:all .2s;border:1.5px solid transparent;}
+.action-item:hover{border-color:var(--p3);}
+.action-item.checked{background:#edfaf3;border-color:rgba(39,174,96,.3);}
+.action-checkbox{width:24px;height:24px;border:2px solid var(--bo);border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .2s;}
+.action-item.checked .action-checkbox{background:var(--acc);border-color:var(--acc);}
+.action-item.checked .action-checkbox::after{content:'✓';color:#0d4a1f;font-weight:800;font-size:13px;}
+.action-text{font-size:14px;color:var(--ink);font-weight:500;line-height:1.5;}
+.action-item.checked .action-text{text-decoration:line-through;opacity:.6;}
+
+.snav{display:flex;justify-content:space-between;padding:32px 0;margin-top:14px;border-top:1px solid var(--bo);flex-wrap:wrap;gap:12px;}
+.btn-dk{background:var(--p1);color:#fff;border:none;border-radius:100px;padding:14px 30px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;}
+.btn-dk:hover{background:var(--p2);transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.btn-gh{background:transparent;color:var(--gr);border:1.5px solid var(--bo);border-radius:100px;padding:13px 24px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;}
+.btn-gh:hover{border-color:var(--ink);color:var(--ink);background:var(--bgl);}
+
+.pbar{display:flex;gap:6px;align-items:center;margin:18px 0 24px;}
+.pdot{height:6px;flex:1;border-radius:100px;background:var(--bo);transition:all .25s;cursor:pointer;border:none;padding:0;font:inherit;}
+.pdot:hover{transform:scaleY(1.4);background:var(--p3);}
+.pdot.active{background:linear-gradient(90deg,var(--p2),var(--acc));cursor:default;}
+.pdot.active:hover{transform:scaleY(1);}
+.pdot.done{background:var(--acc);}
+.pdot.done:hover{transform:scaleY(1.4);background:var(--p2);}
+
+.sources-box{background:var(--bgl);border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:12px;color:var(--gr);line-height:1.7;}
+.sources-box strong{color:var(--ink);font-weight:800;display:block;margin-bottom:6px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
+
+.confetti{position:fixed;width:10px;height:10px;pointer-events:none;z-index:9999;}
+
+@media(max-width:600px){.hero-card{padding:40px 28px;}.mhd{flex-direction:column;align-items:flex-start;}.mnum{display:none;}.stats-row{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div id="login-overlay">
+  <div class="lb">
+    <div class="lb-logo">💬</div>
+    <div class="lb-title">Module 3 · Réussir ses feedbacks</div>
+    <div class="lb-sub">Entrez votre email professionnel pour démarrer ce module de 7 minutes.</div>
+    <div class="lb-field">
+      <label class="lb-label" for="login-email">Adresse email</label>
+      <input class="lb-input" type="email" id="login-email" placeholder="prenom.nom@entreprise.fr" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="lb-btn" onclick="doLogin()">Démarrer le module →</button>
+    <div class="lb-err" id="login-err">Veuillez saisir une adresse email valide.</div>
+    <div class="lb-privacy">Votre email sert uniquement à enregistrer votre participation. Aucune donnée n'est transmise à des tiers.</div>
+  </div>
+</div>
+
+<div id="app" style="display:none;">
+
+<nav>
+  <span class="nlg"><span class="icn">💬</span>Module 3 · Feedback</span>
+  <div class="nr">
+    <button class="toggle-btn" id="lang-btn" onclick="toggleLang()">EN</button>
+    <span class="user-pill" id="user-pill"></span>
+  </div>
+</nav>
+
+<!-- STEP 0 — HERO -->
+<div class="screen active" id="screen-0">
+  <div class="hero-card" style="border-radius:0;min-height:calc(100vh - 66px);display:flex;align-items:center;">
+    <div class="wrap" style="position:relative;z-index:1;width:100%;text-align:center;">
+        <div class="hero-mod-badge" style="display:inline-block;" data-fr="Module 3 · ~7 min · Communication" data-en="Module 3 · ~7 min · Communication">Module 3 · ~7 min · Communication</div>
+        <h1 class="hero-title" style="margin-left:auto;margin-right:auto;" data-fr="Réussir ses<br><span class='acc'>feedbacks</span>" data-en="Mastering<br><span class='acc'>feedback</span>">Réussir ses<br><span class="acc">feedbacks</span></h1>
+        <p class="hero-sub" style="margin-left:auto;margin-right:auto;" data-fr="Méthodes reconnues (SBI, DESC) pour formuler et recevoir des feedbacks de manière constructive, afin de renforcer la confiance et la performance avec un outil interactif pour s'entraîner." data-en="Proven methods (SBI, DESC) to give and receive constructive feedback, building trust and performance — with an interactive builder to practise.">Méthodes reconnues (SBI, DESC) pour formuler et recevoir des feedbacks de manière constructive, afin de renforcer la confiance et la performance avec un outil interactif pour s'entraîner.</p>
+
+        <div class="hero-cta-row" style="justify-content:center;">
+          <button class="btn-acc" onclick="goStep(1)" data-fr="Commencer →" data-en="Start →">Commencer →</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 1 — CONTENT -->
+<div class="screen" id="screen-1">
+  <div class="wrap scr-content">
+    <div class="pbar"><button class="pdot done" onclick="goStep(0)"></button><button class="pdot active"></button><button class="pdot" onclick="goStep(2)"></button><button class="pdot" onclick="goStep(3)"></button></div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-fr="Contenu · SBI · DESC" data-en="Content · SBI · DESC">Contenu · SBI · DESC</span></div>
+        <h1 class="mttl" data-fr="Les méthodes <span class='g'>qui fonctionnent</span>" data-en="Methods <span class='g'>that work</span>">Les méthodes <span class="g">qui fonctionnent</span></h1>
+        <p class="mdsc" data-fr="Un feedback n'est pas un jugement, c'est une donnée actionnable. Deux méthodes structurent les retours : SBI et DESC.<br><br>Le feedback efficace est factuel, bienveillant et orienté action. Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales." data-en="Feedback is not a judgement — it is actionable data. Two methods structure feedback: SBI and DESC.<br><br>Effective feedback is factual, caring and action-oriented. Organisations that build a regular feedback culture typically see higher engagement, stronger performance and fewer management conflicts.">Un feedback n'est pas un jugement, c'est une donnée actionnable. Deux méthodes structurent les retours : SBI et DESC.<br><br>Le feedback efficace est factuel, bienveillant et orienté action. Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales.</p>
+      </div>
+      <div class="mnum">03</div>
+    </div>
+
+    <div class="intro-box">
+      <p data-fr="<strong>Le feedback efficace est factuel, bienveillant et orienté action.</strong> Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales." data-en="<strong>Effective feedback is factual, caring and action-oriented.</strong> Organisations that build a regular feedback culture typically see higher engagement, stronger performance and fewer management conflicts."><strong>Le feedback efficace est factuel, bienveillant et orienté action.</strong> Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="n">×3,5</div><div class="l" data-fr="Engagement (cultures feedback)" data-en="Engagement (feedback cultures)">Engagement (cultures feedback)</div><div class="src">CCL · Gallup 2024</div></div>
+      <div class="stat-card"><div class="n">23 min</div><div class="l" data-fr="Pour reprendre après distraction" data-en="To refocus after interruption">Pour reprendre après distraction</div><div class="src">UC Irvine</div></div>
+      <div class="stat-card"><div class="n">&lt; 24h</div><div class="l" data-fr="Délai feedback optimal" data-en="Optimal feedback window">Délai feedback optimal</div><div class="src">HBR</div></div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="📚 Les deux méthodes de référence" data-en="📚 The two reference methods">📚 Les deux méthodes de référence</h3>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('sbi')">SBI / SBII</button>
+      <button class="tab" onclick="switchTab('desc')">DESC</button>
+    </div>
+
+    <div class="tab-pane active" id="pane-sbi">
+      <div class="method-card">
+        <div class="method-row">
+          <div class="method-letter">S</div>
+          <div>
+            <div class="method-h" data-fr="Situation" data-en="Situation">Situation</div>
+            <div class="method-d" data-fr="Décrivez le contexte précis : quand, où, dans quelle réunion, sur quel projet. Évitez « toujours », « jamais », « souvent »." data-en="Describe the precise context: when, where, in which meeting, on which project. Avoid 'always', 'never', 'often'.">Décrivez le contexte précis : quand, où, dans quelle réunion, sur quel projet. Évitez « toujours », « jamais », « souvent ».</div>
+            <div class="method-ex" data-fr="« Lors de la réunion projet X de mardi matin… »" data-en="« During the project X meeting on Tuesday morning… »">« Lors de la réunion projet X de mardi matin… »</div>
+          </div>
+        </div>
+        <div class="method-row">
+          <div class="method-letter">B</div>
+          <div>
+            <div class="method-h" data-fr="Behavior (comportement)" data-en="Behavior">Behavior (comportement)</div>
+            <div class="method-d" data-fr="Décrivez ce que vous avez vu ou entendu — pas votre interprétation. Le cerveau résiste aux jugements, accueille les faits." data-en="Describe what you saw or heard — not your interpretation. The brain resists judgements, welcomes facts.">Décrivez ce que vous avez vu ou entendu — pas votre interprétation. Le cerveau résiste aux jugements, accueille les faits.</div>
+            <div class="method-ex" data-fr="« …tu as interrompu Marie 3 fois pendant sa présentation. »" data-en="« …you interrupted Marie 3 times during her presentation. »">« …tu as interrompu Marie 3 fois pendant sa présentation. »</div>
+          </div>
+        </div>
+        <div class="method-row">
+          <div class="method-letter">I</div>
+          <div>
+            <div class="method-h" data-fr="Impact" data-en="Impact">Impact</div>
+            <div class="method-d" data-fr="Décrivez l'effet concret : sur vous, sur l'équipe, sur le projet. Utilisez « je » plutôt que « on »." data-en="Describe the concrete effect: on you, the team, the project. Use 'I' rather than 'we'.">Décrivez l'effet concret : sur vous, sur l'équipe, sur le projet. Utilisez « je » plutôt que « on ».</div>
+            <div class="method-ex" data-fr="« Cela m'a fait sentir que ses idées comptaient moins, et a coupé sa dynamique. »" data-en="« That made me feel her ideas mattered less, and it broke her momentum. »">« Cela m'a fait sentir que ses idées comptaient moins, et a coupé sa dynamique. »</div>
+          </div>
+        </div>
+        <div class="method-row" style="background:rgba(160,235,157,0.07);border-radius:10px;padding:14px;">
+          <div class="method-letter" style="background:linear-gradient(135deg,#A0EB9D,#27ae60);color:#fff;">I</div>
+          <div>
+            <div class="method-h" style="color:var(--p1);" data-fr="Intent — extension SBII" data-en="Intent — SBII extension">Intent — extension SBII</div>
+            <div class="method-d" data-fr="Après avoir exprimé l'impact, posez une question ouverte sur l'intention. Cela transforme le feedback en dialogue et évite les conclusions hâtives." data-en="After expressing the impact, ask an open question about intention. This turns feedback into a dialogue and avoids hasty conclusions.">Après avoir exprimé l'impact, posez une question ouverte sur l'intention. Cela transforme le feedback en dialogue et évite les conclusions hâtives.</div>
+            <div class="method-ex" data-fr="« Qu'est-ce qui t'a amené à faire ça ? » — « Quel était ton objectif en interrompant Marie ? »" data-en="« What led you to do that? » — « What were you trying to achieve by interrupting Marie? »">« Qu'est-ce qui t'a amené à faire ça ? » — « Quel était ton objectif en interrompant Marie ? »</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="pane-desc">
+      <div class="method-card">
+        <div class="method-row">
+          <div class="method-letter">D</div>
+          <div>
+            <div class="method-h" data-fr="Décrire les faits" data-en="Describe the facts">Décrire les faits</div>
+            <div class="method-d" data-fr="Faits objectifs, observables, vérifiables. Pas d'interprétation." data-en="Objective, observable, verifiable facts. No interpretation.">Faits objectifs, observables, vérifiables. Pas d'interprétation.</div>
+            <div class="method-ex" data-fr="« Les comptes-rendus arrivent à 48h au lieu des 24h convenus. »" data-en="« Meeting notes arrive at 48h instead of the agreed 24h. »">« Les comptes-rendus arrivent à 48h au lieu des 24h convenus. »</div>
+          </div>
+        </div>
+        <div class="method-row">
+          <div class="method-letter">E</div>
+          <div>
+            <div class="method-h" data-fr="Exprimer le ressenti" data-en="Express your feelings">Exprimer le ressenti</div>
+            <div class="method-d" data-fr="Parlez en « je ». Ce n'est pas accuser, c'est partager une émotion légitime." data-en="Speak in 'I'. This is not accusing — it is sharing a legitimate emotion.">Parlez en « je ». Ce n'est pas accuser, c'est partager une émotion légitime.</div>
+            <div class="method-ex" data-fr="« Je me sens bloqué dans la suite des actions. »" data-en="« I feel stuck in moving the actions forward. »">« Je me sens bloqué dans la suite des actions. »</div>
+          </div>
+        </div>
+        <div class="method-row">
+          <div class="method-letter">S</div>
+          <div>
+            <div class="method-h" data-fr="Spécifier l'attente" data-en="Specify the expectation">Spécifier l'attente</div>
+            <div class="method-d" data-fr="Demande précise, mesurable, dans un délai défini." data-en="A precise, measurable request with a defined deadline.">Demande précise, mesurable, dans un délai défini.</div>
+            <div class="method-ex" data-fr="« J'aimerais avoir le CR sous 24h, à partir de la semaine prochaine. »" data-en="« I'd like to receive the notes within 24h, starting next week. »">« J'aimerais avoir le CR sous 24h, à partir de la semaine prochaine. »</div>
+          </div>
+        </div>
+        <div class="method-row">
+          <div class="method-letter">C</div>
+          <div>
+            <div class="method-h" data-fr="Conséquences (positives)" data-en="Consequences (positive)">Conséquences (positives)</div>
+            <div class="method-d" data-fr="Effet bénéfique pour les deux : si tu fais ça, alors…" data-en="Mutual benefit: if you do this, then…">Effet bénéfique pour les deux : si tu fais ça, alors…</div>
+            <div class="method-ex" data-fr="« L'équipe pourra avancer plus vite et tu seras moins sollicité après-coup. »" data-en="« The team can move faster and you'll get fewer follow-up requests. »">« L'équipe pourra avancer plus vite et tu seras moins sollicité après-coup. »</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin:30px 0 14px;color:var(--ink);" data-fr="🔍 Évaluatif vs factuel — la différence concrète" data-en="🔍 Evaluative vs factual — the concrete difference">🔍 Évaluatif vs factuel — la différence concrète</h3>
+    <div class="compare-grid">
+      <div class="compare-card bad">
+        <div class="compare-cap" data-fr="❌ Évaluatif (à éviter)" data-en="❌ Evaluative (to avoid)">❌ Évaluatif (à éviter)</div>
+        <div class="compare-quote" data-fr="« Tu manques de rigueur dans ton travail. »" data-en="« You lack rigour in your work. »">« Tu manques de rigueur dans ton travail. »</div>
+        <div class="compare-why" data-fr="Jugement de personnalité, généralisation, sans donnée. Active la défensive : la personne se protège plutôt que d'écouter." data-en="Personality judgement, generalisation, no data. Triggers defensiveness: the person protects themselves rather than listening.">Jugement de personnalité, généralisation, sans donnée. Active la défensive : la personne se protège plutôt que d'écouter.</div>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-cap" data-fr="✓ Factuel (SBI)" data-en="✓ Factual (SBI)">✓ Factuel (SBI)</div>
+        <div class="compare-quote" data-fr="« Sur les 3 derniers livrables, j'ai relevé 5 erreurs de chiffres. Cela m'a obligé à reprendre la production le week-end. »" data-en="« On the last 3 deliverables, I found 5 numerical errors. That forced me to redo the work over the weekend. »">« Sur les 3 derniers livrables, j'ai relevé 5 erreurs de chiffres. Cela m'a obligé à reprendre la production le week-end. »</div>
+        <div class="compare-why" data-fr="Faits précis + impact concret + ressenti. Active la résolution : la personne peut agir sur le comportement, pas sur sa personnalité." data-en="Precise facts + concrete impact + feeling. Triggers resolution: the person can act on the behaviour, not their personality.">Faits précis + impact concret + ressenti. Active la résolution : la personne peut agir sur le comportement, pas sur sa personnalité.</div>
+      </div>
+      <div class="compare-card bad">
+        <div class="compare-cap" data-fr="❌ Vague positif" data-en="❌ Vague positive">❌ Vague positif</div>
+        <div class="compare-quote" data-fr="« Bon travail ! »" data-en="« Good job! »">« Bon travail ! »</div>
+        <div class="compare-why" data-fr="Pas actionnable. La personne ne sait pas quoi reproduire. Faible motivant à long terme." data-en="Not actionable. The person doesn't know what to repeat. Weak motivator over time.">Pas actionnable. La personne ne sait pas quoi reproduire. Faible motivant à long terme.</div>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-cap" data-fr="✓ Spécifique positif" data-en="✓ Specific positive">✓ Spécifique positif</div>
+        <div class="compare-quote" data-fr="« Ta présentation du projet X était claire grâce à tes 3 messages-clés. Le client a pu décider en 10 min. »" data-en="« Your project X presentation was clear thanks to your 3 key messages. The client decided in 10 min. »">« Ta présentation du projet X était claire grâce à tes 3 messages-clés. Le client a pu décider en 10 min. »</div>
+        <div class="compare-why" data-fr="La personne sait exactement ce qui a marché et pourra le reproduire." data-en="The person knows exactly what worked and can repeat it.">La personne sait exactement ce qui a marché et pourra le reproduire.</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="🛠️ Constructeur SBI interactif" data-en="🛠️ Interactive SBI builder">🛠️ Constructeur SBI interactif</h3>
+    <div class="builder-card">
+      <div class="builder-title" data-fr="Composez votre feedback SBI" data-en="Compose your SBI feedback">Composez votre feedback SBI</div>
+      <div class="builder-sub" data-fr="Saisissez chaque élément, votre feedback se construit en temps réel. La barre de qualité monte au fur et à mesure." data-en="Fill in each element — your feedback builds in real time. The quality bar rises as you go.">Saisissez chaque élément, votre feedback se construit en temps réel. La barre de qualité monte au fur et à mesure.</div>
+
+      <div class="builder-step">
+        <div class="builder-label"><span class="builder-label-l">S</span><span data-fr="Situation — quand &amp; où ?" data-en="Situation — when &amp; where?">Situation — quand &amp; où ?</span></div>
+        <textarea class="builder-input" id="b-s" placeholder="Ex : Lors de la réunion projet de mardi matin…" oninput="updateBuilder()"></textarea>
+      </div>
+      <div class="builder-step">
+        <div class="builder-label"><span class="builder-label-l">B</span><span data-fr="Behavior — qu'avez-vous OBSERVÉ ?" data-en="Behavior — what did you OBSERVE?">Behavior — qu'avez-vous OBSERVÉ ?</span></div>
+        <textarea class="builder-input" id="b-b" placeholder="Ex : tu as interrompu Marie 3 fois pendant sa présentation" oninput="updateBuilder()"></textarea>
+      </div>
+      <div class="builder-step">
+        <div class="builder-label"><span class="builder-label-l">I</span><span data-fr="Impact — quel effet concret ?" data-en="Impact — what was the concrete effect?">Impact — quel effet concret ?</span></div>
+        <textarea class="builder-input" id="b-i" placeholder="Ex : cela a coupé sa dynamique et m'a donné l'impression que ses idées comptaient moins" oninput="updateBuilder()"></textarea>
+      </div>
+
+      <div class="builder-quality">
+        <span data-fr="Qualité du feedback" data-en="Feedback quality">Qualité du feedback</span>
+        <div class="qbar"><div class="qfill" id="q-fill"></div></div>
+        <span id="q-label" style="font-weight:800;color:var(--acc);display:none;"></span>
+      </div>
+
+      <div class="builder-output" id="b-output">
+        <div class="builder-out-l">📋 <span data-fr="Aperçu de votre feedback" data-en="Feedback preview">Aperçu de votre feedback</span></div>
+        <div class="builder-out-t" style="color:var(--w70);font-style:italic;" data-fr="Saisissez S, B et I ci-dessus pour voir votre feedback se construire…" data-en="Enter S, B and I above to see your feedback take shape…">Saisissez S, B et I ci-dessus pour voir votre feedback se construire…</div>
+      </div>
+
+      <div class="builder-actions">
+        <button class="bld-btn alt" onclick="loadNextExample()" id="b-example" data-fr="✨ Charger un exemple" data-en="✨ Load an example">✨ Charger un exemple</button>
+        <button class="bld-btn alt" onclick="resetBuilder()" data-fr="↺ Effacer" data-en="↺ Clear">↺ Effacer</button>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip"><div class="tip-i">🎯</div><div><div class="tip-t" data-fr="Factuel, pas évaluatif" data-en="Factual, not evaluative">Factuel, pas évaluatif</div><div class="tip-b" data-fr="« Tu as dit X » plutôt que « tu es X ». Le cerveau ferme face aux jugements de personnalité, s'ouvre face aux faits observables." data-en="'You said X' rather than 'you are X'. The brain shuts down with personality judgements, opens up with observable facts.">« Tu as dit X » plutôt que « tu es X ». Le cerveau ferme face aux jugements de personnalité, s'ouvre face aux faits observables.</div></div></div>
+      <div class="tip"><div class="tip-i">⏱️</div><div><div class="tip-t" data-fr="Sous 24h, sinon trop tard" data-en="Within 24h, or it's too late">Sous 24h, sinon trop tard</div><div class="tip-b" data-fr="Au-delà, les détails se brouillent et les émotions s'amplifient. Plus le feedback est rapide, plus la situation est nette pour les deux." data-en="Beyond that, details blur and emotions amplify. The faster the feedback, the clearer the situation for both parties.">Au-delà, les détails se brouillent et les émotions s'amplifient. Plus le feedback est rapide, plus la situation est nette pour les deux.</div></div></div>
+      <div class="tip"><div class="tip-i">👂</div><div><div class="tip-t" data-fr="Feedback = dialogue (SBII)" data-en="Feedback = dialogue (SBII)">Feedback = dialogue (SBII)</div><div class="tip-b" data-fr="Posez « qu'est-ce qui t'a amené à faire ça ? ». L'intention est rarement celle qu'on suppose. Vous évitez 80% des malentendus." data-en="Ask 'what led you to do that?'. Intention is rarely what you assume. You avoid 80% of misunderstandings.">Posez « qu'est-ce qui t'a amené à faire ça ? ». L'intention est rarement celle qu'on suppose. Vous évitez 80% des malentendus.</div></div></div>
+      <div class="tip"><div class="tip-i">⚖️</div><div><div class="tip-t" data-fr="Ratio 5:1 positif/correctif" data-en="5:1 positive/corrective ratio">Ratio 5:1 positif/correctif</div><div class="tip-b" data-fr="Les équipes haute performance émettent 5,6 feedbacks positifs pour 1 correctif (Losada & Heaphy, 2004). Les équipes en difficulté : 0,36 pour 1." data-en="High-performing teams give 5.6 positive feedbacks for every 1 corrective (Losada & Heaphy, 2004). Struggling teams: 0.36 to 1.">Les équipes haute performance émettent 5,6 feedbacks positifs pour 1 correctif (Losada & Heaphy, 2004). Les équipes en difficulté : 0,36 pour 1.</div></div></div>
+    </div>
+
+    <div class="sources-box">
+      <strong data-fr="Sources scientifiques" data-en="Scientific sources">Sources scientifiques</strong>
+      <span data-fr="Center for Creative Leadership (2023). SBI Feedback Tool & Situational Leadership · Goleman D., Boyatzis R. & McKee A. (2013). Primal Leadership. Harvard Business Review Press · Losada M. & Heaphy E. (2004). The Role of Positivity and Connectivity in the Performance of Business Teams. American Behavioral Scientist, 47(6) · Gallup (2024). State of the Global Workplace Report · Mark G., Gudith D. & Klocke U. (2008). The Cost of Interrupted Work, ACM CHI · Harvard Business Review — Zenger J. & Folkman J. (2019). The Feedback Fallacy." 
+             data-en="Center for Creative Leadership (2023). SBI Feedback Tool & Situational Leadership · Goleman D., Boyatzis R. & McKee A. (2013). Primal Leadership. Harvard Business Review Press · Losada M. & Heaphy E. (2004). The Role of Positivity and Connectivity in the Performance of Business Teams. American Behavioral Scientist, 47(6) · Gallup (2024). State of the Global Workplace Report · Mark G., Gudith D. & Klocke U. (2008). The Cost of Interrupted Work, ACM CHI · Harvard Business Review — Zenger J. & Folkman J. (2019). The Feedback Fallacy.">Center for Creative Leadership (2023). SBI Feedback Tool &amp; Situational Leadership · Goleman D., Boyatzis R. &amp; McKee A. (2013). Primal Leadership. Harvard Business Review Press · Losada M. &amp; Heaphy E. (2004). The Role of Positivity and Connectivity in the Performance of Business Teams. American Behavioral Scientist, 47(6) · Gallup (2024). State of the Global Workplace Report · Mark G., Gudith D. &amp; Klocke U. (2008). The Cost of Interrupted Work, ACM CHI · Harvard Business Review — Zenger J. &amp; Folkman J. (2019). The Feedback Fallacy.</span>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(0)" data-fr="← Retour" data-en="← Back">← Retour</button>
+      <button class="btn-dk" onclick="goStep(2)" data-fr="Quiz interactif →" data-en="Interactive quiz →">Quiz interactif →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 — QUIZ -->
+<div class="screen" id="screen-2">
+  <div class="wrap scr-content">
+    <div class="pbar"><button class="pdot done" onclick="goStep(0)"></button><button class="pdot done" onclick="goStep(1)"></button><button class="pdot active"></button><button class="pdot" onclick="goStep(3)"></button></div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-fr="Quiz · 4 questions" data-en="Quiz · 4 questions">Quiz · 4 questions</span></div>
+        <h1 class="mttl" data-fr="Testez vos <span class='g'>connaissances</span>" data-en="Test your <span class='g'>knowledge</span>">Testez vos <span class="g">connaissances</span></h1>
+        <p class="mdsc" data-fr="Cinq mises en situation pour valider votre maîtrise du feedback constructif." data-en="Five scenarios to validate your mastery of constructive feedback.">Cinq mises en situation pour valider votre maîtrise du feedback constructif.</p>
+      </div>
+      <div class="mnum">03</div>
+    </div>
+
+    <div class="quiz-intro"><p data-fr="💡 <strong>Astuce :</strong> chaque question vise une nuance différente — situation, comportement, impact, intention, délai." data-en="💡 <strong>Tip:</strong> each question targets a different nuance — situation, behaviour, impact, intention, timing.">💡 <strong>Astuce :</strong> chaque question vise une nuance différente — situation, comportement, impact, intention, délai.</p></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="score-box" id="score-box">
+      <div class="score-emoji" id="score-emoji">🎉</div>
+      <div class="score-n" id="score-n">0/5</div>
+      <div class="score-pct" id="score-pct">0% · Score</div>
+      <div class="score-msg" id="score-msg"></div>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(1)">← Revoir le contenu</button>
+      <button class="btn-dk" id="btn-finish" onclick="goStep(3)" style="display:none;">Terminer le module ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 — FIN DE MODULE -->
+<div class="screen" id="screen-3">
+  <div class="wrap scr-content">
+    <div class="pbar"><button class="pdot done" onclick="goStep(0)"></button><button class="pdot done" onclick="goStep(1)"></button><button class="pdot done" onclick="goStep(2)"></button><button class="pdot active"></button></div>
+    <div style="text-align:center;padding:60px 30px 40px;max-width:560px;margin:0 auto;">
+      <div style="font-size:64px;margin-bottom:18px;">🎉</div>
+      <h2 style="font-size:30px;font-weight:800;color:var(--ink);letter-spacing:-.025em;margin-bottom:14px;">Module terminé</h2>
+      <p style="font-size:16px;color:var(--gr);line-height:1.65;margin-bottom:30px;">Bravo, vous avez complété le module <strong>Réussir ses feedbacks</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-dk" onclick="restartModule()">↺ Recommencer le module</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const WEBHOOK='https://script.google.com/macros/s/AKfycbwv6rna5x-RVHNtXu8mcrT6tylZy6m70czPuO2-o4uXs62BxVYCdqJijSzFssawynhsIw/exec';
+const MODULE_ID='feedback';
+let currentUser=null;const quizDone={};let quizScore=0;const QUIZ_TOTAL=5;
+let currentLang='fr';
+
+function toggleLang(){
+  currentLang = currentLang==='fr' ? 'en' : 'fr';
+  const btn = document.getElementById('lang-btn');
+  btn.textContent = currentLang==='fr' ? 'EN' : 'FR';
+
+  // Translate all elements with data-fr / data-en attributes
+  document.querySelectorAll('[data-fr]').forEach(el=>{
+    const val = currentLang==='fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+    if(val !== null) el.innerHTML = val;
+  });
+
+  // Translate placeholders
+  const placeholders = {
+    fr: {
+      's': 'Ex : Lors de la réunion projet de mardi matin…',
+      'b': 'Ex : tu as interrompu Marie 3 fois pendant sa présentation',
+      'i': 'Ex : cela a coupé sa dynamique et m\'a donné l\'impression que ses idées comptaient moins'
+    },
+    en: {
+      's': 'E.g. During Tuesday morning\'s project meeting…',
+      'b': 'E.g. you interrupted Marie 3 times during her presentation',
+      'i': 'E.g. it broke her momentum and made me feel her ideas mattered less'
+    }
+  };
+  const pl = placeholders[currentLang];
+  if(document.getElementById('b-s')) document.getElementById('b-s').placeholder=pl.s;
+  if(document.getElementById('b-b')) document.getElementById('b-b').placeholder=pl.b;
+  if(document.getElementById('b-i')) document.getElementById('b-i').placeholder=pl.i;
+
+  // Translate login page
+  const loginTitle = document.querySelector('.lb-title');
+  const loginSub = document.querySelector('.lb-sub');
+  const loginLabel = document.querySelector('.lb-label');
+  const loginPlaceholder = document.getElementById('login-email');
+  const loginBtn = document.querySelector('.lb-btn');
+  const loginErr = document.getElementById('login-err');
+  const loginPrivacy = document.querySelector('.lb-privacy');
+  const navTitle = document.querySelector('.nlg');
+
+  if(currentLang==='en'){
+    if(loginTitle) loginTitle.textContent='Module 3 · Mastering feedback';
+    if(loginSub) loginSub.textContent='Enter your professional email to start this 7-minute module.';
+    if(loginLabel) loginLabel.textContent='Email address';
+    if(loginPlaceholder) loginPlaceholder.placeholder='firstname.lastname@company.com';
+    if(loginBtn) loginBtn.textContent='Start the module →';
+    if(loginErr) loginErr.textContent='Please enter a valid email address.';
+    if(loginPrivacy) loginPrivacy.textContent='Your email is used only to record your participation. No data is shared with third parties.';
+    if(navTitle) navTitle.innerHTML='<span class="icn">💬</span>Module 3 · Feedback';
+  } else {
+    if(loginTitle) loginTitle.textContent='Module 3 · Réussir ses feedbacks';
+    if(loginSub) loginSub.textContent='Entrez votre email professionnel pour démarrer ce module de 7 minutes.';
+    if(loginLabel) loginLabel.textContent='Adresse email';
+    if(loginPlaceholder) loginPlaceholder.placeholder='prenom.nom@entreprise.fr';
+    if(loginBtn) loginBtn.textContent='Démarrer le module →';
+    if(loginErr) loginErr.textContent='Veuillez saisir une adresse email valide.';
+    if(loginPrivacy) loginPrivacy.textContent='Votre email sert uniquement à enregistrer votre participation. Aucune donnée n\'est transmise à des tiers.';
+    if(navTitle) navTitle.innerHTML='<span class="icn">💬</span>Module 3 · Feedback';
+  }
+
+  // Re-render quiz in current lang
+  renderQuiz();
+
+  // Update page title
+  document.title = currentLang==='en'
+    ? 'Module 3 · Mastering feedback · Brakson'
+    : 'Module 3 · Réussir ses feedbacks · Brakson';
+
+  // Update builder preview if visible
+  updateBuilder();
+
+  // Update example button if already loaded
+  const exBtn = document.getElementById('b-example');
+  if(exBtn && exBtn.textContent !== (currentLang==='en'?'✨ Load an example':'✨ Charger un exemple')){
+    // keep current label, already translated via data-* above
+  }
+
+  // Translate step 3 finish screen
+  const finishTitle = document.querySelector('#screen-3 h2');
+  const finishP = document.querySelector('#screen-3 p');
+  const restartBtn = document.querySelector('#screen-3 .btn-dk');
+  if(currentLang==='en'){
+    if(finishTitle) finishTitle.textContent='Module completed';
+    if(finishP) finishP.innerHTML='Well done! You have completed the <strong>Mastering feedback</strong> module. Your participation has been recorded. Now put it into practice.';
+    if(restartBtn) restartBtn.textContent='↺ Restart the module';
+  } else {
+    if(finishTitle) finishTitle.textContent='Module terminé';
+    if(finishP) finishP.innerHTML='Bravo, vous avez complété le module <strong>Réussir ses feedbacks</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.';
+    if(restartBtn) restartBtn.textContent='↺ Recommencer le module';
+  }
+
+  // Translate quiz navigation buttons
+  const reviewBtn = document.querySelector('#screen-2 .btn-gh');
+  const finishModuleBtn = document.getElementById('btn-finish');
+  if(currentLang==='en'){
+    if(reviewBtn) reviewBtn.textContent='← Review content';
+    if(finishModuleBtn) finishModuleBtn.textContent='Finish module ✓';
+  } else {
+    if(reviewBtn) reviewBtn.textContent='← Revoir le contenu';
+    if(finishModuleBtn) finishModuleBtn.textContent='Terminer le module ✓';
+  }
+}
+function sendData(p){fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).catch(()=>{});}
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
+function doLogin(){const email=document.getElementById('login-email').value.trim();const err=document.getElementById('login-err');if(!isValidEmail(email)){err.classList.add('show');return;}err.classList.remove('show');currentUser=email;document.getElementById('user-pill').textContent=email;document.getElementById('login-overlay').style.display='none';document.getElementById('app').style.display='block';renderQuiz();sendData({email,module:MODULE_ID,event:'login',ts:new Date().toISOString()});}
+function goStep(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');document.querySelectorAll('.pmini-dot').forEach((d,i)=>{d.classList.remove('active','done');if(i<n)d.classList.add('done');if(i===n)d.classList.add('active');});window.scrollTo({top:0,behavior:'smooth'});}
+
+// Tabs
+function switchTab(t){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));event.target.classList.add('active');document.getElementById('pane-'+t).classList.add('active');}
+
+// Builder
+function updateBuilder(){
+  const s=document.getElementById('b-s').value.trim();
+  const b=document.getElementById('b-b').value.trim();
+  const i=document.getElementById('b-i').value.trim();
+  const out=document.getElementById('b-output');
+  // Quality score
+  let q=0;
+  if(s.length>=8) q+=33;
+  if(b.length>=8) q+=33;
+  if(i.length>=8) q+=34;
+  document.getElementById('q-fill').style.width=q+'%';
+  // q-label is hidden, no % display
+  const isEn = currentLang==='en';
+  if(s||b||i){
+    const previewLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
+    let txt=`<div class="builder-out-l">${previewLabel}</div><div class="builder-out-t">`;
+    if(s) txt+=`<mark>${escapeHtml(s)}</mark>, `;
+    if(b) txt+=`<mark>${escapeHtml(b)}</mark> — `;
+    if(i) txt+=`<mark>${escapeHtml(i)}</mark>`;
+    txt+=`.</div>`;
+    if(q===100){
+      txt += isEn
+        ? `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ Complete SBI — ready to deliver. Tip: follow up with an intent question (SBII): "What led you to do that?"</div>`
+        : `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ SBI complet et prêt à délivrer. Astuce : ajoutez ensuite la question d'intention (SBII) : « qu\'est-ce qui t\'a amené à faire ça ? »</div>`;
+    }
+    out.innerHTML=txt;
+  } else {
+    const emptyLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
+    const emptyText = isEn ? 'Enter S, B and I above to see your feedback take shape…' : 'Saisissez S, B et I ci-dessus pour voir votre feedback se construire…';
+    out.innerHTML=`<div class="builder-out-l">${emptyLabel}</div><div class="builder-out-t" style="color:var(--w70);font-style:italic;">${emptyText}</div>`;
+  }
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
+
+const EXAMPLES=[
+  {s:'Lors de la réunion projet de mardi matin',b:'tu as interrompu Marie 3 fois pendant sa présentation',i:'cela a coupé sa dynamique et donné l\'impression que ses idées comptaient moins',q:100},
+  {s:'La semaine dernière',b:'tu as partagé le rapport directement au client sans me le faire valider',i:'',q:66},
+  {s:'Lors de la présentation client du projet X hier matin',b:'tes 3 messages-clés en introduction et tes slides en moins de 5 minutes',i:'ont permis au client de prendre sa décision en 10 minutes',q:100},
+  {s:'Sur les 4 derniers sprints',b:'les spécifications sont arrivées avec 3 à 4 jours de retard',i:'',q:66},
+  {s:'Hier après-midi',b:'tu as pris un appel téléphonique en mode haut-parleur pendant 20 minutes',i:'j\'ai perdu le fil de mon analyse et n\'ai pas pu finir mon livrable dans les temps',q:100},
+  {s:'',b:'tu as présenté les chiffres Q3 avec des visuels très clairs et une synthèse en 3 points',i:'les décideurs ont validé le budget en séance',q:66},
+  {s:'En réunion de direction',b:'',i:'',q:33}
+];
+let exampleIdx=0;
+function loadNextExample(){
+  const ex=EXAMPLES[exampleIdx % EXAMPLES.length];
+  const num=(exampleIdx % EXAMPLES.length)+1;
+  exampleIdx++;
+  document.getElementById('b-s').value=ex.s;
+  document.getElementById('b-b').value=ex.b;
+  document.getElementById('b-i').value=ex.i;
+  // Apply quality bar only (no % label)
+  document.getElementById('q-fill').style.width=ex.q+'%';
+  // Update preview
+  const isEn = currentLang==='en';
+  const out=document.getElementById('b-output');
+  const s=ex.s,b=ex.b,i=ex.i;
+  if(s||b||i){
+    const previewLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
+    let txt=`<div class="builder-out-l">${previewLabel}</div><div class="builder-out-t">`;
+    if(s) txt+=`<mark>${escapeHtml(s)}</mark>, `;
+    if(b) txt+=`<mark>${escapeHtml(b)}</mark>`;
+    if(b&&i) txt+=` — `;
+    if(i) txt+=`<mark>${escapeHtml(i)}</mark>`;
+    txt+=`.</div>`;
+    if(ex.q<100){
+      const missing=[];
+      if(!s.trim()) missing.push(isEn?'<strong>Situation</strong>':'la <strong>Situation</strong>');
+      if(!b.trim()) missing.push(isEn?'<strong>Behaviour</strong>':'le <strong>Comportement</strong>');
+      if(!i.trim()) missing.push(isEn?'<strong>Impact</strong>':'l\'<strong>Impact</strong>');
+      txt += isEn
+        ? `<div style="margin-top:12px;font-size:13px;color:#ffb347;font-weight:600;">⚠ Incomplete feedback — missing ${missing.join(' and ')}. Complete it to make it actionable.</div>`
+        : `<div style="margin-top:12px;font-size:13px;color:#ffb347;font-weight:600;">⚠ Feedback incomplet — il manque ${missing.join(' et ')}. Complétez pour le rendre actionnable.</div>`;
+    } else {
+      txt += isEn
+        ? `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ Complete SBI — ready to deliver.</div>`
+        : `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ SBI complet et prêt à délivrer.</div>`;
+    }
+    out.innerHTML=txt;
+  } else {
+    const emptyLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
+    const emptyText = isEn ? 'Enter S, B and I above to see your feedback take shape…' : 'Saisissez S, B et I ci-dessus pour voir votre feedback se construire…';
+    out.innerHTML=`<div class="builder-out-l">${emptyLabel}</div><div class="builder-out-t" style="color:var(--w70);font-style:italic;">${emptyText}</div>`;
+  }
+  const nextNum=(exampleIdx % EXAMPLES.length)+1;
+  const exBtn = document.getElementById('b-example');
+  exBtn.textContent = isEn ? `✨ Next example (${nextNum}/${EXAMPLES.length})` : `✨ Exemple suivant (${nextNum}/${EXAMPLES.length})`;
+}
+function loadExample(idx){loadNextExample();}  
+function resetBuilder(){document.getElementById('b-s').value='';document.getElementById('b-b').value='';document.getElementById('b-i').value='';updateBuilder();}
+function copyBuilder(){
+  const s=document.getElementById('b-s').value.trim();
+  const b=document.getElementById('b-b').value.trim();
+  const i=document.getElementById('b-i').value.trim();
+  if(!s||!b||!i){alert(currentLang==='en'?'Please fill in all 3 S, B, I fields before copying.':'Remplissez les 3 champs S, B, I avant de copier.');return;}
+  const txt=`${s}, ${b} — ${i}.`;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.getElementById('b-copy');const orig=btn.textContent;
+    btn.textContent=currentLang==='en'?'✓ Copied!':'✓ Copié!';setTimeout(()=>btn.textContent=orig,1500);
+    sendData({email:currentUser,module:MODULE_ID,event:'sbi_built',ts:new Date().toISOString()});
+  });
+}
+
+// Scenarios
+function ans(id,letter,ok,msg){
+  const cont=document.getElementById('ch-'+id);
+  if(cont.dataset.done) return;
+  cont.dataset.done='1';
+  const letters=['A','B','C'];
+  cont.querySelectorAll('.ch').forEach((b,i)=>{
+    const oc=b.getAttribute('onclick');
+    if(oc.includes(`'${letter}'`)) {
+      if(ok) b.classList.add('ok');
+      else b.classList.add('ko');
+    } else if(oc.includes(',true,')) {
+      b.classList.add('reveal');
+    } else {
+      b.classList.add('disabled');
+    }
+  });
+  const fb=document.getElementById('fb-'+id);
+  fb.textContent=msg;fb.className='fb show '+(ok?'pos':'neg');
+}
+
+// QUIZ
+const QUIZ={
+  fr:[
+  {q:'Dans la méthode SBI (Center for Creative Leadership), que représente le « B » ?',opts:['Le bilan global de la situation','Le comportement observable et factuel','Le bénéfice attendu du changement','La bonne intention présumée'],correct:1,
+    fb:['Non — un bilan suppose un jugement, qu\'il faut justement éviter en feedback.','✓ Exact. Behavior = ce que vous avez VU ou ENTENDU, pas ce que vous interprétez. Le fait observable est la base solide du feedback.','Le bénéfice est dans le « I » (Impact) et la « C » de DESC. Pas dans le B.','C\'est le « I » de l\'extension SBII (Intent), pas le B.']},
+  {q:'Quelle est la principale différence entre un feedback efficace et inefficace ?',opts:['La sévérité du ton','Le caractère factuel vs évaluatif','La longueur du message','Le canal utilisé (oral/écrit)'],correct:1,
+    fb:['La sévérité bloque, elle n\'aide pas. Un feedback ferme peut être doux dans la forme.','✓ Correct. Le facteur clé est : faits observables vs jugement de personnalité. Le cerveau accueille les faits, ferme face aux jugements.','Un feedback peut être court et très efficace (méthode SBI tient en 2 phrases).','Le canal peut compter, mais la forme du message prime largement.']},
+  {q:'Le « ratio Losada » (Losada & Heaphy, 2004) recommande quel équilibre feedback positif / correctif dans les équipes haute performance ?',opts:['1:1','3:1','5,6:1','10:1'],correct:2,
+    fb:['Trop équilibré — les équipes haute perf vont nettement plus vers le positif.','C\'est un raccourci souvent cité, mais le chiffre exact mesuré est plus élevé.','✓ Correct. Étude Losada : 5,6 positifs pour 1 correctif dans les équipes haute performance, contre 0,36 pour 1 dans les équipes en difficulté. NB : étude critiquée mais le principe (positif >> correctif) reste validé.','Trop déséquilibré — devient flagornerie et perd de la crédibilité.']},
+  {q:'Pourquoi un feedback dans les 24h est-il généralement plus efficace ?',opts:['Il prend la personne au dépourvu','Le contexte est frais pour les deux parties','Il évite les conversations difficiles','Il permet de rappeler son autorité'],correct:1,
+    fb:['Surprendre n\'est pas un objectif — c\'est même contre-productif (active la défensive).','✓ Correct. Dans les 24h, la situation est précise dans les deux mémoires. Au-delà, les détails se brouillent et les émotions s\'amplifient. Le feedback devient flou et inactionnable.','Au contraire — c\'est l\'occasion d\'avoir une conversation difficile mais utile.','Le feedback n\'est pas un outil de pouvoir mais de progression mutuelle.']}
+  ],
+  en:[
+  {q:'In the SBI method (Center for Creative Leadership), what does the "B" stand for?',opts:['The overall balance of the situation','The observable, factual behaviour','The expected benefit of change','The assumed good intention'],correct:1,
+    fb:['No — a balance implies a judgement, which is precisely what good feedback avoids.','✓ Correct. Behavior = what you SAW or HEARD, not your interpretation. The observable fact is the solid foundation of feedback.','The benefit belongs in the "I" (Impact) and the "C" of DESC. Not the B.','That\'s the "I" in the SBII extension (Intent), not the B.']},
+  {q:'What is the main difference between effective and ineffective feedback?',opts:['The severity of tone','Its factual vs evaluative nature','The length of the message','The channel used (verbal/written)'],correct:1,
+    fb:['Severity blocks, it doesn\'t help. Firm feedback can still be gentle in form.','✓ Correct. The key factor is: observable facts vs personality judgement. The brain welcomes facts, closes down against judgements.','Feedback can be short and very effective (the SBI method fits in 2 sentences).','The channel can matter, but the substance of the message matters far more.']},
+  {q:'The "Losada ratio" (Losada & Heaphy, 2004) recommends what balance of positive vs corrective feedback in high-performing teams?',opts:['1:1','3:1','5.6:1','10:1'],correct:2,
+    fb:['Too balanced — high-performing teams lean far more towards the positive.','This shortcut is often cited, but the exact measured figure is higher.','✓ Correct. Losada study: 5.6 positives for every 1 corrective in high-performing teams, vs 0.36 for 1 in struggling teams. Note: the study has been critiqued, but the principle (positive >> corrective) remains validated.','Too unbalanced — it becomes flattery and loses credibility.']},
+  {q:'Why is feedback given within 24 hours generally more effective?',opts:['It catches the person off guard','The context is fresh for both parties','It avoids difficult conversations','It reinforces authority'],correct:1,
+    fb:['Catching someone off guard is not an objective — it is actually counter-productive (triggers defensiveness).','✓ Correct. Within 24 hours, the situation is precise in both people\'s memories. Beyond that, details blur and emotions amplify. The feedback becomes vague and unactionable.','On the contrary — it is the opportunity for a difficult but useful conversation.','Feedback is not a power tool but a mutual development one.']}
+  ]
+};
+
+function renderQuiz(){
+  const questions = QUIZ[currentLang] || QUIZ.fr;
+  const qLabel = currentLang==='en' ? 'Question' : 'Question';
+  const c=document.getElementById('quiz-container');c.innerHTML='';
+  questions.forEach((q,i)=>{
+    const div=document.createElement('div');div.className='quiz-q';div.id='quiz-q-'+i;
+    div.innerHTML=`<div class="quiz-qhead"><span class="quiz-qn">${qLabel} ${i+1} / ${questions.length}</span><span class="quiz-qpts">+1 pt</span></div><div class="quiz-qt">${q.q}</div><div class="quiz-os" id="quiz-os-${i}">${q.opts.map((o,oi)=>`<button class="quiz-o" onclick="answerQ(${i},${oi})"><span class="quiz-o-letter">${String.fromCharCode(65+oi)}</span><span>${o}</span></button>`).join('')}</div><div class="qfb" id="qfb-${i}"></div>`;
+    c.appendChild(div);
+  });
+}
+function answerQ(qi,oi){if(quizDone[qi])return;quizDone[qi]=true;const questions=QUIZ[currentLang]||QUIZ.fr;const q=questions[qi];if(oi===q.correct)quizScore++;const cont=document.getElementById('quiz-os-'+qi);cont.querySelectorAll('.quiz-o').forEach((btn,i)=>{if(i===oi&&oi===q.correct)btn.classList.add('ok');else if(i===oi&&oi!==q.correct)btn.classList.add('ko');else if(i===q.correct&&oi!==q.correct)btn.classList.add('reveal');else btn.classList.add('disabled');});const fb=document.getElementById('qfb-'+qi);fb.textContent=q.fb[oi];fb.className='qfb show '+(oi===q.correct?'pos':'neg');if(Object.keys(quizDone).length===questions.length)setTimeout(showScore,500);}
+function showScore(){const sb=document.getElementById('score-box');const total=(QUIZ[currentLang]||QUIZ.fr).length;const pct=Math.round(quizScore/total*100);document.getElementById('score-n').textContent=quizScore+'/'+total;document.getElementById('score-pct').textContent=pct+' · Score';let msg,emoji;if(currentLang==='en'){if(pct>=80){msg='Excellent! You have mastered the SBI/DESC methods and their nuances. Put it into practice this week.';emoji='🏆';confettiBurst();}else if(pct>=60){msg='Good score. A few nuances to review, particularly around ratios and the SBII extension.';emoji='🌟';}else{msg='A few points to deepen — focus especially on the SBI builder and the methods.';emoji='💪';}}else{if(pct>=80){msg='Excellent ! Vous maîtrisez les méthodes SBI/DESC et leurs nuances. Mettez en pratique cette semaine.';emoji='🏆';confettiBurst();}else if(pct>=60){msg='Bon score. Quelques nuances à revoir, notamment sur les ratios et l\'extension SBII.';emoji='🌟';}else{msg='Quelques points à approfondir — reprenez surtout le constructeur SBI et les méthodes.';emoji='💪';}}document.getElementById('score-emoji').textContent=emoji;document.getElementById('score-msg').textContent=msg;sb.classList.add('show');document.getElementById('btn-finish').style.display='inline-flex';sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:total,event:'quiz_done',ts:new Date().toISOString()});}
+function confettiBurst(){const colors=['#A0EB9D','#1e3bbf','#2347d4','#FFD700','#FF6B6B'];for(let i=0;i<60;i++){const c=document.createElement('div');c.className='confetti';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=(50+Math.random()*40-20)+'%';c.style.top='40%';c.style.borderRadius=Math.random()>.5?'50%':'2px';c.style.transform=`rotate(${Math.random()*360}deg)`;document.body.appendChild(c);const dx=(Math.random()-.5)*600,dy=Math.random()*500+200,dur=1500+Math.random()*1500;c.animate([{transform:c.style.transform,opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.4,1)'});setTimeout(()=>c.remove(),dur);}}
+function restartModule(){Object.keys(quizDone).forEach(k=>delete quizDone[k]);quizScore=0;document.getElementById('score-box').classList.remove('show');document.getElementById('btn-finish').style.display='none';exampleIdx=0;const exBtn=document.getElementById('b-example');exBtn.textContent=currentLang==='en'?'✨ Load an example':'✨ Charger un exemple';renderQuiz();goStep(0);}
+</script>
+</body>
+</html>
