@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1 · L'énergie au travail · Brakson</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p1:#1a2fa8;--p2:#1e3bbf;--p3:#2347d4;--p4:#2e58f0;
+  --bg:#f0f4ff;--bgl:#e8eeff;
+  --acc:#A0EB9D;--accd:#8BCC88;
+  --ink:#0d1a3a;--gr:#6b7a99;--bo:#dde4f5;
+  --wh:#ffffff;--w70:rgba(255,255,255,.70);--w40:rgba(255,255,255,.40);
+  --w15:rgba(255,255,255,.15);--w08:rgba(255,255,255,.08);
+  --card-bg:#ffffff;
+  --hub-bg:linear-gradient(160deg,#0d1f7a 0%,#1a2fa8 45%,#1e3bbf 100%);
+  --nav-bg:rgba(26,47,168,.96);
+  --shadow-sm:0 2px 8px rgba(13,26,58,.06);
+  --shadow-md:0 8px 24px rgba(13,26,58,.10);
+  --shadow-lg:0 20px 50px rgba(13,26,58,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:16px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes scaleIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideR{from{transform:translateX(-30px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(160,235,157,.4)}50%{box-shadow:0 0 0 14px rgba(160,235,157,0)}}
+
+/* LOGIN */
+#login-overlay{position:fixed;inset:0;z-index:9000;background:var(--hub-bg);display:flex;align-items:center;justify-content:center;}
+#login-overlay::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+.lb{position:relative;z-index:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(20px);border-radius:20px;padding:44px 40px;width:100%;max-width:440px;margin:20px;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:fadeUp .5s ease;}
+.lb-logo{width:56px;height:56px;background:var(--acc);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 22px;animation:float 3s ease-in-out infinite;}
+.lb-title{font-size:22px;font-weight:700;color:#fff;text-align:center;margin-bottom:6px;letter-spacing:-.02em;}
+.lb-sub{font-size:14px;color:var(--w70);text-align:center;margin-bottom:28px;line-height:1.55;}
+.lb-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--w40);margin-bottom:7px;display:block;}
+.lb-input{width:100%;padding:14px 17px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.20);border-radius:10px;font-family:inherit;font-size:15px;color:#fff;outline:none;transition:all .2s;}
+.lb-input::placeholder{color:var(--w40);}
+.lb-input:focus{border-color:var(--acc);background:rgba(255,255,255,.13);}
+.lb-field{margin-bottom:20px;}
+.lb-btn{width:100%;padding:15px;background:var(--acc);border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;transition:all .25s;margin-top:4px;}
+.lb-btn:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 8px 22px rgba(160,235,157,.3);}
+.lb-err{margin-top:14px;padding:11px 16px;background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.3);border-radius:9px;font-size:13px;color:#ffb3ac;text-align:center;display:none;}
+.lb-err.show{display:block;animation:fadeUp .3s ease;}
+.lb-privacy{font-size:12px;color:var(--w40);text-align:center;margin-top:16px;line-height:1.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--w15);}
+.nlg{font-size:15px;font-weight:700;color:#fff;letter-spacing:.01em;}
+.nlg .icn{display:inline-block;margin-right:8px;animation:pulse 2s ease-in-out infinite;}
+.nr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.user-pill{background:rgba(160,235,157,.15);border:1px solid rgba(160,235,157,.28);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--acc);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.toggle-btn{background:rgba(160,235,157,.18);border:1px solid rgba(160,235,157,.4);border-radius:100px;padding:7px 16px;font-family:inherit;font-size:12px;font-weight:800;color:var(--acc);cursor:pointer;transition:all .2s;letter-spacing:.08em;}
+.toggle-btn:hover{background:rgba(160,235,157,.28);transform:translateY(-1px);}
+
+/* WRAP */
+.wrap{max-width:1080px;margin:0 auto;padding:0 48px;}
+@media(max-width:600px){.wrap{padding:0 20px;}nav{padding:0 18px;}}
+
+/* HERO */
+.screen{display:none;min-height:100vh;padding-top:66px;}
+.screen.active{display:block;animation:fadeUp .4s cubic-bezier(.4,0,.2,1);}
+.screen.hero-screen{padding-top:0;background:var(--hub-bg);position:relative;overflow:hidden;min-height:100vh;display:none;}
+.screen.hero-screen.active{display:flex;flex-direction:column;justify-content:center;}
+.screen.hero-screen::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:110px 48px 70px;width:100%;color:#fff;text-align:center;display:flex;flex-direction:column;align-items:center;}
+@media(max-width:600px){.hero-inner{padding:90px 22px 50px;}}
+.hero{padding:70px 0 60px;}
+.hero-card{background:var(--hub-bg);border-radius:24px;padding:60px 50px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);}
+.hero-card::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;}
+.hero-mod-badge{display:inline-block;background:rgba(160,235,157,.18);border:1px solid rgba(160,235,157,.3);color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:8px 16px;border-radius:100px;margin-bottom:30px;position:relative;z-index:1;}
+.hero-headrow{display:flex;align-items:center;justify-content:center;gap:26px;margin-bottom:30px;flex-wrap:wrap;position:relative;z-index:1;}
+.hero-icon{width:88px;height:88px;background:var(--acc);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0;animation:float 3.5s ease-in-out infinite;flex-shrink:0;box-shadow:0 0 0 8px rgba(160,235,157,.18);}
+.hero-title{font-size:clamp(34px,5vw,58px);font-weight:600;line-height:1.05;letter-spacing:-.025em;text-align:left;margin:0;}
+.hero-title .acc{color:var(--acc);font-weight:700;}
+@media(max-width:600px){.hero-headrow{flex-direction:column;gap:18px;}.hero-title{text-align:center;}}
+.hero-sub{font-size:18px;color:var(--w70);line-height:1.65;max-width:620px;margin:0 auto 36px;position:relative;z-index:1;}
+.hero-stats{display:flex;gap:42px;margin:0 auto 36px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;}
+.hstat-n{font-size:38px;font-weight:800;color:var(--acc);letter-spacing:-.03em;line-height:1;}
+.hstat-l{font-size:13px;color:var(--w70);margin-top:6px;}
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;}
+.btn-acc{background:var(--acc);color:var(--ink);border:none;border-radius:12px;padding:16px 32px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-acc:hover{background:var(--accd);transform:translateY(-2px);box-shadow:0 12px 28px rgba(160,235,157,.35);}
+.btn-acc:active{transform:translateY(0);}
+.btn-ghost-w{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:12px;padding:15px 28px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-ghost-w:hover{background:rgba(255,255,255,.1);border-color:#fff;}
+
+/* CONTENT screens */
+.scr-content{padding:50px 0 40px;}
+.mhd{margin-bottom:36px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--bo);padding-bottom:30px;}
+.mhd-l{flex:1;min-width:280px;}
+.mtag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--p2);margin-bottom:12px;}
+.mtag-d{width:18px;height:2px;background:var(--acc);border-radius:2px;}
+.mttl{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-.025em;line-height:1.1;color:var(--ink);}
+.mttl .g{color:var(--p2);}
+.mdsc{font-size:16px;color:var(--gr);line-height:1.7;margin-top:10px;max-width:600px;}
+.mnum{font-size:clamp(60px,8vw,100px);font-weight:800;color:#dde4f5;letter-spacing:-.05em;line-height:1;flex-shrink:0;user-select:none;}
+
+/* INTRO */
+.intro-box{background:linear-gradient(135deg,#fff,var(--bgl));border-radius:14px;padding:24px 28px;margin-bottom:28px;border-left:4px solid var(--p3);box-shadow:var(--shadow-sm);}
+.intro-box p{font-size:16px;color:#3a4a6b;line-height:1.7;}
+.intro-box strong{color:var(--ink);}
+.source-tag{display:inline-block;font-size:11px;color:var(--p2);background:var(--bgl);padding:3px 10px;border-radius:100px;margin-left:8px;font-weight:700;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px;}
+@media(max-width:760px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:18px 16px;text-align:center;transition:all .25s;cursor:default;}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--p3);box-shadow:var(--shadow-md);}
+.stat-card .n{font-size:30px;font-weight:800;color:var(--p2);letter-spacing:-.03em;line-height:1;}
+.stat-card .l{font-size:12px;color:var(--gr);margin-top:6px;line-height:1.4;font-weight:600;}
+.stat-card .src{font-size:10px;color:var(--gr);margin-top:4px;opacity:.7;}
+
+/* DIMENSION CARDS */
+.dim-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:30px;}
+@media(max-width:900px){.dim-grid{grid-template-columns:1fr;}}
+.dim-card{background:#fff;border:1.5px solid var(--bo);border-radius:18px;padding:28px 30px;position:relative;overflow:hidden;cursor:pointer;transition:all .3s;}
+.dim-card:hover{transform:translateY(-3px);border-color:var(--p3);box-shadow:var(--shadow-md);}
+.dim-card.expanded{border-color:var(--p3);box-shadow:var(--shadow-md);}
+.dim-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--p2);}
+.dim-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
+.dim-emoji{width:52px;height:52px;background:linear-gradient(135deg,var(--p1),var(--p3));color:#fff;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.dim-num{font-size:13px;font-weight:800;color:var(--gr);letter-spacing:.16em;text-transform:uppercase;line-height:1.3;}
+.dim-num .dim-name{color:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;}
+.dim-cap{font-size:14px;color:var(--gr);line-height:1.6;margin-bottom:14px;font-style:italic;text-align:justify;}
+.dim-toggle{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--p2);font-weight:700;text-transform:uppercase;letter-spacing:.1em;}
+.dim-toggle .arr{transition:transform .25s;}
+.dim-card.expanded .arr{transform:rotate(180deg);}
+.dim-detail{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.dim-card.expanded .dim-detail{max-height:900px;}
+.dim-detail-inner{padding-top:14px;border-top:1px solid var(--bo);margin-top:14px;}
+.dim-detail-inner ul{list-style:none;}
+.dim-detail-inner li{padding:8px 0 8px 22px;font-size:14px;color:var(--gr);line-height:1.6;position:relative;text-align:justify;}
+.dim-detail-inner li::before{content:'→';color:var(--acc);font-weight:800;position:absolute;left:0;top:8px;line-height:1;}
+.dim-detail-inner li strong{color:var(--ink);font-weight:700;}
+
+/* SELF-DIAG (sliders) */
+.diag-box{background:linear-gradient(135deg,var(--p1),var(--p2));border-radius:18px;padding:30px;color:#fff;margin-bottom:30px;position:relative;overflow:hidden;}
+.diag-box::after{content:'';position:absolute;top:-50%;right:-30%;width:500px;height:500px;background:radial-gradient(circle,rgba(160,235,157,.15),transparent 60%);pointer-events:none;}
+.diag-title{font-size:22px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em;position:relative;z-index:1;}
+.diag-sub{font-size:14px;color:var(--w70);margin-bottom:24px;position:relative;z-index:1;}
+.diag-row{display:flex;flex-direction:column;gap:18px;position:relative;z-index:1;}
+.diag-item{}
+.diag-item-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.diag-item-l{font-size:14px;font-weight:700;color:#fff;}
+.diag-item-v{font-size:18px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums;}
+.diag-slider{-webkit-appearance:none;appearance:none;width:100%;height:8px;background:rgba(255,255,255,.18);border-radius:100px;outline:none;cursor:pointer;}
+.diag-slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;background:var(--acc);border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.25);transition:transform .15s;}
+.diag-slider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+.diag-slider::-moz-range-thumb{width:24px;height:24px;background:var(--acc);border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.diag-result{margin-top:24px;padding:18px 20px;background:rgba(255,255,255,.08);border:1px solid rgba(160,235,157,.25);border-radius:12px;font-size:14px;line-height:1.65;color:#fff;position:relative;z-index:1;animation:fadeIn .4s ease;}
+.diag-result strong{color:var(--acc);}
+
+/* ENERGY CURVE INTERACTIVE */
+.curve-wrap{background:#fff;border:1.5px solid var(--bo);border-radius:16px;padding:26px 22px 22px;margin-bottom:30px;}
+.curve-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+.curve-sub{font-size:13px;color:var(--gr);margin-bottom:18px;line-height:1.5;}
+.curve-svg-wrap{position:relative;}
+.curve-tooltip{position:absolute;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .15s;z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.2);white-space:nowrap;}
+.curve-tooltip.on{opacity:1;}
+.curve-tooltip::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink);}
+
+/* TIMER WIDGET (Pomodoro 90min) */
+.timer-card{background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:18px;padding:32px 28px;color:#fff;text-align:center;margin-bottom:30px;position:relative;overflow:hidden;}
+.timer-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(160,235,157,.18),transparent 60%);pointer-events:none;}
+.timer-label{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--w70);margin-bottom:12px;position:relative;z-index:1;}
+.timer-display{font-size:72px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;position:relative;z-index:1;margin-bottom:10px;}
+.timer-display.run{animation:glow 2s infinite;border-radius:14px;padding:6px 18px;display:inline-block;}
+.timer-phase{font-size:14px;color:var(--w70);margin-bottom:18px;position:relative;z-index:1;}
+.timer-progress-bar{height:6px;background:rgba(255,255,255,.15);border-radius:100px;overflow:hidden;margin:0 auto 22px;max-width:380px;position:relative;z-index:1;}
+.timer-progress-fill{height:100%;background:var(--acc);border-radius:100px;width:0;transition:width 1s linear;}
+.timer-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;}
+.timer-btn{background:var(--acc);color:var(--ink);border:none;border-radius:100px;padding:11px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.timer-btn:hover{transform:translateY(-1px);background:var(--accd);}
+.timer-btn.alt{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);}
+.timer-btn.alt:hover{background:rgba(255,255,255,.25);}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px;}
+@media(max-width:760px){.tips-grid{grid-template-columns:1fr;}}
+.tip{background:#fff;border:1.5px solid var(--bo);border-radius:13px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:all .25s;}
+.tip:hover{border-color:var(--p3);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.tip-i{font-size:24px;flex-shrink:0;width:40px;height:40px;background:var(--bgl);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.tip-t{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px;}
+.tip-b{font-size:13px;color:var(--gr);line-height:1.6;}
+
+/* QUIZ */
+.quiz-intro{background:linear-gradient(135deg,#fff,#edfaf3);border-radius:14px;padding:22px 26px;margin-bottom:28px;border-left:4px solid var(--acc);box-shadow:var(--shadow-sm);}
+.quiz-intro p{font-size:15px;color:#3a4a6b;line-height:1.7;}
+.quiz-q{background:#fff;border:1.5px solid var(--bo);border-radius:14px;padding:24px 26px;margin-bottom:14px;transition:all .25s;animation:fadeUp .35s ease;}
+.quiz-q.answered{box-shadow:var(--shadow-sm);}
+.quiz-qhead{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.quiz-qn{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--gr);background:var(--bgl);padding:5px 10px;border-radius:100px;}
+.quiz-qpts{font-size:11px;font-weight:800;color:var(--p2);margin-left:auto;}
+.quiz-qt{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:18px;line-height:1.45;}
+.quiz-os{display:flex;flex-direction:column;gap:8px;}
+.quiz-o{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:11px;border:1.5px solid var(--bo);background:#fff;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--ink);text-align:left;transition:all .2s;width:100%;position:relative;overflow:hidden;}
+.quiz-o:hover{border-color:var(--p3);background:var(--bgl);transform:translateX(3px);}
+.quiz-o-letter{width:30px;height:30px;border-radius:8px;background:var(--bgl);color:var(--p2);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.quiz-o.ok{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.ok .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.ok::after{content:'✓';position:absolute;right:18px;color:#27ae60;font-size:18px;font-weight:800;animation:scaleIn .3s ease;}
+.quiz-o.ko{border-color:#e74c3c;background:#fff2f0;cursor:default;}
+.quiz-o.ko .quiz-o-letter{background:#ffd5d0;color:#c0392b;}
+.quiz-o.ko::after{content:'✕';position:absolute;right:18px;color:#e74c3c;font-size:18px;font-weight:800;animation:scaleIn .3s ease;}
+.quiz-o.reveal{border-color:#27ae60;background:#edfaf3;cursor:default;}
+.quiz-o.reveal .quiz-o-letter{background:var(--acc);color:#0d4a1f;}
+.quiz-o.disabled{opacity:.5;pointer-events:none;}
+.qfb{display:none;margin-top:14px;padding:14px 18px;border-radius:11px;font-size:14px;line-height:1.65;}
+.qfb.show{display:block;animation:fadeUp .3s ease;}
+.qfb.pos{background:#edfaf3;color:#1a6b38;border:1px solid rgba(46,204,95,.2);}
+.qfb.neg{background:#fff7f5;color:#7a3a30;border:1px solid rgba(231,76,60,.2);}
+
+/* SCORE BOX */
+.score-box{display:none;background:linear-gradient(135deg,var(--p1),var(--p3));border-radius:18px;padding:36px 28px;text-align:center;color:#fff;margin-top:24px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;}
+.score-box.show{display:block;animation:scaleIn .5s ease;}
+.score-box::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(160,235,157,.2),transparent 60%);pointer-events:none;}
+.score-emoji{font-size:54px;margin-bottom:8px;display:inline-block;animation:float 2.5s ease-in-out infinite;position:relative;z-index:1;}
+.score-n{font-size:60px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;position:relative;z-index:1;}
+.score-pct{font-size:16px;color:var(--w70);font-weight:600;margin:6px 0 18px;position:relative;z-index:1;}
+.score-msg{font-size:16px;color:#fff;line-height:1.65;max-width:480px;margin:0 auto;position:relative;z-index:1;}
+
+/* ACTION PLAN */
+.action-plan{background:#fff;border:1.5px solid var(--bo);border-radius:16px;padding:28px;margin-top:22px;box-shadow:var(--shadow-sm);}
+.action-plan-h{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.action-plan-i{width:42px;height:42px;background:var(--bgl);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.action-plan-t{font-size:17px;font-weight:800;color:var(--ink);}
+.action-list{display:flex;flex-direction:column;gap:10px;}
+.action-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg);border-radius:11px;cursor:pointer;transition:all .2s;border:1.5px solid transparent;}
+.action-item:hover{border-color:var(--p3);background:var(--bgl);}
+.action-item.checked{background:#edfaf3;border-color:rgba(39,174,96,.3);}
+.action-checkbox{width:24px;height:24px;border:2px solid var(--bo);border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .2s;}
+.action-item.checked .action-checkbox{background:var(--acc);border-color:var(--acc);}
+.action-item.checked .action-checkbox::after{content:'✓';color:#0d4a1f;font-weight:800;font-size:13px;}
+.action-text{font-size:14px;color:var(--ink);font-weight:500;line-height:1.5;}
+.action-item.checked .action-text{text-decoration:line-through;opacity:.6;}
+
+/* NAV BUTTONS */
+.snav{display:flex;justify-content:space-between;padding:32px 0;margin-top:14px;border-top:1px solid var(--bo);flex-wrap:wrap;gap:12px;}
+.btn-dk{background:var(--p1);color:#fff;border:none;border-radius:100px;padding:14px 30px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px;}
+.btn-dk:hover{background:var(--p2);transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.btn-gh{background:transparent;color:var(--gr);border:1.5px solid var(--bo);border-radius:100px;padding:13px 24px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-gh:hover{border-color:var(--ink);color:var(--ink);background:var(--bgl);}
+
+/* PROGRESS BAR */
+.pbar{display:flex;gap:6px;align-items:center;margin:18px 0 24px;}
+.pdot{height:6px;flex:1;border-radius:100px;background:var(--bo);transition:all .25s;cursor:pointer;border:none;padding:0;font:inherit;}
+.pdot:hover{transform:scaleY(1.4);background:var(--p3);}
+.pdot.active{background:linear-gradient(90deg,var(--p2),var(--acc));cursor:default;}
+.pdot.active:hover{transform:scaleY(1);}
+.pdot.done{background:var(--acc);}
+.pdot.done:hover{transform:scaleY(1.4);background:var(--p2);}
+
+/* SOURCES */
+.sources-box{background:var(--bgl);border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:12px;color:var(--gr);line-height:1.7;}
+.sources-box strong{color:var(--ink);font-weight:800;display:block;margin-bottom:6px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
+
+/* CONFETTI */
+.confetti{position:fixed;width:10px;height:10px;pointer-events:none;z-index:9999;}
+
+@media(max-width:600px){
+  .hero-card{padding:40px 28px;}
+  .mhd{flex-direction:column;align-items:flex-start;}
+  .mnum{display:none;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-overlay">
+  <div class="lb">
+    <div class="lb-logo">⚡</div>
+    <div class="lb-title" data-fr="Module 1 · L'énergie au travail" data-en="Module 1 · Energy at Work">Module 1 · L'énergie au travail</div>
+    <div class="lb-sub" data-fr="Entrez votre email professionnel pour démarrer ce module de 6 minutes." data-en="Enter your professional email to start this 6-minute module.">Entrez votre email professionnel pour démarrer ce module de 6 minutes.</div>
+    <div class="lb-field">
+      <label class="lb-label" for="login-email" data-fr="Adresse email" data-en="Email address">Adresse email</label>
+      <input class="lb-input" type="email" id="login-email" placeholder="prenom.nom@entreprise.fr" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="lb-btn" onclick="doLogin()" data-fr="Démarrer le module →" data-en="Start the module →">Démarrer le module →</button>
+    <div class="lb-err" id="login-err" data-fr="Veuillez saisir une adresse email valide." data-en="Please enter a valid email address.">Veuillez saisir une adresse email valide.</div>
+    <div class="lb-privacy" data-fr="Votre email sert uniquement à enregistrer votre participation. Aucune donnée n'est transmise à des tiers." data-en="Your email is only used to record your participation. No data is shared with third parties.">Votre email sert uniquement à enregistrer votre participation. Aucune donnée n'est transmise à des tiers.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+
+<nav>
+  <span class="nlg" id="nav-title"><span class="icn">⚡</span>Module 1 · Énergie</span>
+  <div class="nr">
+    <button class="toggle-btn" id="lang-btn" onclick="toggleLang()">EN</button>
+    <span class="user-pill" id="user-pill"></span>
+  </div>
+</nav>
+
+<!-- STEP 0 — HERO (full screen) -->
+<div class="screen hero-screen active" id="screen-0">
+  <div class="hero-inner">
+    <div class="hero-mod-badge" data-fr="Module 1 · ~6 min · Bien-être" data-en="Module 1 · ~6 min · Well-being">Module 1 · ~6 min · Bien-être</div>
+    <div class="hero-headrow">
+      
+      <h1 class="hero-title" data-fr="L'énergie au <span class='acc'>travail</span>" data-en="<span class='acc'>Energy</span> at Work">L'énergie au <span class="acc">travail</span></h1>
+    </div>
+    <p class="hero-sub" data-fr="Comprendre et gérer vos 4 dimensions d'énergie pour performer durablement, sans vous épuiser." data-en="Understand and manage your 4 energy dimensions to perform sustainably, without burning out.">Comprendre et gérer vos 4 dimensions d'énergie pour performer durablement, sans vous épuiser.</p>
+    <div class="hero-stats">
+      <div><div class="hstat-n">4</div><div class="hstat-l" data-fr="Dimensions d'énergie" data-en="Energy dimensions">Dimensions d'énergie</div></div>
+      <div><div class="hstat-n">60-90 min</div><div class="hstat-l" data-fr="Cycle ultradien optimal" data-en="Optimal ultradian cycle">Cycle ultradien optimal</div></div>
+      <div><div class="hstat-n">+40%</div><div class="hstat-l" data-fr="de productivité observée" data-en="observed productivity gain">de productivité observée</div></div>
+    </div>
+    <div class="hero-cta-row">
+      <button class="btn-acc" onclick="goStep(1)" data-fr="Commencer →" data-en="Start →">Commencer →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 1 — CONTENT -->
+<div class="screen" id="screen-1">
+  <div class="wrap scr-content">
+    <div class="pbar"><button class="pdot done" onclick="goStep(0)" title="Retour à l'introduction"></button><button class="pdot active" title="Étape actuelle"></button><button class="pdot" onclick="goStep(2)" title="Aller au quiz"></button></div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-fr="Contenu · Loehr & Schwartz" data-en="Content · Loehr & Schwartz">Contenu · Loehr & Schwartz</span></div>
+        <h1 class="mttl" data-fr="Les 4 <span class='g'>dimensions de l'énergie</span>" data-en="The 4 <span class='g'>energy dimensions</span>">Les 4 <span class="g">dimensions de l'énergie</span></h1>
+        <p class="mdsc" data-fr="Selon Jim Loehr et Tony Schwartz (Power of Full Engagement, 2003), l'énergie est la ressource fondamentale de la haute performance." data-en="According to Jim Loehr and Tony Schwartz (Power of Full Engagement, 2003), energy is the fundamental resource for high performance.">Selon Jim Loehr et Tony Schwartz (Power of Full Engagement, 2003), l'énergie est la ressource fondamentale de la haute performance.</p>
+      </div>
+      <div class="mnum">01</div>
+    </div>
+
+    <div class="intro-box">
+      <p data-fr="Loehr et Schwartz ont travaillé pendant 25 ans avec des athlètes de haut niveau, puis avec des dirigeants.<br>Leur découverte clé : la performance durable repose sur <strong>4 sources d'énergie distinctes et interconnectées</strong>, qu'il faut savoir équilibrer entre dépense et récupération, comme pour un muscle." data-en="Loehr and Schwartz worked for 25 years with top-level athletes, then with executives.<br>Their key finding: sustainable performance rests on <strong>4 distinct and interconnected sources of energy</strong>, which must be balanced between expenditure and recovery — just like a muscle.">Loehr et Schwartz ont travaillé pendant 25 ans avec des athlètes de haut niveau, puis avec des dirigeants.<br>Leur découverte clé : la performance durable repose sur <strong>4 sources d'énergie distinctes et interconnectées</strong>, qu'il faut savoir équilibrer entre dépense et récupération, comme pour un muscle.</p>
+    </div>
+
+    <div class="dim-grid">
+      <div class="dim-card" onclick="toggleDim(this)">
+        <div class="dim-head">
+          <div class="dim-emoji">💪</div>
+          <div class="dim-num" data-fr="01 · Énergie <span class='dim-name'>Physique</span>" data-en="01 · <span class='dim-name'>Physical</span> Energy">01 · Énergie <span class="dim-name">Physique</span></div>
+        </div>
+        <p class="dim-cap" data-fr="L'énergie physique conditionne notre capacité à être concentré, engagé et performant au quotidien." data-en="Physical energy conditions our ability to be focused, engaged and high-performing every day.">L'énergie physique conditionne notre capacité à être concentré, engagé et performant au quotidien.</p>
+        <div class="dim-toggle"><span data-fr="Voir les leviers" data-en="See the levers">Voir les leviers</span> <span class="arr">▾</span></div>
+        <div class="dim-detail"><div class="dim-detail-inner"><ul>
+          <li data-fr="<strong>Sommeil&nbsp;:</strong> 7 à 9 h par nuit avec des horaires réguliers" data-en="<strong>Sleep:</strong> 7 to 9 h per night with regular hours"><strong>Sommeil&nbsp;:</strong> 7 à 9 h par nuit avec des horaires réguliers</li>
+          <li data-fr="<strong>Hydratation&nbsp;:</strong> 1,5 à 2 L d'eau par jour — la déshydratation impacte la concentration" data-en="<strong>Hydration:</strong> 1.5 to 2 L of water per day — dehydration impairs concentration"><strong>Hydratation&nbsp;:</strong> 1,5 à 2 L d'eau par jour — la déshydratation impacte la concentration</li>
+          <li data-fr="<strong>Mouvement&nbsp;:</strong> Levez-vous toutes les 45-60 min et pensez à vous étirer" data-en="<strong>Movement:</strong> Stand up every 45-60 min and remember to stretch"><strong>Mouvement&nbsp;:</strong> Levez-vous toutes les 45-60 min et pensez à vous étirer</li>
+          <li data-fr="<strong>Nutrition&nbsp;:</strong> Évitez les pics glycémiques, privilégiez des repas équilibrés" data-en="<strong>Nutrition:</strong> Avoid glycemic spikes, favor balanced meals"><strong>Nutrition&nbsp;:</strong> Évitez les pics glycémiques, privilégiez des repas équilibrés</li>
+          <li data-fr="<strong>Lumière&nbsp;:</strong> S'exposer à la lumière naturelle 10 à 30 min le matin pour réguler l'horloge biologique" data-en="<strong>Light:</strong> Expose yourself to natural light 10 to 30 min in the morning to regulate the biological clock"><strong>Lumière&nbsp;:</strong> S'exposer à la lumière naturelle 10 à 30 min le matin pour réguler l'horloge biologique</li>
+        </ul></div></div>
+      </div>
+
+      <div class="dim-card" onclick="toggleDim(this)">
+        <div class="dim-head">
+          <div class="dim-emoji">❤️</div>
+          <div class="dim-num" data-fr="02 · Énergie <span class='dim-name'>Émotionnelle</span>" data-en="02 · <span class='dim-name'>Emotional</span> Energy">02 · Énergie <span class="dim-name">Émotionnelle</span></div>
+        </div>
+        <p class="dim-cap" data-fr="L'énergie émotionnelle détermine la qualité de ce que l'on vit et de ce que l'on produit." data-en="Emotional energy determines the quality of what we experience and what we produce.">L'énergie émotionnelle détermine la qualité de ce que l'on vit et de ce que l'on produit.</p>
+        <div class="dim-toggle"><span data-fr="Voir les leviers" data-en="See the levers">Voir les leviers</span> <span class="arr">▾</span></div>
+        <div class="dim-detail"><div class="dim-detail-inner"><ul>
+          <li data-fr="<strong>Nommez&nbsp;vos&nbsp;émotions&nbsp;:</strong> Sans les juger (technique du « name it to tame it »)" data-en="<strong>Name your emotions:</strong> Without judging them (the « name it to tame it » technique)"><strong>Nommez&nbsp;vos&nbsp;émotions&nbsp;:</strong> Sans les juger (technique du « name it to tame it »)</li>
+          <li data-fr="<strong>Gratitude&nbsp;:</strong> Identifiez 3 points positifs par jour <em>(disponible dans l'application Alan)</em>" data-en="<strong>Gratitude:</strong> Identify 3 positive points per day <em>(available in the Alan app)</em>"><strong>Gratitude&nbsp;:</strong> Identifiez 3 points positifs par jour <em>(disponible dans l'application Alan)</em></li>
+          <li data-fr="<strong>Relations&nbsp;:</strong> Favoriser au moins une conversation positive de qualité par jour avec un collègue" data-en="<strong>Relationships:</strong> Foster at least one quality positive conversation per day with a colleague"><strong>Relations&nbsp;:</strong> Favoriser au moins une conversation positive de qualité par jour avec un collègue</li>
+          <li data-fr="<strong>Auto-compassion&nbsp;:</strong> Traitez-vous comme vous traiteriez votre meilleur ami" data-en="<strong>Self-compassion:</strong> Treat yourself as you would treat your best friend"><strong>Auto-compassion&nbsp;:</strong> Traitez-vous comme vous traiteriez votre meilleur ami</li>
+          <li data-fr="<strong>Respiration&nbsp;consciente&nbsp;:</strong> Avant un moment difficile ou de stress (3 cycles 4-6)" data-en="<strong>Conscious breathing:</strong> Before a difficult or stressful moment (3 cycles 4-6)"><strong>Respiration&nbsp;consciente&nbsp;:</strong> Avant un moment difficile ou de stress (3 cycles 4-6)</li>
+        </ul></div></div>
+      </div>
+
+      <div class="dim-card" onclick="toggleDim(this)">
+        <div class="dim-head">
+          <div class="dim-emoji">🧠</div>
+          <div class="dim-num" data-fr="03 · Énergie <span class='dim-name'>Mentale</span>" data-en="03 · <span class='dim-name'>Mental</span> Energy">03 · Énergie <span class="dim-name">Mentale</span></div>
+        </div>
+        <p class="dim-cap" data-fr="L'énergie mentale donne une direction à notre énergie : sans focus, elle se disperse." data-en="Mental energy gives direction to our energy: without focus, it scatters.">L'énergie mentale donne une direction à notre énergie : sans focus, elle se disperse.</p>
+        <div class="dim-toggle"><span data-fr="Voir les leviers" data-en="See the levers">Voir les leviers</span> <span class="arr">▾</span></div>
+        <div class="dim-detail"><div class="dim-detail-inner"><ul>
+          <li data-fr="<strong>Cycles&nbsp;ultradiens&nbsp;60&nbsp;à&nbsp;90&nbsp;min&nbsp;:</strong> Intégrez des pauses de récupération de 5 à 15 min pour maintenir la performance cognitive" data-en="<strong>Ultradian cycles 60-90 min:</strong> Integrate 5-15 min recovery breaks to maintain cognitive performance"><strong>Cycles&nbsp;ultradiens&nbsp;60&nbsp;à&nbsp;90&nbsp;min&nbsp;:</strong> Intégrez des pauses de récupération de 5 à 15 min pour maintenir la performance cognitive</li>
+          <li data-fr="<strong>Mono-tâche&nbsp;:</strong> Changer de tâche coûte environ 20 min de re-focus (UC Irvine)" data-en="<strong>Mono-tasking:</strong> Switching tasks costs about 20 min to refocus (UC Irvine)"><strong>Mono-tâche&nbsp;:</strong> Changer de tâche coûte environ 20 min de re-focus (UC Irvine)</li>
+          <li data-fr="<strong>Hygiène&nbsp;numérique&nbsp;:</strong> Désactivez les notifications et regroupez la consultation des emails 2 à 3 × par jour" data-en="<strong>Digital hygiene:</strong> Disable notifications and batch email checks 2-3× per day"><strong>Hygiène&nbsp;numérique&nbsp;:</strong> Désactivez les notifications et regroupez la consultation des emails 2 à 3 × par jour</li>
+          <li data-fr="<strong>Time-blocking&nbsp;:</strong> Protégez vos pics cognitifs" data-en="<strong>Time-blocking:</strong> Protect your cognitive peaks"><strong>Time-blocking&nbsp;:</strong> Protégez vos pics cognitifs</li>
+          <li data-fr="<strong>Méditation&nbsp;10&nbsp;min&nbsp;/&nbsp;jour&nbsp;:</strong> Peut améliorer la capacité de concentration et la régulation de l'attention" data-en="<strong>Meditation 10 min / day:</strong> Can improve concentration capacity and attention regulation"><strong>Méditation&nbsp;10&nbsp;min&nbsp;/&nbsp;jour&nbsp;:</strong> Peut améliorer la capacité de concentration et la régulation de l'attention</li>
+        </ul></div></div>
+      </div>
+
+      <div class="dim-card" onclick="toggleDim(this)">
+        <div class="dim-head">
+          <div class="dim-emoji">✨</div>
+          <div class="dim-num" data-fr="04 · Énergie <span class='dim-name'>Spirituelle</span>" data-en="04 · <span class='dim-name'>Spiritual</span> Energy">04 · Énergie <span class="dim-name">Spirituelle</span></div>
+        </div>
+        <p class="dim-cap" data-fr="L'énergie du sens est le moteur de l'engagement durable." data-en="The energy of meaning is the engine of sustainable engagement.">L'énergie du sens est le moteur de l'engagement durable.</p>
+        <div class="dim-toggle"><span data-fr="Voir les leviers" data-en="See the levers">Voir les leviers</span> <span class="arr">▾</span></div>
+        <div class="dim-detail"><div class="dim-detail-inner"><ul>
+          <li data-fr="<strong>Reliez&nbsp;les&nbsp;tâches&nbsp;à&nbsp;vos&nbsp;valeurs&nbsp;:</strong> Se demander régulièrement « pourquoi est-ce que je fais cela ? »" data-en="<strong>Connect tasks to your values:</strong> Regularly ask yourself « why am I doing this? »"><strong>Reliez&nbsp;les&nbsp;tâches&nbsp;à&nbsp;vos&nbsp;valeurs&nbsp;:</strong> Se demander régulièrement « pourquoi est-ce que je fais cela ? »</li>
+          <li data-fr="<strong>Mobiliser&nbsp;ses&nbsp;forces&nbsp;:</strong> Identifiez vos forces personnelles et activez-les régulièrement dans votre travail" data-en="<strong>Leverage your strengths:</strong> Identify your personal strengths and activate them regularly at work"><strong>Mobiliser&nbsp;ses&nbsp;forces&nbsp;:</strong> Identifiez vos forces personnelles et activez-les régulièrement dans votre travail</li>
+          <li data-fr="<strong>Contribuer&nbsp;à&nbsp;plus&nbsp;grand&nbsp;que&nbsp;soi&nbsp;:</strong> Comprendre son impact sur l'équipe, les clients ou la société" data-en="<strong>Contribute to something bigger than yourself:</strong> Understand your impact on the team, clients or society"><strong>Contribuer&nbsp;à&nbsp;plus&nbsp;grand&nbsp;que&nbsp;soi&nbsp;:</strong> Comprendre son impact sur l'équipe, les clients ou la société</li>
+          <li data-fr="<strong>Rituels&nbsp;d'intention&nbsp;:</strong> Définir en début de semaine 2 à 3 priorités alignées avec sa mission et ses objectifs" data-en="<strong>Intention rituals:</strong> Define 2-3 priorities at the start of the week aligned with your mission and goals"><strong>Rituels&nbsp;d'intention&nbsp;:</strong> Définir en début de semaine 2 à 3 priorités alignées avec sa mission et ses objectifs</li>
+          <li data-fr="<strong>Cohérence&nbsp;entre&nbsp;valeurs&nbsp;et&nbsp;actions&nbsp;:</strong> L'écart entre ce que l'on valorise et ce que l'on fait génère de la fatigue et du désengagement" data-en="<strong>Coherence between values and actions:</strong> The gap between what we value and what we do generates fatigue and disengagement"><strong>Cohérence&nbsp;entre&nbsp;valeurs&nbsp;et&nbsp;actions&nbsp;:</strong> L'écart entre ce que l'on valorise et ce que l'on fait génère de la fatigue et du désengagement</li>
+        </ul></div></div>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="📊 Auto-diagnostic interactif" data-en="📊 Interactive self-diagnostic">📊 Auto-diagnostic interactif</h3>
+    <div class="diag-box">
+      <div class="diag-title" data-fr="Évaluez votre niveau d'énergie aujourd'hui" data-en="Rate your energy level today">Évaluez votre niveau d'énergie aujourd'hui</div>
+      <div class="diag-sub" data-fr="Bougez chaque curseur de 1 (épuisé) à 10 (au top). Vous obtiendrez une recommandation personnalisée." data-en="Move each slider from 1 (exhausted) to 10 (peak). You'll get a personalised recommendation.">Bougez chaque curseur de 1 (épuisé) à 10 (au top). Vous obtiendrez une recommandation personnalisée.</div>
+      <div class="diag-row">
+        <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="💪 Physique" data-en="💪 Physical">💪 Physique</span><span class="diag-item-v" id="v-phy">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-phy" oninput="updateDiag()"></div>
+        <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="❤️ Émotionnelle" data-en="❤️ Emotional">❤️ Émotionnelle</span><span class="diag-item-v" id="v-emo">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-emo" oninput="updateDiag()"></div>
+        <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="🧠 Mentale" data-en="🧠 Mental">🧠 Mentale</span><span class="diag-item-v" id="v-men">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-men" oninput="updateDiag()"></div>
+        <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="✨ Sens" data-en="✨ Meaning">✨ Sens</span><span class="diag-item-v" id="v-spi">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-spi" oninput="updateDiag()"></div>
+      </div>
+      <div class="diag-result" id="diag-result"><strong>Score moyen : 5,0 / 10</strong> — Bougez les curseurs pour découvrir votre dimension la plus en tension et le levier prioritaire à activer aujourd'hui.</div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="🌊 Les cycles ultradiens (selon Nathaniel Kleitman)" data-en="🌊 Ultradian cycles (according to Nathaniel Kleitman)">🌊 Les cycles ultradiens (selon Nathaniel Kleitman)</h3>
+    <div class="curve-wrap">
+      <div class="curve-title" data-fr="Votre courbe d'énergie quotidienne" data-en="Your daily energy curve">Votre courbe d'énergie quotidienne</div>
+      <div class="curve-sub" data-fr="Survolez la courbe pour découvrir le moment optimal de chaque type de tâche." data-en="Hover over the curve to discover the optimal time for each type of task.">Survolez la courbe pour découvrir le moment optimal de chaque type de tâche.</div>
+      <div class="curve-svg-wrap">
+        <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" id="curve-svg">
+          <defs><linearGradient id="cg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#A0EB9D" stop-opacity=".55"/><stop offset="1" stop-color="#A0EB9D" stop-opacity="0"/></linearGradient></defs>
+          <rect x="0" y="0" width="600" height="220" fill="none"/>
+          <line x1="40" y1="180" x2="570" y2="180" stroke="#dde4f5" stroke-width="2"/>
+          <line x1="40" y1="20" x2="40" y2="180" stroke="#dde4f5" stroke-width="2"/>
+          <!-- Smooth wave curve (cubic) -->
+          <path d="M40,150 C70,150 95,55 125,55 C160,55 175,150 205,150 C240,150 265,55 295,55 C330,55 355,150 385,150 C420,150 445,55 475,55 C510,55 540,150 570,150 L570,180 L40,180 Z" fill="url(#cg)"/>
+          <path d="M40,150 C70,150 95,55 125,55 C160,55 175,150 205,150 C240,150 265,55 295,55 C330,55 355,150 385,150 C420,150 445,55 475,55 C510,55 540,150 570,150" fill="none" stroke="#2347d4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Markers on peaks/troughs -->
+          <circle cx="125" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" data-fr="9h–11h · Pic cognitif n°1 — créativité, prise de décision, tâches complexes" data-en="9-11am · Cognitive peak n°1 — creativity, decision making, complex tasks" data-info="9h–11h · Pic cognitif n°1 — créativité, prise de décision, tâches complexes" class="cpt"/>
+          <circle cx="205" cy="150" r="8" fill="#fff" stroke="#e88a3a" stroke-width="2.5" data-fr="13h · Creux post-déjeuner — administratif, tri d'emails, marche" data-en="1pm · Post-lunch dip — admin, email sorting, walking" data-info="13h · Creux post-déjeuner — administratif, tri d'emails, marche" class="cpt"/>
+          <circle cx="295" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" data-fr="14h–15h · Remontée — réunions, brainstorm en équipe" data-en="2-3pm · Recovery — meetings, team brainstorming" data-info="14h–15h · Remontée — réunions, brainstorm en équipe" class="cpt"/>
+          <circle cx="385" cy="150" r="8" fill="#fff" stroke="#e88a3a" stroke-width="2.5" data-fr="16h · Légère baisse — pause active recommandée" data-en="4pm · Mild drop — active break recommended" data-info="16h · Légère baisse — pause active recommandée" class="cpt"/>
+          <circle cx="475" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" data-fr="16h–18h · Pic cognitif n°2 — analyse, rédaction, synthèse" data-en="4-6pm · Cognitive peak n°2 — analysis, writing, synthesis" data-info="16h–18h · Pic cognitif n°2 — analyse, rédaction, synthèse" class="cpt"/>
+          <text x="40" y="200" font-size="11" fill="#6b7a99">7h</text>
+          <text x="125" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">9h</text>
+          <text x="205" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">13h</text>
+          <text x="295" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">14h</text>
+          <text x="385" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">16h</text>
+          <text x="475" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">17h</text>
+          <text x="560" y="200" font-size="11" fill="#6b7a99">20h</text>
+        </svg>
+        <div class="curve-tooltip" id="curve-tooltip"></div>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="⏱️ Votre minuteur ultradien" data-en="⏱️ Your ultradian timer">⏱️ Votre minuteur ultradien</h3>
+    <div class="timer-card">
+      <div class="timer-label" data-fr="Cycle 60 à 90 min de focus + 5 à 15 min de récupération" data-en="60-90 min focus cycle + 5-15 min recovery">Cycle 60 à 90 min de focus + 5 à 15 min de récupération</div>
+      <div class="timer-display" id="t-display">90:00</div>
+      <div class="timer-phase" id="t-phase" data-fr="Prêt à démarrer un cycle de focus profond" data-en="Ready to start a deep focus cycle">Prêt à démarrer un cycle de focus profond</div>
+      <div class="timer-progress-bar"><div class="timer-progress-fill" id="t-fill"></div></div>
+      <div class="timer-actions">
+        <button class="timer-btn" id="t-start" onclick="timerStart()" data-fr="▶ Démarrer 90 min" data-en="▶ Start 90 min">▶ Démarrer 90 min</button>
+        <button class="timer-btn alt" onclick="timerMode('60')" data-fr="Démarrer 60 min" data-en="Start 60 min">Démarrer 60 min</button>
+        <button class="timer-btn alt" onclick="timerReset()" data-fr="↺ Reset" data-en="↺ Reset">↺ Reset</button>
+        <button class="timer-btn alt" onclick="timerMode('25')" data-fr="Pomodoro 25" data-en="Pomodoro 25">Pomodoro 25</button>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip"><div class="tip-i">⏰</div><div><div class="tip-t" data-fr="La règle des 60 à 90 minutes" data-en="The 60-90 minute rule">La règle des 60 à 90 minutes</div><div class="tip-b" data-fr="Elle s'appuie sur les cycles ultradiens : notre cerveau fonctionne par vagues d'environ 60 à 90 minutes de concentration, suivies d'une baisse naturelle d'attention. Une courte pause (10–15 min) permet de récupérer et de maintenir un bon niveau de performance sur la durée." data-en="It relies on ultradian cycles: our brain operates in waves of about 60 to 90 minutes of concentration, followed by a natural drop in attention. A short break (10-15 min) restores performance and sustains it over time.">Elle s'appuie sur les cycles ultradiens : notre cerveau fonctionne par vagues d'environ 60 à 90 minutes de concentration, suivies d'une baisse naturelle d'attention. Une courte pause (10–15 min) permet de récupérer et de maintenir un bon niveau de performance sur la durée.</div></div></div>
+      <div class="tip"><div class="tip-i">☀️</div><div><div class="tip-t" data-fr="Pics cognitifs quotidiens" data-en="Daily cognitive peaks">Pics cognitifs quotidiens</div><div class="tip-b" data-fr="Les performances cognitives varient au cours de la journée selon les rythmes biologiques : on observe souvent des pics de vigilance le matin (9h–11h) et en fin d'après-midi (16h–18h), et un creux après le déjeuner (13h–15h). L'idée est donc de placer les tâches complexes sur les périodes de pic, et les tâches plus simples ou routinières sur les phases de baisse d'attention." data-en="Cognitive performance varies through the day with biological rhythms: peaks of vigilance in the morning (9-11am) and late afternoon (4-6pm), and a trough after lunch (1-3pm). Place complex tasks on the peaks, simple or routine tasks on the dips.">Les performances cognitives varient au cours de la journée selon les rythmes biologiques : on observe souvent des pics de vigilance le matin (9h–11h) et en fin d'après-midi (16h–18h), et un creux après le déjeuner (13h–15h). L'idée est donc de placer les tâches complexes sur les périodes de pic, et les tâches plus simples ou routinières sur les phases de baisse d'attention.</div></div></div>
+      <div class="tip"><div class="tip-i">🚫</div><div><div class="tip-t" data-fr="Le coût de l'interruption" data-en="The cost of interruption">Le coût de l'interruption</div><div class="tip-b" data-fr="Il correspond au temps nécessaire pour retrouver un niveau de concentration optimal après une coupure. Des travaux en psychologie du travail (UC Irvine, Mark) montrent qu'une interruption peut nécessiter jusqu'à ~20 minutes pour revenir pleinement dans sa tâche, ce qui rend les notifications particulièrement coûteuses en productivité." data-en="It is the time needed to regain optimal concentration after a break. Work psychology research (UC Irvine, Mark) shows an interruption can require up to ~20 minutes to fully refocus — making notifications especially costly in productivity.">Il correspond au temps nécessaire pour retrouver un niveau de concentration optimal après une coupure. Des travaux en psychologie du travail (UC Irvine, Mark) montrent qu'une interruption peut nécessiter jusqu'à ~20 minutes pour revenir pleinement dans sa tâche, ce qui rend les notifications particulièrement coûteuses en productivité.</div></div></div>
+      <div class="tip"><div class="tip-i">💧</div><div><div class="tip-t" data-fr="L'hydratation, levier oublié" data-en="Hydration, the forgotten lever">L'hydratation, levier oublié</div><div class="tip-b" data-fr="L'hydratation influence directement les performances cognitives : même une légère déshydratation peut réduire la concentration et la vigilance. Des études montrent qu'une baisse d'environ 1 % du niveau d'hydratation peut altérer certaines fonctions cognitives." data-en="Hydration directly influences cognitive performance: even mild dehydration can reduce concentration and alertness. Studies show that a drop of about 1% in hydration can impair certain cognitive functions.">L'hydratation influence directement les performances cognitives : même une légère déshydratation peut réduire la concentration et la vigilance. Des études montrent qu'une baisse d'environ 1 % du niveau d'hydratation peut altérer certaines fonctions cognitives.</div></div></div>
+    </div>
+
+    <div class="sources-box">
+      <strong data-fr="Sources scientifiques" data-en="Scientific sources">Sources scientifiques</strong>
+      <span data-fr="Loehr J. &amp; Schwartz T. (2003). The Power of Full Engagement, Free Press · Kleitman N. (1963). Sleep and Wakefulness, University of Chicago Press · Mark G., Gudith D., Klocke U. (2008). The cost of interrupted work, UC Irvine · Seligman M.E.P. (2011). Flourish · Killingsworth M.A. &amp; Gibson E. (2010). Mind wandering and unhappiness, Harvard · Goyal M. et al. (2014). Meditation programs for psychological stress, JAMA Internal Medicine · INRS (2024). Le stress au travail, dossier documentaire." data-en="Loehr J. &amp; Schwartz T. (2003). The Power of Full Engagement, Free Press · Kleitman N. (1963). Sleep and Wakefulness, University of Chicago Press · Mark G., Gudith D., Klocke U. (2008). The cost of interrupted work, UC Irvine · Seligman M.E.P. (2011). Flourish · Killingsworth M.A. &amp; Gibson E. (2010). Mind wandering and unhappiness, Harvard · Goyal M. et al. (2014). Meditation programs for psychological stress, JAMA Internal Medicine · INRS (2024). Workplace stress dossier.">Loehr J. &amp; Schwartz T. (2003). The Power of Full Engagement, Free Press · Kleitman N. (1963). Sleep and Wakefulness, University of Chicago Press · Mark G., Gudith D., Klocke U. (2008). The cost of interrupted work, UC Irvine · Seligman M.E.P. (2011). Flourish · Killingsworth M.A. &amp; Gibson E. (2010). Mind wandering and unhappiness, Harvard · Goyal M. et al. (2014). Meditation programs for psychological stress, JAMA Internal Medicine · INRS (2024). Le stress au travail, dossier documentaire.</span>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(0)" data-fr="← Retour" data-en="← Back">← Retour</button>
+      <button class="btn-dk" onclick="goStep(2)" data-fr="Quiz interactif →" data-en="Interactive quiz →">Quiz interactif →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2 — QUIZ -->
+<div class="screen" id="screen-2">
+  <div class="wrap scr-content">
+    <div class="pbar"><button class="pdot done" onclick="goStep(0)" title="Retour à l'introduction"></button><button class="pdot done" onclick="goStep(1)" title="Retour au contenu"></button><button class="pdot active" title="Étape actuelle"></button></div>
+    <div class="mhd">
+      <div class="mhd-l">
+        <div class="mtag"><div class="mtag-d"></div><span data-fr="Quiz · 4 questions" data-en="Quiz · 4 questions">Quiz · 4 questions</span></div>
+        <h1 class="mttl" data-fr="Testez vos <span class='g'>connaissances</span>" data-en="Test your <span class='g'>knowledge</span>">Testez vos <span class="g">connaissances</span></h1>
+        <p class="mdsc" data-fr="Quatre questions pour ancrer ce que vous venez d'apprendre. Chaque réponse débloque une explication détaillée." data-en="Four questions to anchor what you've just learnt. Each answer unlocks a detailed explanation.">Quatre questions pour ancrer ce que vous venez d'apprendre. Chaque réponse débloque une explication détaillée.</p>
+      </div>
+      <div class="mnum">01</div>
+    </div>
+
+    <div class="quiz-intro"><p data-fr="💡 <strong>Astuce :</strong> prenez le temps de lire les feedbacks — ils contiennent souvent une nuance que la question seule ne révèle pas." data-en="💡 <strong>Tip:</strong> take time to read the feedback — it often contains a nuance the question alone does not reveal.">💡 <strong>Astuce :</strong> prenez le temps de lire les feedbacks — ils contiennent souvent une nuance que la question seule ne révèle pas.</p></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="score-box" id="score-box">
+      <div class="score-emoji" id="score-emoji">🎉</div>
+      <div class="score-n" id="score-n">0/4</div>
+      <div class="score-pct" id="score-pct">0% · Score</div>
+      <div class="score-msg" id="score-msg"></div>
+    </div>
+
+    <div class="snav">
+      <button class="btn-gh" onclick="goStep(1)" data-fr="← Revoir le contenu" data-en="← Review content">← Revoir le contenu</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-gh" onclick="restartModule()" data-fr="↺ Recommencer le quiz" data-en="↺ Restart the quiz">↺ Recommencer le quiz</button>
+        <button class="btn-dk" onclick="finishModule()" data-fr="Terminer ✓" data-en="Finish ✓">Terminer ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- STEP 3 — FIN DE MODULE -->
+<div class="screen" id="screen-3">
+  <div class="wrap scr-content">
+    <div class="pbar"><button class="pdot done" onclick="goStep(0)"></button><button class="pdot done" onclick="goStep(1)"></button><button class="pdot done" onclick="goStep(2)"></button></div>
+    <div style="text-align:center;padding:60px 30px 40px;max-width:560px;margin:0 auto;">
+      <div style="font-size:64px;margin-bottom:18px;">🎉</div>
+      <h2 id="finish-title" style="font-size:30px;font-weight:800;color:var(--ink);letter-spacing:-.025em;margin-bottom:14px;" data-fr="Module terminé" data-en="Module completed">Module terminé</h2>
+      <p id="finish-msg" style="font-size:16px;color:var(--gr);line-height:1.65;margin-bottom:30px;" data-fr="Bravo, vous avez complété le module <strong>L'énergie au travail</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant." data-en="Well done, you've completed the <strong>Energy at Work</strong> module. Your participation has been recorded. Now it's your turn to put it into practice.">Bravo, vous avez complété le module <strong>L'énergie au travail</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-dk" onclick="restartModule()" data-fr="↺ Recommencer le module" data-en="↺ Restart the module">↺ Recommencer le module</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// CONFIG
+const WEBHOOK = 'https://script.google.com/macros/s/AKfycbwv6rna5x-RVHNtXu8mcrT6tylZy6m70czPuO2-o4uXs62BxVYCdqJijSzFssawynhsIw/exec';
+const MODULE_ID = 'energie';
+
+// STATE
+let currentUser = null, currentStep = 0;
+const quizDone = {}; let quizScore = 0; const QUIZ_TOTAL = 4;
+let lang = 'fr';
+
+// UTILS
+function sendData(p){ fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).catch(()=>{}); }
+function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
+
+// LOGIN
+function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const err=document.getElementById('login-err');
+  if(!isValidEmail(email)){err.classList.add('show');return;}
+  err.classList.remove('show');
+  currentUser=email;
+  document.getElementById('user-pill').textContent=email;
+  document.getElementById('login-overlay').style.display='none';
+  document.getElementById('app').style.display='block';
+  renderQuiz();
+  sendData({email,module:MODULE_ID,event:'login',ts:new Date().toISOString()});
+}
+
+// LANG TOGGLE
+function toggleLang(){
+  lang = lang==='fr' ? 'en' : 'fr';
+  document.documentElement.lang = lang;
+  document.getElementById('lang-btn').textContent = lang==='fr' ? 'EN' : 'FR';
+  // Replace innerHTML for elements with data-fr / data-en
+  document.querySelectorAll('[data-fr][data-en]').forEach(el=>{
+    const v = el.getAttribute('data-'+lang);
+    if(v!==null) el.innerHTML = v;
+  });
+  // Re-render quiz in current language
+  QUIZ = lang==='fr' ? QUIZ_FR : QUIZ_EN;
+  renderQuiz();
+  // Mettre à jour screen-3 si actif
+  if(currentStep===3){
+    document.querySelectorAll('#screen-3 [data-fr][data-en]').forEach(el=>{
+      const v=el.getAttribute('data-'+lang);
+      if(v!==null) el.innerHTML=v;
+    });
+  }
+  // Re-bind score totals
+  document.getElementById('score-n').textContent=quizScore+'/'+QUIZ.length;
+  // Refresh tooltip data
+  document.querySelectorAll('.cpt').forEach(p=>{
+    const v=p.getAttribute('data-'+lang); if(v) p.setAttribute('data-info',v);
+  });
+  // Refresh diag (sliders)
+  if(typeof updateDiag==='function') updateDiag();
+}
+
+// NAV
+function goStep(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
+  currentStep=n;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// DIMENSION CARDS
+function toggleDim(card){ card.classList.toggle('expanded'); }
+
+// DIAG SLIDERS
+function updateDiag(){
+  const ids=['phy','emo','men','spi'];
+  const labelsFr={phy:'physique',emo:'émotionnelle',men:'mentale',spi:'le sens'};
+  const labelsEn={phy:'physical',emo:'emotional',men:'mental',spi:'meaning'};
+  const labels = lang==='fr' ? labelsFr : labelsEn;
+  let vals={};
+  ids.forEach(id=>{
+    const v=parseInt(document.getElementById('s-'+id).value);
+    document.getElementById('v-'+id).textContent=v;
+    vals[id]=v;
+  });
+  const avg=(vals.phy+vals.emo+vals.men+vals.spi)/4;
+  const min=Math.min(...Object.values(vals));
+  const minDim=ids.find(id=>vals[id]===min);
+  let recom;
+  if(lang==='fr'){
+    if(min<=3) recom = `<strong>⚠️ Alerte ${labels[minDim]}.</strong> Votre dimension ${labels[minDim]} est très basse (${min}/10). Levier prioritaire : ${getLever(minDim)}.`;
+    else if(min<=4) recom = `<strong>Dimension à renforcer : ${labels[minDim]} (${min}/10).</strong> ${getLever(minDim)}`;
+    else if(avg>=8) recom = `<strong>🌟 Excellent équilibre — ${avg.toFixed(1)}/10.</strong> Vous êtes dans une zone de haute performance. Maintenez vos rituels et observez ce qui fonctionne pour vous.`;
+    else recom = `<strong>Bon équilibre global — ${avg.toFixed(1)}/10.</strong> Pour aller plus loin, focalisez sur la dimension ${labels[minDim]} (${min}/10) : ${getLever(minDim)}`;
+  } else {
+    if(min<=3) recom = `<strong>⚠️ ${labels[minDim].charAt(0).toUpperCase()+labels[minDim].slice(1)} alert.</strong> Your ${labels[minDim]} dimension is very low (${min}/10). Priority lever: ${getLever(minDim)}.`;
+    else if(min<=4) recom = `<strong>Dimension to strengthen: ${labels[minDim]} (${min}/10).</strong> ${getLever(minDim)}`;
+    else if(avg>=8) recom = `<strong>🌟 Excellent balance — ${avg.toFixed(1)}/10.</strong> You're in a high-performance zone. Keep your rituals and observe what works for you.`;
+    else recom = `<strong>Good overall balance — ${avg.toFixed(1)}/10.</strong> To go further, focus on the ${labels[minDim]} dimension (${min}/10): ${getLever(minDim)}`;
+  }
+  document.getElementById('diag-result').innerHTML=recom;
+}
+function getLever(d){
+  const fr={phy:'priorisez 7-9h de sommeil cette semaine et 1,5 L d\'eau / jour',emo:'pratiquez la gratitude (3 points positifs ce soir) et appelez quelqu\'un qui compte',men:'protégez 1 créneau de 60 à 90 min sans notification cette semaine',spi:'reliez vos 3 prochaines tâches à votre « pourquoi » personnel'};
+  const en={phy:'prioritise 7-9h sleep this week and 1.5L water/day',emo:'practise gratitude (3 positive points tonight) and call someone who matters',men:'protect 1 slot of 60-90 min without notifications this week',spi:'connect your next 3 tasks to your personal « why »'};
+  return (lang==='fr'?fr:en)[d];
+}
+
+// CURVE TOOLTIP
+document.addEventListener('DOMContentLoaded',()=>{
+  // Curve interactivity
+  setTimeout(()=>{
+    const tt=document.getElementById('curve-tooltip');
+    if(!tt) return;
+    document.querySelectorAll('.cpt').forEach(p=>{
+      p.style.cursor='pointer';
+      p.addEventListener('mouseenter',e=>{
+        tt.textContent=e.target.getAttribute('data-info');
+        tt.classList.add('on');
+      });
+      p.addEventListener('mousemove',e=>{
+        const rect=document.getElementById('curve-svg').getBoundingClientRect();
+        const x=e.clientX-rect.left;
+        const y=e.clientY-rect.top;
+        tt.style.left=(x-tt.offsetWidth/2)+'px';
+        tt.style.top=(y-tt.offsetHeight-14)+'px';
+      });
+      p.addEventListener('mouseleave',()=>tt.classList.remove('on'));
+    });
+  },200);
+});
+
+// TIMER
+let timerInt=null, timerSec=90*60, timerTotal=90*60, timerRun=false, timerPhase='focus';
+function timerFmt(s){const m=Math.floor(s/60);const sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
+function timerUpdate(){
+  document.getElementById('t-display').textContent=timerFmt(timerSec);
+  const pct=((timerTotal-timerSec)/timerTotal)*100;
+  document.getElementById('t-fill').style.width=pct+'%';
+}
+function _t(fr,en){return lang==='fr'?fr:en;}
+function timerStart(){
+  if(timerRun){timerPause();return;}
+  timerRun=true;
+  document.getElementById('t-start').textContent=_t('⏸ Pause','⏸ Pause');
+  document.getElementById('t-display').classList.add('run');
+  document.getElementById('t-phase').textContent=timerPhase==='focus'?_t('🎯 Focus profond — pas de notifications, mono-tâche','🎯 Deep focus — no notifications, mono-tasking'):_t('☕ Pause active — bougez, hydratez-vous','☕ Active break — move, hydrate');
+  timerInt=setInterval(()=>{
+    timerSec--;
+    timerUpdate();
+    if(timerSec<=0){
+      clearInterval(timerInt); timerRun=false;
+      document.getElementById('t-display').classList.remove('run');
+      if(timerPhase==='focus'){
+        timerPhase='break'; timerSec=15*60; timerTotal=15*60;
+        document.getElementById('t-phase').textContent=_t('✅ Cycle terminé. Pause de 15 min recommandée.','✅ Cycle complete. 15 min break recommended.');
+        try{new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=').play();}catch(e){}
+      } else {
+        timerPhase='focus'; timerSec=90*60; timerTotal=90*60;
+        document.getElementById('t-phase').textContent=_t('🚀 Prêt pour un nouveau cycle de focus.','🚀 Ready for a new focus cycle.');
+      }
+      document.getElementById('t-start').textContent=_t('▶ Démarrer','▶ Start');
+      timerUpdate();
+    }
+  },1000);
+}
+function timerPause(){clearInterval(timerInt);timerRun=false;document.getElementById('t-start').textContent=_t('▶ Reprendre','▶ Resume');document.getElementById('t-display').classList.remove('run');document.getElementById('t-phase').textContent=_t('⏸ Pause manuelle','⏸ Manual pause');}
+function timerReset(){clearInterval(timerInt);timerRun=false;timerPhase='focus';timerSec=90*60;timerTotal=90*60;document.getElementById('t-start').textContent=_t('▶ Démarrer 90 min','▶ Start 90 min');document.getElementById('t-display').classList.remove('run');document.getElementById('t-phase').textContent=_t('Prêt à démarrer un cycle de focus profond','Ready to start a deep focus cycle');timerUpdate();}
+function timerMode(m){
+  clearInterval(timerInt); timerRun=false; timerPhase='focus';
+  if(m==='25'){timerSec=25*60;timerTotal=25*60;document.getElementById('t-start').textContent=_t('▶ Démarrer 25 min','▶ Start 25 min');document.getElementById('t-phase').textContent=_t('🍅 Mode Pomodoro — 25 min de focus + 5 min de pause','🍅 Pomodoro mode — 25 min focus + 5 min break');}
+  else if(m==='60'){timerSec=60*60;timerTotal=60*60;document.getElementById('t-start').textContent=_t('▶ Démarrer 60 min','▶ Start 60 min');document.getElementById('t-phase').textContent=_t('Cycle ultradien court — 60 min de focus + 5 à 10 min de pause','Short ultradian cycle — 60 min focus + 5-10 min break');}
+  document.getElementById('t-display').classList.remove('run');
+  timerUpdate();
+}
+
+// QUIZ — bilingue
+const QUIZ_FR = [
+  {q:'Selon Loehr & Schwartz, quelle est la ressource <em>fondamentale</em> de la haute performance durable ?',opts:['Le temps disponible dans la journée','L\'énergie, dans ses 4 dimensions','La motivation intrinsèque','La discipline et l\'organisation'],correct:1,
+    fb:['Le temps est important, mais sans énergie même le temps libre est improductif. La gestion de l\'énergie prime.','✓ Exact. L\'énergie — physique, émotionnelle, mentale et spirituelle — est la ressource clé identifiée par Loehr & Schwartz après 25 ans de recherche avec des athlètes de haut niveau.','La motivation est liée à l\'énergie (notamment émotionnelle), mais ce n\'est pas la réponse la plus précise dans ce modèle.','La discipline aide à structurer mais ne crée pas l\'énergie. Sans énergie, la discipline s\'épuise.']},
+  {q:'À quelle fréquence notre cerveau réclame-t-il une micro-pause selon les rythmes ultradiens (Kleitman, 1950) ?',opts:['Toutes les 30 minutes','Toutes les 60 à 90 minutes environ','Toutes les 3 heures','Cela dépend uniquement de la motivation'],correct:1,
+    fb:['30 minutes est trop court — c\'est plutôt le rythme Pomodoro classique, qui est utile mais pas physiologiquement câblé.','✓ Juste. Le BRAC (Basic Rest-Activity Cycle) découvert par Kleitman dure 60 à 120 min, avec une moyenne autour de 90 min. Au-delà, l\'attention chute mécaniquement.','3h est trop long. La fatigue cognitive s\'installe et la qualité décroît avant.','Faux : c\'est un rythme biologique câblé, indépendant de la motivation. Forcer ne le fait pas disparaître.']},
+  {q:'Quelle est la meilleure période pour planifier vos tâches les plus complexes ?',opts:['Le creux de l\'après-midi (13h-15h)','Peu importe, l\'effort compense','Les pics cognitifs (9h-11h et 16h-18h)','Le matin uniquement, dès 7h'],correct:2,
+    fb:['Le creux post-déjeuner est le moment de vigilance minimale. C\'est l\'idéal pour des tâches routinières, pas pour la complexité.','Faux. L\'effort ne compense pas un mauvais alignement chronobiologique — au contraire, il accélère la fatigue.','✓ Correct. Pendant ces deux pics, le cortisol et la noradrénaline soutiennent la concentration et la prise de décision.','Trop tôt pour la majorité des chronotypes. Le pic démarre généralement vers 9h-10h après réveil + activation.']},
+  {q:'Selon une étude de Gloria Mark (UC Irvine), combien de minutes faut-il en moyenne pour retrouver pleinement sa concentration après une interruption ?',opts:['1 à 2 minutes','5 à 7 minutes','20 minutes','45 minutes'],correct:2,
+    fb:['Beaucoup trop court. La reprise immédiate est superficielle, pas profonde.','C\'est une perception courante mais sous-évaluée. La réalité est plus longue.','✓ Exact. 20 minutes, soit ~25% d\'un cycle ultradien. C\'est pourquoi désactiver les notifications pendant le focus n\'est pas un luxe mais une nécessité.','C\'est trop long pour la reprise moyenne, sauf interruption majeure.']}
+];
+const QUIZ_EN = [
+  {q:'According to Loehr & Schwartz, what is the <em>fundamental</em> resource for sustainable high performance?',opts:['Time available during the day','Energy, in its 4 dimensions','Intrinsic motivation','Discipline and organisation'],correct:1,
+    fb:['Time matters, but without energy even free time is unproductive. Energy management comes first.','✓ Correct. Energy — physical, emotional, mental and spiritual — is the key resource identified by Loehr & Schwartz after 25 years of research with elite athletes.','Motivation is linked to energy (especially emotional), but it is not the most precise answer in this model.','Discipline helps structure but does not create energy. Without energy, discipline drains.']},
+  {q:'How often does our brain need a micro-break according to ultradian rhythms (Kleitman, 1950)?',opts:['Every 30 minutes','Approximately every 60 to 90 minutes','Every 3 hours','It only depends on motivation'],correct:1,
+    fb:['30 minutes is too short — closer to the classic Pomodoro rhythm, useful but not physiologically wired.','✓ Right. The BRAC (Basic Rest-Activity Cycle) discovered by Kleitman lasts 60-120 min, averaging around 90 min. Beyond that, attention drops mechanically.','3h is too long. Cognitive fatigue builds and quality declines well before.','False: it is a hard-wired biological rhythm, independent of motivation. Forcing does not make it disappear.']},
+  {q:'When is the best time to schedule your most complex tasks?',opts:['Afternoon trough (1-3pm)','It doesn\'t matter, effort compensates','Cognitive peaks (9-11am and 4-6pm)','Mornings only, from 7am'],correct:2,
+    fb:['The post-lunch trough is the moment of minimum vigilance. Ideal for routine work, not complexity.','False. Effort does not compensate for poor chronobiological alignment — it accelerates fatigue.','✓ Correct. During these peaks, cortisol and noradrenaline support concentration and decision making.','Too early for most chronotypes. The peak usually starts at 9-10am after wake + activation.']},
+  {q:'According to a study by Gloria Mark (UC Irvine), how many minutes does it take on average to fully refocus after an interruption?',opts:['1 to 2 minutes','5 to 7 minutes','20 minutes','45 minutes'],correct:2,
+    fb:['Much too short. The immediate resumption is superficial, not deep.','A common perception but underestimated. The reality is longer.','✓ Correct. 20 minutes, or ~25% of an ultradian cycle. That\'s why disabling notifications during focus is not a luxury but a necessity.','Too long for an average resumption, except for major interruptions.']}
+];
+let QUIZ = QUIZ_FR;
+
+function renderQuiz(){
+  const c=document.getElementById('quiz-container');
+  c.innerHTML='';
+  const qLabel = lang==='fr' ? 'Question' : 'Question';
+  QUIZ.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='quiz-q';
+    div.id='quiz-q-'+i;
+    div.innerHTML=`<div class="quiz-qhead">
+      <span class="quiz-qn">${qLabel} ${i+1} / ${QUIZ.length}</span>
+      <span class="quiz-qpts">+1 pt</span>
+    </div>
+    <div class="quiz-qt">${q.q}</div>
+    <div class="quiz-os" id="quiz-os-${i}">${q.opts.map((o,oi)=>`<button class="quiz-o" onclick="answerQ(${i},${oi})"><span class="quiz-o-letter">${String.fromCharCode(65+oi)}</span><span>${o}</span></button>`).join('')}</div>
+    <div class="qfb" id="qfb-${i}"></div>`;
+    c.appendChild(div);
+  });
+  // Reapply done states if a previous answer existed (after lang switch)
+  Object.keys(quizDone).forEach(k=>{
+    const qi=parseInt(k);const oi=quizDone[k].oi;
+    if(typeof oi!=='number')return;
+    const q=QUIZ[qi];const cont=document.getElementById('quiz-os-'+qi);
+    if(!cont)return;
+    cont.querySelectorAll('.quiz-o').forEach((btn,i)=>{
+      if(i===oi&&oi===q.correct)btn.classList.add('ok');
+      else if(i===oi&&oi!==q.correct)btn.classList.add('ko');
+      else if(i===q.correct&&oi!==q.correct)btn.classList.add('reveal');
+      else btn.classList.add('disabled');
+    });
+    const fb=document.getElementById('qfb-'+qi);fb.textContent=q.fb[oi];fb.className='qfb show '+(oi===q.correct?'pos':'neg');
+  });
+  // If all answered, also re-show score box
+  if(Object.keys(quizDone).length===QUIZ.length && document.getElementById('score-box').classList.contains('show')){
+    showScore();
+  }
+}
+
+function answerQ(qi,oi){
+  if(quizDone[qi]) return;
+  quizDone[qi]={oi};
+  const q=QUIZ[qi];
+  const correct=q.correct;
+  if(oi===correct) quizScore++;
+  const cont=document.getElementById('quiz-os-'+qi);
+  cont.querySelectorAll('.quiz-o').forEach((btn,i)=>{
+    if(i===oi&&oi===correct) btn.classList.add('ok');
+    else if(i===oi&&oi!==correct) btn.classList.add('ko');
+    else if(i===correct&&oi!==correct) btn.classList.add('reveal');
+    else btn.classList.add('disabled');
+  });
+  const fb=document.getElementById('qfb-'+qi);
+  fb.textContent=q.fb[oi];
+  fb.className='qfb show '+(oi===correct?'pos':'neg');
+  document.getElementById('quiz-q-'+qi).classList.add('answered');
+  // Check all done
+  if(Object.keys(quizDone).length===QUIZ.length){
+    setTimeout(showScore,500);
+  }
+}
+
+function showScore(){
+  const sb=document.getElementById('score-box');
+  const pct=Math.round(quizScore/QUIZ.length*100);
+  document.getElementById('score-n').textContent=quizScore+'/'+QUIZ.length;
+  document.getElementById('score-pct').textContent=pct+'% · '+(lang==='fr'?'Score':'Score');
+  let msg, emoji;
+  const msgs={
+    fr:{hi:'Excellent ! Vous maîtrisez les concepts clés de la gestion de l\'énergie. Vous êtes prêt(e) à les appliquer.',
+        mid:'Bon score. Quelques nuances à revoir, mais vous tenez l\'essentiel.',
+        lo:'Quelques points à approfondir. Reprenez le contenu, surtout les sections en surbrillance, et retentez le quiz.'},
+    en:{hi:'Excellent! You\'ve mastered the key concepts of energy management. You\'re ready to apply them.',
+        mid:'Good score. A few nuances to review, but you have the essentials.',
+        lo:'A few points to deepen. Revisit the content, especially the highlighted sections, and try the quiz again.'}
+  };
+  const m=msgs[lang];
+  if(pct>=80){msg=m.hi;emoji='🏆';confettiBurst();}
+  else if(pct>=60){msg=m.mid;emoji='🌟';}
+  else {msg=m.lo;emoji='💪';}
+  document.getElementById('score-emoji').textContent=emoji;
+  document.getElementById('score-msg').textContent=msg;
+  sb.classList.add('show');
+  sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:QUIZ.length,event:'quiz_done',ts:new Date().toISOString()});
+}
+
+function confettiBurst(){
+  const colors=['#A0EB9D','#1e3bbf','#2347d4','#FFD700','#FF6B6B'];
+  for(let i=0;i<60;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.left=(50+Math.random()*40-20)+'%';
+    c.style.top='40%';
+    c.style.borderRadius=Math.random()>.5?'50%':'2px';
+    c.style.transform=`rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    const dx=(Math.random()-.5)*600;
+    const dy=Math.random()*500+200;
+    const dur=1500+Math.random()*1500;
+    c.animate([{transform:c.style.transform,opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.4,1)'});
+    setTimeout(()=>c.remove(),dur);
+  }
+}
+
+// ACTION PLAN
+function toggleAction(el){
+  el.classList.toggle('checked');
+  const all=document.querySelectorAll('.action-item');
+  const checked=document.querySelectorAll('.action-item.checked');
+  if(checked.length===all.length){
+    setTimeout(confettiBurst,200);
+    sendData({email:currentUser,module:MODULE_ID,event:'action_plan_complete',ts:new Date().toISOString()});
+  }
+}
+
+// RESTART
+function restartModule(){
+  Object.keys(quizDone).forEach(k=>delete quizDone[k]);
+  quizScore=0;
+  const sb=document.getElementById('score-box');
+  if(sb) sb.classList.remove('show');
+  renderQuiz();
+  goStep(0);
+}
+
+// FINISH
+function finishModule(){
+  sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:QUIZ.length,event:'module_finished',ts:new Date().toISOString()});
+  // Mettre à jour les textes de screen-3 selon la langue active
+  document.querySelectorAll('#screen-3 [data-fr][data-en]').forEach(el=>{
+    const v=el.getAttribute('data-'+lang);
+    if(v!==null) el.innerHTML=v;
+  });
+  goStep(3);
+}
+
+// INIT
+updateDiag();
+</script>
+</body>
+</html>
