@@ -518,13 +518,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       <div class="score-n" id="score-n">0/5</div>
       <div class="score-pct" id="score-pct">0%</div>
       <div class="score-msg" id="score-msg"></div>
-      <div class="score-cta">
-        <button class="btn-acc" onclick="goStep(3)" data-i18n="score-cta-btn" style="margin:0 auto;">Voir mon bilan →</button>
-      </div>
     </div>
 
     <div class="snav">
       <button class="btn-gh" onclick="goStep(1)" data-i18n="s2-back">← Revoir le contenu</button>
+      <button class="btn-dk" onclick="finishModule()">Terminer le module ✓</button>
     </div>
   </div>
 </div>
@@ -532,41 +530,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
 <!-- STEP 3 — FIN -->
 <div class="screen" id="screen-3">
   <div class="wrap">
-    <div class="s3-hero-card">
-      <div class="pbar" id="pbar-3" style="max-width:320px;width:100%;margin-bottom:28px;"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot done"></div></div>
-      <div class="hero-mod-badge" data-i18n="s3-badge">🎓 Module terminé</div>
-      <div class="hero-icon">🧠</div>
-      <h1 class="hero-title" data-i18n="s3-title">Vous connaissez le stress</h1>
-      <p class="hero-sub" data-i18n="s3-sub">Vous avez exploré la physiologie du stress, compris la distinction eustress/distress et pratiqué des outils de régulation concrets.</p>
-      <div class="s3-score-big" id="s3-score-big">—/5</div>
-      <div class="s3-score-label" id="s3-score-label">—</div>
-      <div class="s3-grid">
-        <div class="s3-panel">
-          <div class="s3-panel-h" data-i18n="s3-learnings-h">🧠 Ce que vous avez appris</div>
-          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l1">La distinction eustress / distress de Hans Selye</span></div>
-          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l2">La courbe de Yerkes-Dodson et la zone optimale de performance</span></div>
-          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l3">La cohérence cardiaque 3·6·5 et ses effets sur le cortisol</span></div>
-          <div class="s3-learning"><span class="s3-check">✓</span><span data-i18n="s3-l4">La technique 5-4-3-2-1 pour le pic anxieux</span></div>
-        </div>
-        <div class="s3-panel">
-          <div class="s3-panel-h" data-i18n="s3-actions-h">✅ 3 actions pour cette semaine</div>
-          <div class="s3-action" onclick="this.classList.toggle('checked')">
-            <div class="s3-action-cb"></div>
-            <div class="s3-action-text" data-i18n="s3-a1">Pratiquer 5 min de cohérence cardiaque demain matin</div>
-          </div>
-          <div class="s3-action" onclick="this.classList.toggle('checked')">
-            <div class="s3-action-cb"></div>
-            <div class="s3-action-text" data-i18n="s3-a2">Identifier mon principal signal d'alarme cette semaine</div>
-          </div>
-          <div class="s3-action" onclick="this.classList.toggle('checked')">
-            <div class="s3-action-cb"></div>
-            <div class="s3-action-text" data-i18n="s3-a3">Partager la distinction eustress/distress avec mon équipe</div>
-          </div>
-        </div>
-      </div>
-      <div class="hero-cta-row">
-        <button class="btn-acc" onclick="goStep(1)" data-i18n="s3-content">← Revoir le contenu</button>
-        <button class="btn-alt-hero" onclick="restartModule()" data-i18n="s3-restart">↺ Recommencer</button>
+    <div style="text-align:center;padding:60px 30px 40px;max-width:560px;margin:0 auto;">
+      <div style="font-size:64px;margin-bottom:18px;">🎉</div>
+      <h2 style="font-size:30px;font-weight:800;color:var(--ink);letter-spacing:-.025em;margin-bottom:14px;">Module terminé</h2>
+      <p style="font-size:16px;color:var(--gr);line-height:1.65;margin-bottom:30px;">Bravo, vous avez complété le module <strong>Le stress au travail</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-dk" onclick="restartModule()">↺ Recommencer le module</button>
       </div>
     </div>
   </div>
@@ -1045,7 +1014,7 @@ function showScore(){
   const pct=Math.round(quizScore/QUIZ_TOTAL*100);
   const isEn=currentLang==='en';
   let msg2,emoji2;
-  if(pct>=80){msg2=isEn?'Excellent! You understand the stress mechanism and know what to do to regulate it.':'Excellent ! Vous comprenez le mécanisme du stress et savez quoi faire pour le réguler.';emoji2='🏆';confettiBurst();}
+  if(pct>=80){msg2=isEn?'Excellent! You know what works, what is myth, and how to protect yourself durably.':'Excellent ! Vous savez ce qui marche, ce qui est mythe et comment vous protéger durablement.';emoji2='🏆';confettiBurst();}
   else if(pct>=60){msg2=isEn?'Good score. Some nuances to review to properly distinguish eustress from distress.':'Bon score. Quelques nuances à revoir pour bien distinguer eustress et distress.';emoji2='🌟';}
   else{msg2=isEn?'Some points to explore further. Review especially the cardiac coherence and Yerkes-Dodson sections.':'Quelques points à approfondir. Reprenez surtout les sections cohérence cardiaque et Yerkes-Dodson.';emoji2='💪';}
   document.getElementById('score-emoji').textContent=emoji2;
@@ -1053,20 +1022,20 @@ function showScore(){
   document.getElementById('score-pct').textContent=pct+'% · Score';
   document.getElementById('score-msg').textContent=msg2;
   sb.classList.add('show');
-  // Populate screen-3 score
-  document.getElementById('s3-score-big').textContent=quizScore+'/'+QUIZ_TOTAL;
-  document.getElementById('s3-score-label').textContent=pct+'% · '+(isEn?'Score':'Score');
   sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:QUIZ_TOTAL,event:'quiz_done',ts:new Date().toISOString()});
 }
 
 function confettiBurst(){const colors=['#A0EB9D','#1e3bbf','#2347d4','#FFD700','#FF6B6B'];for(let i=0;i<60;i++){const c=document.createElement('div');c.className='confetti';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=(50+Math.random()*40-20)+'%';c.style.top='40%';c.style.borderRadius=Math.random()>.5?'50%':'2px';c.style.transform=`rotate(${Math.random()*360}deg)`;document.body.appendChild(c);const dx=(Math.random()-.5)*600,dy=Math.random()*500+200,dur=1500+Math.random()*1500;c.animate([{transform:c.style.transform,opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.4,1)'});setTimeout(()=>c.remove(),dur);}}
 
+function finishModule(){
+  sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:QUIZ_TOTAL,event:'module_finished',ts:new Date().toISOString()});
+  goStep(3);
+}
+
 function restartModule(){
   Object.keys(quizDone).forEach(k=>delete quizDone[k]);
   quizScore=0;
   document.getElementById('score-box').classList.remove('show');
-  document.getElementById('s3-score-big').textContent='—/5';
-  document.getElementById('s3-score-label').textContent='—';
   renderQuiz();
   goStep(0);
 }
