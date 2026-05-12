@@ -382,7 +382,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
         <div class="dim-toggle"><span data-fr="Voir les leviers" data-en="See the levers">Voir les leviers</span> <span class="arr">▾</span></div>
         <div class="dim-detail"><div class="dim-detail-inner"><ul>
           <li data-fr="<strong>Cycles&nbsp;ultradiens&nbsp;60&nbsp;à&nbsp;90&nbsp;min&nbsp;:</strong> Intégrez des pauses de récupération de 5 à 15 min pour maintenir la performance cognitive" data-en="<strong>Ultradian cycles 60-90 min:</strong> Integrate 5-15 min recovery breaks to maintain cognitive performance"><strong>Cycles&nbsp;ultradiens&nbsp;60&nbsp;à&nbsp;90&nbsp;min&nbsp;:</strong> Intégrez des pauses de récupération de 5 à 15 min pour maintenir la performance cognitive</li>
-          <li data-fr="<strong>Mono-tâche&nbsp;:</strong> Changer de tâche coûte environ 20 min de re-focus (UC Irvine)" data-en="<strong>Mono-tasking:</strong> Switching tasks costs about 20 min to refocus (UC Irvine)"><strong>Mono-tâche&nbsp;:</strong> Changer de tâche coûte environ 20 min de re-focus (UC Irvine)</li>
+          <li data-fr="<strong>Mono-tâche&nbsp;:</strong> Changer de tâche coûte environ 25 min de re-focus (UC Irvine)" data-en="<strong>Mono-tasking:</strong> Switching tasks costs about 25 min to refocus (UC Irvine)"><strong>Mono-tâche&nbsp;:</strong> Changer de tâche coûte environ 25 min de re-focus (UC Irvine)</li>
           <li data-fr="<strong>Hygiène&nbsp;numérique&nbsp;:</strong> Désactivez les notifications et regroupez la consultation des emails 2 à 3 × par jour" data-en="<strong>Digital hygiene:</strong> Disable notifications and batch email checks 2-3× per day"><strong>Hygiène&nbsp;numérique&nbsp;:</strong> Désactivez les notifications et regroupez la consultation des emails 2 à 3 × par jour</li>
           <li data-fr="<strong>Time-blocking&nbsp;:</strong> Protégez vos pics cognitifs" data-en="<strong>Time-blocking:</strong> Protect your cognitive peaks"><strong>Time-blocking&nbsp;:</strong> Protégez vos pics cognitifs</li>
           <li data-fr="<strong>Méditation&nbsp;10&nbsp;min&nbsp;/&nbsp;jour&nbsp;:</strong> Peut améliorer la capacité de concentration et la régulation de l'attention" data-en="<strong>Meditation 10 min / day:</strong> Can improve concentration capacity and attention regulation"><strong>Méditation&nbsp;10&nbsp;min&nbsp;/&nbsp;jour&nbsp;:</strong> Peut améliorer la capacité de concentration et la régulation de l'attention</li>
@@ -426,25 +426,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       <div class="curve-svg-wrap">
         <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" id="curve-svg">
           <defs><linearGradient id="cg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#A0EB9D" stop-opacity=".55"/><stop offset="1" stop-color="#A0EB9D" stop-opacity="0"/></linearGradient></defs>
-          <rect x="0" y="0" width="600" height="220" fill="none"/>
           <line x1="40" y1="180" x2="570" y2="180" stroke="#dde4f5" stroke-width="2"/>
           <line x1="40" y1="20" x2="40" y2="180" stroke="#dde4f5" stroke-width="2"/>
-          <!-- Smooth wave curve (cubic) -->
-          <path d="M40,150 C70,150 95,55 125,55 C160,55 175,150 205,150 C240,150 265,55 295,55 C330,55 355,150 385,150 C420,150 445,55 475,55 C510,55 540,150 570,150 L570,180 L40,180 Z" fill="url(#cg)"/>
-          <path d="M40,150 C70,150 95,55 125,55 C160,55 175,150 205,150 C240,150 265,55 295,55 C330,55 355,150 385,150 C420,150 445,55 475,55 C510,55 540,150 570,150" fill="none" stroke="#2347d4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Markers on peaks/troughs -->
-          <circle cx="125" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" data-fr="9h–11h · Pic cognitif n°1 — créativité, prise de décision, tâches complexes" data-en="9-11am · Cognitive peak n°1 — creativity, decision making, complex tasks" data-info="9h–11h · Pic cognitif n°1 — créativité, prise de décision, tâches complexes" class="cpt"/>
-          <circle cx="205" cy="150" r="8" fill="#fff" stroke="#e88a3a" stroke-width="2.5" data-fr="13h · Creux post-déjeuner — administratif, tri d'emails, marche" data-en="1pm · Post-lunch dip — admin, email sorting, walking" data-info="13h · Creux post-déjeuner — administratif, tri d'emails, marche" class="cpt"/>
-          <circle cx="295" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" data-fr="14h–15h · Remontée — réunions, brainstorm en équipe" data-en="2-3pm · Recovery — meetings, team brainstorming" data-info="14h–15h · Remontée — réunions, brainstorm en équipe" class="cpt"/>
-          <circle cx="385" cy="150" r="8" fill="#fff" stroke="#e88a3a" stroke-width="2.5" data-fr="16h · Légère baisse — pause active recommandée" data-en="4pm · Mild drop — active break recommended" data-info="16h · Légère baisse — pause active recommandée" class="cpt"/>
-          <circle cx="475" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" data-fr="16h–18h · Pic cognitif n°2 — analyse, rédaction, synthèse" data-en="4-6pm · Cognitive peak n°2 — analysis, writing, synthesis" data-info="16h–18h · Pic cognitif n°2 — analyse, rédaction, synthèse" class="cpt"/>
+          <!-- Axe X : 7h=40 … 20h=570 → 13h sur 530px → 40.8px/h
+               9h=122  10h=163  11h=203  13h=285  14h=326  15h=366  16h=407  17h=448  18h=489  20h=570
+               Pic 1 centré 10h (x=163), creux centré 14h (x=326), pic 2 centré 17h (x=448) -->
+          <path d="M40,155
+            C65,155 100,55 163,55
+            C218,55 258,155 326,155
+            C394,155 410,55 448,55
+            C500,55 540,155 570,155
+            L570,180 L40,180 Z" fill="url(#cg)"/>
+          <path d="M40,155
+            C65,155 100,55 163,55
+            C218,55 258,155 326,155
+            C394,155 410,55 448,55
+            C500,55 540,155 570,155"
+            fill="none" stroke="#2347d4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="163" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" class="cpt" data-fr="9h–11h · Pic cognitif n°1 — créativité, prise de décision, tâches complexes" data-en="9-11am · Cognitive peak n°1 — creativity, decision making, complex tasks" data-info="9h–11h · Pic cognitif n°1 — créativité, prise de décision, tâches complexes"/>
+          <circle cx="326" cy="155" r="8" fill="#fff" stroke="#e88a3a" stroke-width="2.5" class="cpt" data-fr="13h–15h · Creux post-déjeuner — administratif, tri d'emails, marche" data-en="1-3pm · Post-lunch dip — admin, email sorting, walking" data-info="13h–15h · Creux post-déjeuner — administratif, tri d'emails, marche"/>
+          <circle cx="448" cy="55" r="9" fill="#A0EB9D" stroke="#27ae60" stroke-width="2.5" class="cpt" data-fr="16h–18h · Pic cognitif n°2 — analyse, rédaction, synthèse" data-en="4-6pm · Cognitive peak n°2 — analysis, writing, synthesis" data-info="16h–18h · Pic cognitif n°2 — analyse, rédaction, synthèse"/>
           <text x="40" y="200" font-size="11" fill="#6b7a99">7h</text>
-          <text x="125" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">9h</text>
-          <text x="205" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">13h</text>
-          <text x="295" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">14h</text>
-          <text x="385" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">16h</text>
-          <text x="475" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">17h</text>
-          <text x="560" y="200" font-size="11" fill="#6b7a99">20h</text>
+          <text x="122" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">9h</text>
+          <text x="203" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">11h</text>
+          <text x="285" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">13h</text>
+          <text x="366" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">15h</text>
+          <text x="407" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">16h</text>
+          <text x="489" y="200" font-size="11" fill="#6b7a99" text-anchor="middle">18h</text>
+          <text x="565" y="200" font-size="11" fill="#6b7a99" text-anchor="end">20h</text>
         </svg>
         <div class="curve-tooltip" id="curve-tooltip"></div>
       </div>
@@ -467,7 +476,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
     <div class="tips-grid">
       <div class="tip"><div class="tip-i">⏰</div><div><div class="tip-t" data-fr="La règle des 60 à 90 minutes" data-en="The 60-90 minute rule">La règle des 60 à 90 minutes</div><div class="tip-b" data-fr="Elle s'appuie sur les cycles ultradiens : notre cerveau fonctionne par vagues d'environ 60 à 90 minutes de concentration, suivies d'une baisse naturelle d'attention. Une courte pause (10–15 min) permet de récupérer et de maintenir un bon niveau de performance sur la durée." data-en="It relies on ultradian cycles: our brain operates in waves of about 60 to 90 minutes of concentration, followed by a natural drop in attention. A short break (10-15 min) restores performance and sustains it over time.">Elle s'appuie sur les cycles ultradiens : notre cerveau fonctionne par vagues d'environ 60 à 90 minutes de concentration, suivies d'une baisse naturelle d'attention. Une courte pause (10–15 min) permet de récupérer et de maintenir un bon niveau de performance sur la durée.</div></div></div>
       <div class="tip"><div class="tip-i">☀️</div><div><div class="tip-t" data-fr="Pics cognitifs quotidiens" data-en="Daily cognitive peaks">Pics cognitifs quotidiens</div><div class="tip-b" data-fr="Les performances cognitives varient au cours de la journée selon les rythmes biologiques : on observe souvent des pics de vigilance le matin (9h–11h) et en fin d'après-midi (16h–18h), et un creux après le déjeuner (13h–15h). L'idée est donc de placer les tâches complexes sur les périodes de pic, et les tâches plus simples ou routinières sur les phases de baisse d'attention." data-en="Cognitive performance varies through the day with biological rhythms: peaks of vigilance in the morning (9-11am) and late afternoon (4-6pm), and a trough after lunch (1-3pm). Place complex tasks on the peaks, simple or routine tasks on the dips.">Les performances cognitives varient au cours de la journée selon les rythmes biologiques : on observe souvent des pics de vigilance le matin (9h–11h) et en fin d'après-midi (16h–18h), et un creux après le déjeuner (13h–15h). L'idée est donc de placer les tâches complexes sur les périodes de pic, et les tâches plus simples ou routinières sur les phases de baisse d'attention.</div></div></div>
-      <div class="tip"><div class="tip-i">🚫</div><div><div class="tip-t" data-fr="Le coût de l'interruption" data-en="The cost of interruption">Le coût de l'interruption</div><div class="tip-b" data-fr="Il correspond au temps nécessaire pour retrouver un niveau de concentration optimal après une coupure. Des travaux en psychologie du travail (UC Irvine, Mark) montrent qu'une interruption peut nécessiter jusqu'à ~20 minutes pour revenir pleinement dans sa tâche, ce qui rend les notifications particulièrement coûteuses en productivité." data-en="It is the time needed to regain optimal concentration after a break. Work psychology research (UC Irvine, Mark) shows an interruption can require up to ~20 minutes to fully refocus — making notifications especially costly in productivity.">Il correspond au temps nécessaire pour retrouver un niveau de concentration optimal après une coupure. Des travaux en psychologie du travail (UC Irvine, Mark) montrent qu'une interruption peut nécessiter jusqu'à ~20 minutes pour revenir pleinement dans sa tâche, ce qui rend les notifications particulièrement coûteuses en productivité.</div></div></div>
+      <div class="tip"><div class="tip-i">🚫</div><div><div class="tip-t" data-fr="Le coût de l'interruption" data-en="The cost of interruption">Le coût de l'interruption</div><div class="tip-b" data-fr="Il correspond au temps nécessaire pour retrouver un niveau de concentration optimal après une coupure. Des travaux en psychologie du travail (UC Irvine, Mark) montrent qu'une interruption peut nécessiter jusqu'à ~25 minutes pour revenir pleinement dans sa tâche, ce qui rend les notifications particulièrement coûteuses en productivité." data-en="It is the time needed to regain optimal concentration after a break. Work psychology research (UC Irvine, Mark) shows an interruption can require up to ~25 minutes to fully refocus — making notifications especially costly in productivity.">Il correspond au temps nécessaire pour retrouver un niveau de concentration optimal après une coupure. Des travaux en psychologie du travail (UC Irvine, Mark) montrent qu'une interruption peut nécessiter jusqu'à ~25 minutes pour revenir pleinement dans sa tâche, ce qui rend les notifications particulièrement coûteuses en productivité.</div></div></div>
       <div class="tip"><div class="tip-i">💧</div><div><div class="tip-t" data-fr="L'hydratation, levier oublié" data-en="Hydration, the forgotten lever">L'hydratation, levier oublié</div><div class="tip-b" data-fr="L'hydratation influence directement les performances cognitives : même une légère déshydratation peut réduire la concentration et la vigilance. Des études montrent qu'une baisse d'environ 1 % du niveau d'hydratation peut altérer certaines fonctions cognitives." data-en="Hydration directly influences cognitive performance: even mild dehydration can reduce concentration and alertness. Studies show that a drop of about 1% in hydration can impair certain cognitive functions.">L'hydratation influence directement les performances cognitives : même une légère déshydratation peut réduire la concentration et la vigilance. Des études montrent qu'une baisse d'environ 1 % du niveau d'hydratation peut altérer certaines fonctions cognitives.</div></div></div>
     </div>
 
@@ -509,10 +518,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
 
     <div class="snav">
       <button class="btn-gh" onclick="goStep(1)" data-fr="← Revoir le contenu" data-en="← Review content">← Revoir le contenu</button>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn-gh" onclick="restartModule()" data-fr="↺ Recommencer le quiz" data-en="↺ Restart the quiz">↺ Recommencer le quiz</button>
-        <button class="btn-dk" onclick="finishModule()" data-fr="Terminer ✓" data-en="Finish ✓">Terminer ✓</button>
-      </div>
+      <button class="btn-dk" onclick="finishModule()" data-fr="Terminer le module ✓" data-en="Finish module ✓">Terminer le module ✓</button>
     </div>
   </div>
 </div>
@@ -715,8 +721,8 @@ const QUIZ_FR = [
     fb:['30 minutes est trop court — c\'est plutôt le rythme Pomodoro classique, qui est utile mais pas physiologiquement câblé.','✓ Juste. Le BRAC (Basic Rest-Activity Cycle) découvert par Kleitman dure 60 à 120 min, avec une moyenne autour de 90 min. Au-delà, l\'attention chute mécaniquement.','3h est trop long. La fatigue cognitive s\'installe et la qualité décroît avant.','Faux : c\'est un rythme biologique câblé, indépendant de la motivation. Forcer ne le fait pas disparaître.']},
   {q:'Quelle est la meilleure période pour planifier vos tâches les plus complexes ?',opts:['Le creux de l\'après-midi (13h-15h)','Peu importe, l\'effort compense','Les pics cognitifs (9h-11h et 16h-18h)','Le matin uniquement, dès 7h'],correct:2,
     fb:['Le creux post-déjeuner est le moment de vigilance minimale. C\'est l\'idéal pour des tâches routinières, pas pour la complexité.','Faux. L\'effort ne compense pas un mauvais alignement chronobiologique — au contraire, il accélère la fatigue.','✓ Correct. Pendant ces deux pics, le cortisol et la noradrénaline soutiennent la concentration et la prise de décision.','Trop tôt pour la majorité des chronotypes. Le pic démarre généralement vers 9h-10h après réveil + activation.']},
-  {q:'Selon une étude de Gloria Mark (UC Irvine), combien de minutes faut-il en moyenne pour retrouver pleinement sa concentration après une interruption ?',opts:['1 à 2 minutes','5 à 7 minutes','20 minutes','45 minutes'],correct:2,
-    fb:['Beaucoup trop court. La reprise immédiate est superficielle, pas profonde.','C\'est une perception courante mais sous-évaluée. La réalité est plus longue.','✓ Exact. 20 minutes, soit ~25% d\'un cycle ultradien. C\'est pourquoi désactiver les notifications pendant le focus n\'est pas un luxe mais une nécessité.','C\'est trop long pour la reprise moyenne, sauf interruption majeure.']}
+  {q:'Selon une étude de Gloria Mark (UC Irvine), combien de minutes faut-il en moyenne pour retrouver pleinement sa concentration après une interruption ?',opts:['1 à 2 minutes','5 à 7 minutes','25 minutes','45 minutes'],correct:2,
+    fb:['Beaucoup trop court. La reprise immédiate est superficielle, pas profonde.','C\'est une perception courante mais sous-évaluée. La réalité est plus longue.','✓ Exact. ~25% d\'un cycle ultradien. C\'est pourquoi désactiver les notifications pendant le focus n\'est pas un luxe mais une nécessité.','C\'est trop long pour la reprise moyenne, sauf interruption majeure.']}
 ];
 const QUIZ_EN = [
   {q:'According to Loehr & Schwartz, what is the <em>fundamental</em> resource for sustainable high performance?',opts:['Time available during the day','Energy, in its 4 dimensions','Intrinsic motivation','Discipline and organisation'],correct:1,
@@ -725,8 +731,8 @@ const QUIZ_EN = [
     fb:['30 minutes is too short — closer to the classic Pomodoro rhythm, useful but not physiologically wired.','✓ Right. The BRAC (Basic Rest-Activity Cycle) discovered by Kleitman lasts 60-120 min, averaging around 90 min. Beyond that, attention drops mechanically.','3h is too long. Cognitive fatigue builds and quality declines well before.','False: it is a hard-wired biological rhythm, independent of motivation. Forcing does not make it disappear.']},
   {q:'When is the best time to schedule your most complex tasks?',opts:['Afternoon trough (1-3pm)','It doesn\'t matter, effort compensates','Cognitive peaks (9-11am and 4-6pm)','Mornings only, from 7am'],correct:2,
     fb:['The post-lunch trough is the moment of minimum vigilance. Ideal for routine work, not complexity.','False. Effort does not compensate for poor chronobiological alignment — it accelerates fatigue.','✓ Correct. During these peaks, cortisol and noradrenaline support concentration and decision making.','Too early for most chronotypes. The peak usually starts at 9-10am after wake + activation.']},
-  {q:'According to a study by Gloria Mark (UC Irvine), how many minutes does it take on average to fully refocus after an interruption?',opts:['1 to 2 minutes','5 to 7 minutes','20 minutes','45 minutes'],correct:2,
-    fb:['Much too short. The immediate resumption is superficial, not deep.','A common perception but underestimated. The reality is longer.','✓ Correct. 20 minutes, or ~25% of an ultradian cycle. That\'s why disabling notifications during focus is not a luxury but a necessity.','Too long for an average resumption, except for major interruptions.']}
+  {q:'According to a study by Gloria Mark (UC Irvine), how many minutes does it take on average to fully refocus after an interruption?',opts:['1 to 2 minutes','5 to 7 minutes','25 minutes','45 minutes'],correct:2,
+    fb:['Much too short. The immediate resumption is superficial, not deep.','A common perception but underestimated. The reality is longer.','✓ Correct. ~25% of an ultradian cycle. That\'s why disabling notifications during focus is not a luxury but a necessity.','Too long for an average resumption, except for major interruptions.']}
 ];
 let QUIZ = QUIZ_FR;
 
@@ -797,7 +803,7 @@ function showScore(){
   document.getElementById('score-pct').textContent=pct+'% · '+(lang==='fr'?'Score':'Score');
   let msg, emoji;
   const msgs={
-    fr:{hi:'Excellent ! Vous maîtrisez les concepts clés de la gestion de l\'énergie. Vous êtes prêt(e) à les appliquer.',
+    fr:{hi:'Excellent ! Vous savez ce qui marche, ce qui est mythe et comment vous protéger durablement.',
         mid:'Bon score. Quelques nuances à revoir, mais vous tenez l\'essentiel.',
         lo:'Quelques points à approfondir. Reprenez le contenu, surtout les sections en surbrillance, et retentez le quiz.'},
     en:{hi:'Excellent! You\'ve mastered the key concepts of energy management. You\'re ready to apply them.',
