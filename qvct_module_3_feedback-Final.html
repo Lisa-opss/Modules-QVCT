@@ -88,7 +88,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
 .intro-box{background:linear-gradient(135deg,#fff,var(--bgl));border-radius:14px;padding:24px 28px;margin-bottom:28px;border-left:4px solid var(--p3);box-shadow:var(--shadow-sm);}
 .intro-box p{font-size:16px;color:#3a4a6b;line-height:1.7;}
 .intro-box strong{color:var(--ink);}
-.source-tag{display:inline-block;font-size:11px;color:var(--p2);background:var(--bgl);padding:3px 10px;border-radius:100px;margin-left:8px;font-weight:700;}
+
+/* Bandeau contexte pro */
+.pro-banner{background:linear-gradient(135deg,#edfaf3,#f0f8ff);border:1.5px solid rgba(160,235,157,.5);border-radius:14px;padding:20px 24px;margin-bottom:28px;display:flex;gap:16px;align-items:flex-start;}
+.pro-banner-i{font-size:28px;flex-shrink:0;margin-top:2px;}
+.pro-banner-t{font-size:14px;font-weight:800;color:var(--p1);margin-bottom:5px;}
+.pro-banner-d{font-size:14px;color:#3a4a6b;line-height:1.65;}
+.pro-banner-d strong{color:var(--ink);}
+.pro-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+.pro-tag{background:rgba(46,88,240,.08);color:var(--p2);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700;}
 
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px;}
 @media(max-width:760px){.stats-row{grid-template-columns:repeat(2,1fr);}}
@@ -150,30 +158,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
 .compare-card.good .compare-quote{border-color:#27ae60;}
 .compare-why{font-size:13px;color:var(--gr);line-height:1.6;}
 
-/* Scenarios */
-.scenario{background:#fff;border:1.5px solid var(--bo);border-radius:14px;overflow:hidden;margin-bottom:14px;transition:box-shadow .25s;}
-.scenario:hover{box-shadow:var(--shadow-sm);}
-.sc-head{background:linear-gradient(135deg,var(--p1),var(--p3));padding:14px 22px;color:#fff;font-size:14px;font-weight:800;letter-spacing:.04em;}
-.sc-body{padding:22px;}
-.sc-ctx{background:var(--bg);border-radius:11px;padding:16px 18px;font-size:14.5px;line-height:1.7;color:#3a4a6b;margin-bottom:18px;border-left:3px solid var(--p3);}
-.sc-ctx strong{color:var(--ink);}
-.sc-q{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;}
-.choices{display:flex;flex-direction:column;gap:8px;}
-.ch{display:flex;align-items:flex-start;gap:12px;padding:13px 17px;border-radius:11px;border:1.5px solid var(--bo);background:#fff;cursor:pointer;font-family:inherit;font-size:14px;color:var(--ink);text-align:left;transition:all .2s;width:100%;}
-.ch:hover{border-color:var(--p3);background:var(--bgl);transform:translateX(3px);}
-.ch.ok{border-color:#27ae60;background:#edfaf3;cursor:default;}
-.ch.ko{border-color:#e74c3c;background:#fff2f0;cursor:default;}
-.ch.reveal{border-color:#27ae60;background:#edfaf3;cursor:default;}
-.ch.disabled{opacity:.5;pointer-events:none;}
-.cl{width:28px;height:28px;border-radius:8px;background:var(--bgl);color:var(--p2);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ch.ok .cl{background:var(--acc);color:#0d4a1f;}
-.ch.ko .cl{background:#ffd5d0;color:#c0392b;}
-.ch.reveal .cl{background:var(--acc);color:#0d4a1f;}
-.fb{display:none;margin-top:12px;padding:13px 17px;border-radius:10px;font-size:14px;line-height:1.65;}
-.fb.show{display:block;animation:fadeUp .3s ease;}
-.fb.pos{background:#edfaf3;color:#1a6b38;border:1px solid rgba(46,204,95,.2);}
-.fb.neg{background:#fff7f5;color:#7a3a30;border:1px solid rgba(231,76,60,.2);}
-
 /* Tips */
 .tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px;}
 @media(max-width:760px){.tips-grid{grid-template-columns:1fr;}}
@@ -216,20 +200,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
 .score-n{font-size:60px;font-weight:800;color:var(--acc);letter-spacing:-.04em;line-height:1;position:relative;z-index:1;}
 .score-pct{font-size:16px;color:var(--w70);font-weight:600;margin:6px 0 18px;position:relative;z-index:1;}
 .score-msg{font-size:16px;color:#fff;line-height:1.65;max-width:480px;margin:0 auto;position:relative;z-index:1;}
-
-.action-plan{background:#fff;border:1.5px solid var(--bo);border-radius:16px;padding:28px;margin-top:22px;}
-.action-plan-h{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
-.action-plan-i{width:42px;height:42px;background:var(--bgl);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;}
-.action-plan-t{font-size:17px;font-weight:800;color:var(--ink);}
-.action-list{display:flex;flex-direction:column;gap:10px;}
-.action-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg);border-radius:11px;cursor:pointer;transition:all .2s;border:1.5px solid transparent;}
-.action-item:hover{border-color:var(--p3);}
-.action-item.checked{background:#edfaf3;border-color:rgba(39,174,96,.3);}
-.action-checkbox{width:24px;height:24px;border:2px solid var(--bo);border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .2s;}
-.action-item.checked .action-checkbox{background:var(--acc);border-color:var(--acc);}
-.action-item.checked .action-checkbox::after{content:'✓';color:#0d4a1f;font-weight:800;font-size:13px;}
-.action-text{font-size:14px;color:var(--ink);font-weight:500;line-height:1.5;}
-.action-item.checked .action-text{text-decoration:line-through;opacity:.6;}
 
 .snav{display:flex;justify-content:space-between;padding:32px 0;margin-top:14px;border-top:1px solid var(--bo);flex-wrap:wrap;gap:12px;}
 .btn-dk{background:var(--p1);color:#fff;border:none;border-radius:100px;padding:14px 30px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;}
@@ -286,8 +256,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
     <div class="wrap" style="position:relative;z-index:1;width:100%;text-align:center;">
         <div class="hero-mod-badge" style="display:inline-block;" data-fr="Module 3 · ~7 min · Communication" data-en="Module 3 · ~7 min · Communication">Module 3 · ~7 min · Communication</div>
         <h1 class="hero-title" style="margin-left:auto;margin-right:auto;" data-fr="Réussir ses<br><span class='acc'>feedbacks</span>" data-en="Mastering<br><span class='acc'>feedback</span>">Réussir ses<br><span class="acc">feedbacks</span></h1>
-        <p class="hero-sub" style="margin-left:auto;margin-right:auto;" data-fr="Méthodes reconnues (SBI, DESC) pour formuler et recevoir des feedbacks de manière constructive, afin de renforcer la confiance et la performance avec un outil interactif pour s'entraîner." data-en="Proven methods (SBI, DESC) to give and receive constructive feedback, building trust and performance — with an interactive builder to practise.">Méthodes reconnues (SBI, DESC) pour formuler et recevoir des feedbacks de manière constructive, afin de renforcer la confiance et la performance avec un outil interactif pour s'entraîner.</p>
-
+        <p class="hero-sub" style="margin-left:auto;margin-right:auto;" data-fr="Méthodes reconnues (SBI, DESC) pour formuler et recevoir des feedbacks de manière constructive au quotidien — entre collègues, en réunion, sur un projet. Un outil interactif pour s'entraîner." data-en="Proven methods (SBI, DESC) to give and receive constructive feedback in everyday work — between colleagues, in meetings, on projects. With an interactive builder to practise.">Méthodes reconnues (SBI, DESC) pour formuler et recevoir des feedbacks de manière constructive au quotidien — entre collègues, en réunion, sur un projet. Un outil interactif pour s'entraîner.</p>
         <div class="hero-cta-row" style="justify-content:center;">
           <button class="btn-acc" onclick="goStep(1)" data-fr="Commencer →" data-en="Start →">Commencer →</button>
         </div>
@@ -303,13 +272,29 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       <div class="mhd-l">
         <div class="mtag"><div class="mtag-d"></div><span data-fr="Contenu · SBI · DESC" data-en="Content · SBI · DESC">Contenu · SBI · DESC</span></div>
         <h1 class="mttl" data-fr="Les méthodes <span class='g'>qui fonctionnent</span>" data-en="Methods <span class='g'>that work</span>">Les méthodes <span class="g">qui fonctionnent</span></h1>
-        <p class="mdsc" data-fr="Un feedback n'est pas un jugement, c'est une donnée actionnable. Deux méthodes structurent les retours : SBI et DESC.<br><br>Le feedback efficace est factuel, bienveillant et orienté action. Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales." data-en="Feedback is not a judgement — it is actionable data. Two methods structure feedback: SBI and DESC.<br><br>Effective feedback is factual, caring and action-oriented. Organisations that build a regular feedback culture typically see higher engagement, stronger performance and fewer management conflicts.">Un feedback n'est pas un jugement, c'est une donnée actionnable. Deux méthodes structurent les retours : SBI et DESC.<br><br>Le feedback efficace est factuel, bienveillant et orienté action. Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales.</p>
+        <p class="mdsc" data-fr="Un feedback n'est pas un jugement, c'est une donnée actionnable. Deux méthodes structurent les retours : SBI et DESC." data-en="Feedback is not a judgement — it is actionable data. Two methods structure feedback: SBI and DESC.">Un feedback n'est pas un jugement, c'est une donnée actionnable. Deux méthodes structurent les retours : SBI et DESC.</p>
       </div>
       <div class="mnum">03</div>
     </div>
 
+    <!-- BANDEAU CONTEXTE PRO — nouveau bloc -->
+    <div class="pro-banner">
+      <div class="pro-banner-i">🏢</div>
+      <div>
+        <div class="pro-banner-t" data-fr="Le feedback, une compétence clé pour tous les collaborateurs" data-en="Feedback: a key skill for every employee">Le feedback, une compétence clé pour tous les collaborateurs</div>
+        <div class="pro-banner-d" data-fr="Que vous soyez junior, expert ou manager, vous donnez et recevez du feedback chaque jour : après une réunion, sur un livrable, lors d'une revue de projet, ou simplement en échangeant avec un collègue. <strong>Savoir formuler un retour constructif — et bien le recevoir — renforce la collaboration, accélère la progression et réduit les malentendus.</strong>" data-en="Whether you are junior, expert or manager, you give and receive feedback every day: after a meeting, on a deliverable, during a project review, or simply talking with a colleague. <strong>Knowing how to give constructive feedback — and receive it well — strengthens collaboration, accelerates growth and reduces misunderstandings.</strong>">Que vous soyez junior, expert ou manager, vous donnez et recevez du feedback chaque jour : après une réunion, sur un livrable, lors d'une revue de projet, ou simplement en échangeant avec un collègue. <strong>Savoir formuler un retour constructif — et bien le recevoir — renforce la collaboration, accélère la progression et réduit les malentendus.</strong></div>
+        <div class="pro-tags">
+          <span class="pro-tag" data-fr="💼 Entre collègues" data-en="💼 Between colleagues">💼 Entre collègues</span>
+          <span class="pro-tag" data-fr="📋 En réunion" data-en="📋 In meetings">📋 En réunion</span>
+          <span class="pro-tag" data-fr="📁 Sur un projet" data-en="📁 On a project">📁 Sur un projet</span>
+          <span class="pro-tag" data-fr="📨 Sur un livrable" data-en="📨 On a deliverable">📨 Sur un livrable</span>
+          <span class="pro-tag" data-fr="🔄 Feedback ascendant" data-en="🔄 Upward feedback">🔄 Feedback ascendant</span>
+        </div>
+      </div>
+    </div>
+
     <div class="intro-box">
-      <p data-fr="<strong>Le feedback efficace est factuel, bienveillant et orienté action.</strong> Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales." data-en="<strong>Effective feedback is factual, caring and action-oriented.</strong> Organisations that build a regular feedback culture typically see higher engagement, stronger performance and fewer management conflicts."><strong>Le feedback efficace est factuel, bienveillant et orienté action.</strong> Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions managériales.</p>
+      <p data-fr="<strong>Le feedback efficace est factuel, bienveillant et orienté action.</strong> Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions entre collègues." data-en="<strong>Effective feedback is factual, caring and action-oriented.</strong> Organisations that build a regular feedback culture typically see higher engagement, stronger performance and fewer tensions between colleagues."><strong>Le feedback efficace est factuel, bienveillant et orienté action.</strong> Les organisations qui développent une culture de feedback régulière constatent généralement un meilleur engagement, une performance renforcée et une diminution des tensions entre collègues.</p>
     </div>
 
     <div class="stats-row">
@@ -331,7 +316,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
           <div>
             <div class="method-h" data-fr="Situation" data-en="Situation">Situation</div>
             <div class="method-d" data-fr="Décrivez le contexte précis : quand, où, dans quelle réunion, sur quel projet. Évitez « toujours », « jamais », « souvent »." data-en="Describe the precise context: when, where, in which meeting, on which project. Avoid 'always', 'never', 'often'.">Décrivez le contexte précis : quand, où, dans quelle réunion, sur quel projet. Évitez « toujours », « jamais », « souvent ».</div>
-            <div class="method-ex" data-fr="« Lors de la réunion projet X de mardi matin… »" data-en="« During the project X meeting on Tuesday morning… »">« Lors de la réunion projet X de mardi matin… »</div>
+            <div class="method-ex" data-fr="« Lors de la réunion de lancement du projet X, mardi matin… »" data-en="« During the project X kick-off meeting on Tuesday morning… »">« Lors de la réunion de lancement du projet X, mardi matin… »</div>
           </div>
         </div>
         <div class="method-row">
@@ -368,7 +353,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
           <div>
             <div class="method-h" data-fr="Décrire les faits" data-en="Describe the facts">Décrire les faits</div>
             <div class="method-d" data-fr="Faits objectifs, observables, vérifiables. Pas d'interprétation." data-en="Objective, observable, verifiable facts. No interpretation.">Faits objectifs, observables, vérifiables. Pas d'interprétation.</div>
-            <div class="method-ex" data-fr="« Les comptes-rendus arrivent à 48h au lieu des 24h convenus. »" data-en="« Meeting notes arrive at 48h instead of the agreed 24h. »">« Les comptes-rendus arrivent à 48h au lieu des 24h convenus. »</div>
+            <div class="method-ex" data-fr="« Les comptes-rendus arrivent à 48h au lieu des 24h convenus en équipe. »" data-en="« Meeting notes arrive at 48h instead of the agreed 24h. »">« Les comptes-rendus arrivent à 48h au lieu des 24h convenus en équipe. »</div>
           </div>
         </div>
         <div class="method-row">
@@ -376,7 +361,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
           <div>
             <div class="method-h" data-fr="Exprimer le ressenti" data-en="Express your feelings">Exprimer le ressenti</div>
             <div class="method-d" data-fr="Parlez en « je ». Ce n'est pas accuser, c'est partager une émotion légitime." data-en="Speak in 'I'. This is not accusing — it is sharing a legitimate emotion.">Parlez en « je ». Ce n'est pas accuser, c'est partager une émotion légitime.</div>
-            <div class="method-ex" data-fr="« Je me sens bloqué dans la suite des actions. »" data-en="« I feel stuck in moving the actions forward. »">« Je me sens bloqué dans la suite des actions. »</div>
+            <div class="method-ex" data-fr="« Je me sens bloqué dans la suite des actions de notre équipe. »" data-en="« I feel stuck in moving the team's actions forward. »">« Je me sens bloqué dans la suite des actions de notre équipe. »</div>
           </div>
         </div>
         <div class="method-row">
@@ -398,46 +383,46 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       </div>
     </div>
 
-    <h3 style="font-size:18px;font-weight:800;margin:30px 0 14px;color:var(--ink);" data-fr="🔍 Évaluatif vs factuel — la différence concrète" data-en="🔍 Evaluative vs factual — the concrete difference">🔍 Évaluatif vs factuel — la différence concrète</h3>
+    <h3 style="font-size:18px;font-weight:800;margin:30px 0 14px;color:var(--ink);" data-fr="🔍 Évaluatif vs factuel — exemples du quotidien pro" data-en="🔍 Evaluative vs factual — everyday work examples">🔍 Évaluatif vs factuel — exemples du quotidien pro</h3>
     <div class="compare-grid">
       <div class="compare-card bad">
         <div class="compare-cap" data-fr="❌ Évaluatif (à éviter)" data-en="❌ Evaluative (to avoid)">❌ Évaluatif (à éviter)</div>
         <div class="compare-quote" data-fr="« Tu manques de rigueur dans ton travail. »" data-en="« You lack rigour in your work. »">« Tu manques de rigueur dans ton travail. »</div>
-        <div class="compare-why" data-fr="Jugement de personnalité, généralisation, sans donnée. Active la défensive : la personne se protège plutôt que d'écouter." data-en="Personality judgement, generalisation, no data. Triggers defensiveness: the person protects themselves rather than listening.">Jugement de personnalité, généralisation, sans donnée. Active la défensive : la personne se protège plutôt que d'écouter.</div>
+        <div class="compare-why" data-fr="Jugement de personnalité, sans donnée. Active la défensive : la personne se protège plutôt que d'écouter." data-en="Personality judgement, no data. Triggers defensiveness: the person protects rather than listens.">Jugement de personnalité, sans donnée. Active la défensive : la personne se protège plutôt que d'écouter.</div>
       </div>
       <div class="compare-card good">
-        <div class="compare-cap" data-fr="✓ Factuel (SBI)" data-en="✓ Factual (SBI)">✓ Factuel (SBI)</div>
-        <div class="compare-quote" data-fr="« Sur les 3 derniers livrables, j'ai relevé 5 erreurs de chiffres. Cela m'a obligé à reprendre la production le week-end. »" data-en="« On the last 3 deliverables, I found 5 numerical errors. That forced me to redo the work over the weekend. »">« Sur les 3 derniers livrables, j'ai relevé 5 erreurs de chiffres. Cela m'a obligé à reprendre la production le week-end. »</div>
-        <div class="compare-why" data-fr="Faits précis + impact concret + ressenti. Active la résolution : la personne peut agir sur le comportement, pas sur sa personnalité." data-en="Precise facts + concrete impact + feeling. Triggers resolution: the person can act on the behaviour, not their personality.">Faits précis + impact concret + ressenti. Active la résolution : la personne peut agir sur le comportement, pas sur sa personnalité.</div>
+        <div class="compare-cap" data-fr="✓ Factuel SBI — sur un livrable" data-en="✓ Factual SBI — on a deliverable">✓ Factuel SBI — sur un livrable</div>
+        <div class="compare-quote" data-fr="« Sur les 3 derniers livrables du projet, j'ai relevé 5 erreurs de chiffres. Cela m'a obligé à reprendre la production le week-end. »" data-en="« On the last 3 project deliverables, I found 5 numerical errors. That forced me to redo the work over the weekend. »">« Sur les 3 derniers livrables du projet, j'ai relevé 5 erreurs de chiffres. Cela m'a obligé à reprendre la production le week-end. »</div>
+        <div class="compare-why" data-fr="Faits précis + impact concret. La personne peut agir sur le comportement, pas sur sa personnalité." data-en="Precise facts + concrete impact. The person can act on the behaviour, not their personality.">Faits précis + impact concret. La personne peut agir sur le comportement, pas sur sa personnalité.</div>
       </div>
       <div class="compare-card bad">
-        <div class="compare-cap" data-fr="❌ Vague positif" data-en="❌ Vague positive">❌ Vague positif</div>
-        <div class="compare-quote" data-fr="« Bon travail ! »" data-en="« Good job! »">« Bon travail ! »</div>
-        <div class="compare-why" data-fr="Pas actionnable. La personne ne sait pas quoi reproduire. Faible motivant à long terme." data-en="Not actionable. The person doesn't know what to repeat. Weak motivator over time.">Pas actionnable. La personne ne sait pas quoi reproduire. Faible motivant à long terme.</div>
+        <div class="compare-cap" data-fr="❌ Vague positif — en réunion" data-en="❌ Vague positive — in a meeting">❌ Vague positif — en réunion</div>
+        <div class="compare-quote" data-fr="« Bon travail pour la réunion ! »" data-en="« Good job in the meeting! »">« Bon travail pour la réunion ! »</div>
+        <div class="compare-why" data-fr="Pas actionnable. La personne ne sait pas quoi reproduire lors du prochain point d'équipe." data-en="Not actionable. The person doesn't know what to repeat in the next team meeting.">Pas actionnable. La personne ne sait pas quoi reproduire lors du prochain point d'équipe.</div>
       </div>
       <div class="compare-card good">
-        <div class="compare-cap" data-fr="✓ Spécifique positif" data-en="✓ Specific positive">✓ Spécifique positif</div>
-        <div class="compare-quote" data-fr="« Ta présentation du projet X était claire grâce à tes 3 messages-clés. Le client a pu décider en 10 min. »" data-en="« Your project X presentation was clear thanks to your 3 key messages. The client decided in 10 min. »">« Ta présentation du projet X était claire grâce à tes 3 messages-clés. Le client a pu décider en 10 min. »</div>
-        <div class="compare-why" data-fr="La personne sait exactement ce qui a marché et pourra le reproduire." data-en="The person knows exactly what worked and can repeat it.">La personne sait exactement ce qui a marché et pourra le reproduire.</div>
+        <div class="compare-cap" data-fr="✓ Spécifique positif — en réunion" data-en="✓ Specific positive — in a meeting">✓ Spécifique positif — en réunion</div>
+        <div class="compare-quote" data-fr="« Ta présentation du projet X était claire grâce à tes 3 messages-clés en intro. Le client a pu décider en 10 min. »" data-en="« Your project X presentation was clear thanks to your 3 key messages in the intro. The client decided in 10 min. »">« Ta présentation du projet X était claire grâce à tes 3 messages-clés en intro. Le client a pu décider en 10 min. »</div>
+        <div class="compare-why" data-fr="La personne sait exactement ce qui a marché et pourra le reproduire à la prochaine réunion client." data-en="The person knows exactly what worked and can repeat it at the next client meeting.">La personne sait exactement ce qui a marché et pourra le reproduire à la prochaine réunion client.</div>
       </div>
     </div>
 
     <h3 style="font-size:18px;font-weight:800;margin-bottom:14px;color:var(--ink);" data-fr="🛠️ Constructeur SBI interactif" data-en="🛠️ Interactive SBI builder">🛠️ Constructeur SBI interactif</h3>
     <div class="builder-card">
       <div class="builder-title" data-fr="Composez votre feedback SBI" data-en="Compose your SBI feedback">Composez votre feedback SBI</div>
-      <div class="builder-sub" data-fr="Saisissez chaque élément, votre feedback se construit en temps réel. La barre de qualité monte au fur et à mesure." data-en="Fill in each element — your feedback builds in real time. The quality bar rises as you go.">Saisissez chaque élément, votre feedback se construit en temps réel. La barre de qualité monte au fur et à mesure.</div>
+      <div class="builder-sub" data-fr="Saisissez chaque élément à partir d'une situation vécue au travail. Votre feedback se construit en temps réel." data-en="Fill in each element from a real work situation. Your feedback builds in real time.">Saisissez chaque élément à partir d'une situation vécue au travail. Votre feedback se construit en temps réel.</div>
 
       <div class="builder-step">
-        <div class="builder-label"><span class="builder-label-l">S</span><span data-fr="Situation — quand &amp; où ?" data-en="Situation — when &amp; where?">Situation — quand &amp; où ?</span></div>
-        <textarea class="builder-input" id="b-s" placeholder="Ex : Lors de la réunion projet de mardi matin…" oninput="updateBuilder()"></textarea>
+        <div class="builder-label"><span class="builder-label-l">S</span><span data-fr="Situation — quand &amp; où ? (réunion, projet, échange…)" data-en="Situation — when &amp; where? (meeting, project, exchange…)">Situation — quand &amp; où ? (réunion, projet, échange…)</span></div>
+        <textarea class="builder-input" id="b-s" placeholder="Ex : Lors de la réunion de lancement du projet X mardi matin…" oninput="updateBuilder()"></textarea>
       </div>
       <div class="builder-step">
         <div class="builder-label"><span class="builder-label-l">B</span><span data-fr="Behavior — qu'avez-vous OBSERVÉ ?" data-en="Behavior — what did you OBSERVE?">Behavior — qu'avez-vous OBSERVÉ ?</span></div>
-        <textarea class="builder-input" id="b-b" placeholder="Ex : tu as interrompu Marie 3 fois pendant sa présentation" oninput="updateBuilder()"></textarea>
+        <textarea class="builder-input" id="b-b" placeholder="Ex : tu as présenté les chiffres sans avoir intégré les retours de l'équipe" oninput="updateBuilder()"></textarea>
       </div>
       <div class="builder-step">
-        <div class="builder-label"><span class="builder-label-l">I</span><span data-fr="Impact — quel effet concret ?" data-en="Impact — what was the concrete effect?">Impact — quel effet concret ?</span></div>
-        <textarea class="builder-input" id="b-i" placeholder="Ex : cela a coupé sa dynamique et m'a donné l'impression que ses idées comptaient moins" oninput="updateBuilder()"></textarea>
+        <div class="builder-label"><span class="builder-label-l">I</span><span data-fr="Impact — quel effet concret sur vous, l'équipe ou le projet ?" data-en="Impact — what was the concrete effect on you, the team or the project?">Impact — quel effet concret sur vous, l'équipe ou le projet ?</span></div>
+        <textarea class="builder-input" id="b-i" placeholder="Ex : le client a eu des informations contradictoires et a demandé un report de décision" oninput="updateBuilder()"></textarea>
       </div>
 
       <div class="builder-quality">
@@ -452,21 +437,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       </div>
 
       <div class="builder-actions">
-        <button class="bld-btn alt" onclick="loadNextExample()" id="b-example" data-fr="✨ Charger un exemple" data-en="✨ Load an example">✨ Charger un exemple</button>
+        <button class="bld-btn alt" onclick="loadNextExample()" id="b-example" data-fr="✨ Charger un exemple pro" data-en="✨ Load a work example">✨ Charger un exemple pro</button>
         <button class="bld-btn alt" onclick="resetBuilder()" data-fr="↺ Effacer" data-en="↺ Clear">↺ Effacer</button>
       </div>
     </div>
 
     <div class="tips-grid">
-      <div class="tip"><div class="tip-i">🎯</div><div><div class="tip-t" data-fr="Factuel, pas évaluatif" data-en="Factual, not evaluative">Factuel, pas évaluatif</div><div class="tip-b" data-fr="« Tu as dit X » plutôt que « tu es X ». Le cerveau ferme face aux jugements de personnalité, s'ouvre face aux faits observables." data-en="'You said X' rather than 'you are X'. The brain shuts down with personality judgements, opens up with observable facts.">« Tu as dit X » plutôt que « tu es X ». Le cerveau ferme face aux jugements de personnalité, s'ouvre face aux faits observables.</div></div></div>
-      <div class="tip"><div class="tip-i">⏱️</div><div><div class="tip-t" data-fr="Sous 24h, sinon trop tard" data-en="Within 24h, or it's too late">Sous 24h, sinon trop tard</div><div class="tip-b" data-fr="Au-delà, les détails se brouillent et les émotions s'amplifient. Plus le feedback est rapide, plus la situation est nette pour les deux." data-en="Beyond that, details blur and emotions amplify. The faster the feedback, the clearer the situation for both parties.">Au-delà, les détails se brouillent et les émotions s'amplifient. Plus le feedback est rapide, plus la situation est nette pour les deux.</div></div></div>
-      <div class="tip"><div class="tip-i">👂</div><div><div class="tip-t" data-fr="Feedback = dialogue (SBII)" data-en="Feedback = dialogue (SBII)">Feedback = dialogue (SBII)</div><div class="tip-b" data-fr="Posez « qu'est-ce qui t'a amené à faire ça ? ». L'intention est rarement celle qu'on suppose. Vous évitez 80% des malentendus." data-en="Ask 'what led you to do that?'. Intention is rarely what you assume. You avoid 80% of misunderstandings.">Posez « qu'est-ce qui t'a amené à faire ça ? ». L'intention est rarement celle qu'on suppose. Vous évitez 80% des malentendus.</div></div></div>
-      <div class="tip"><div class="tip-i">⚖️</div><div><div class="tip-t" data-fr="Ratio 5:1 positif/correctif" data-en="5:1 positive/corrective ratio">Ratio 5:1 positif/correctif</div><div class="tip-b" data-fr="Les équipes haute performance émettent 5,6 feedbacks positifs pour 1 correctif (Losada & Heaphy, 2004). Les équipes en difficulté : 0,36 pour 1." data-en="High-performing teams give 5.6 positive feedbacks for every 1 corrective (Losada & Heaphy, 2004). Struggling teams: 0.36 to 1.">Les équipes haute performance émettent 5,6 feedbacks positifs pour 1 correctif (Losada & Heaphy, 2004). Les équipes en difficulté : 0,36 pour 1.</div></div></div>
+      <div class="tip"><div class="tip-i">🎯</div><div><div class="tip-t" data-fr="Factuel, pas évaluatif" data-en="Factual, not evaluative">Factuel, pas évaluatif</div><div class="tip-b" data-fr="« Tu as rendu le rapport avec 2 jours de retard » plutôt que « tu es désorganisé ». Le cerveau ferme face aux jugements, s'ouvre face aux faits." data-en="'You submitted the report 2 days late' rather than 'you are disorganised'. The brain shuts down with judgements, opens with facts.">« Tu as rendu le rapport avec 2 jours de retard » plutôt que « tu es désorganisé ». Le cerveau ferme face aux jugements, s'ouvre face aux faits.</div></div></div>
+      <div class="tip"><div class="tip-i">⏱️</div><div><div class="tip-t" data-fr="Sous 24h après la situation" data-en="Within 24h of the situation">Sous 24h après la situation</div><div class="tip-b" data-fr="Après une réunion, une livraison ou un échange tendu : plus vous attendez, plus les détails se brouillent et les émotions s'amplifient pour les deux parties." data-en="After a meeting, a delivery or a tense exchange: the longer you wait, the more details blur and emotions amplify for both parties.">Après une réunion, une livraison ou un échange tendu : plus vous attendez, plus les détails se brouillent et les émotions s'amplifient pour les deux parties.</div></div></div>
+      <div class="tip"><div class="tip-i">👂</div><div><div class="tip-t" data-fr="Feedback = dialogue, pas monologue" data-en="Feedback = dialogue, not monologue">Feedback = dialogue, pas monologue</div><div class="tip-b" data-fr="Après avoir exprimé S-B-I, posez « qu'est-ce qui t'a amené à faire ça ? ». Dans un contexte pro, l'intention derrière un comportement est souvent différente de ce qu'on suppose (contrainte, malentendu, priorité différente)." data-en="After sharing S-B-I, ask 'what led you to do that?'. In a work context, the intention behind behaviour is often different from what you assume (constraint, misunderstanding, conflicting priority).">Après avoir exprimé S-B-I, posez « qu'est-ce qui t'a amené à faire ça ? ». Dans un contexte pro, l'intention derrière un comportement est souvent différente de ce qu'on suppose (contrainte, malentendu, priorité différente).</div></div></div>
+      <div class="tip"><div class="tip-i">⚖️</div><div><div class="tip-t" data-fr="5 positifs pour 1 correctif" data-en="5 positives for 1 corrective">5 positifs pour 1 correctif</div><div class="tip-b" data-fr="Les équipes haute performance émettent 5,6 feedbacks positifs pour 1 correctif (Losada & Heaphy, 2004). Féliciter un collègue après une bonne présentation ou une belle initiative compte aussi." data-en="High-performing teams give 5.6 positive feedbacks for every 1 corrective (Losada & Heaphy, 2004). Acknowledging a colleague after a good presentation or a strong initiative counts too.">Les équipes haute performance émettent 5,6 feedbacks positifs pour 1 correctif (Losada &amp; Heaphy, 2004). Féliciter un collègue après une bonne présentation ou une belle initiative compte aussi.</div></div></div>
     </div>
 
     <div class="sources-box">
       <strong data-fr="Sources scientifiques" data-en="Scientific sources">Sources scientifiques</strong>
-      <span data-fr="Center for Creative Leadership (2023). SBI Feedback Tool & Situational Leadership · Goleman D., Boyatzis R. & McKee A. (2013). Primal Leadership. Harvard Business Review Press · Losada M. & Heaphy E. (2004). The Role of Positivity and Connectivity in the Performance of Business Teams. American Behavioral Scientist, 47(6) · Gallup (2024). State of the Global Workplace Report · Mark G., Gudith D. & Klocke U. (2008). The Cost of Interrupted Work, ACM CHI · Harvard Business Review — Zenger J. & Folkman J. (2019). The Feedback Fallacy." 
+      <span data-fr="Center for Creative Leadership (2023). SBI Feedback Tool & Situational Leadership · Goleman D., Boyatzis R. & McKee A. (2013). Primal Leadership. Harvard Business Review Press · Losada M. & Heaphy E. (2004). The Role of Positivity and Connectivity in the Performance of Business Teams. American Behavioral Scientist, 47(6) · Gallup (2024). State of the Global Workplace Report · Mark G., Gudith D. & Klocke U. (2008). The Cost of Interrupted Work, ACM CHI · Harvard Business Review — Zenger J. & Folkman J. (2019). The Feedback Fallacy."
              data-en="Center for Creative Leadership (2023). SBI Feedback Tool & Situational Leadership · Goleman D., Boyatzis R. & McKee A. (2013). Primal Leadership. Harvard Business Review Press · Losada M. & Heaphy E. (2004). The Role of Positivity and Connectivity in the Performance of Business Teams. American Behavioral Scientist, 47(6) · Gallup (2024). State of the Global Workplace Report · Mark G., Gudith D. & Klocke U. (2008). The Cost of Interrupted Work, ACM CHI · Harvard Business Review — Zenger J. & Folkman J. (2019). The Feedback Fallacy.">Center for Creative Leadership (2023). SBI Feedback Tool &amp; Situational Leadership · Goleman D., Boyatzis R. &amp; McKee A. (2013). Primal Leadership. Harvard Business Review Press · Losada M. &amp; Heaphy E. (2004). The Role of Positivity and Connectivity in the Performance of Business Teams. American Behavioral Scientist, 47(6) · Gallup (2024). State of the Global Workplace Report · Mark G., Gudith D. &amp; Klocke U. (2008). The Cost of Interrupted Work, ACM CHI · Harvard Business Review — Zenger J. &amp; Folkman J. (2019). The Feedback Fallacy.</span>
     </div>
 
@@ -485,18 +470,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       <div class="mhd-l">
         <div class="mtag"><div class="mtag-d"></div><span data-fr="Quiz · 4 questions" data-en="Quiz · 4 questions">Quiz · 4 questions</span></div>
         <h1 class="mttl" data-fr="Testez vos <span class='g'>connaissances</span>" data-en="Test your <span class='g'>knowledge</span>">Testez vos <span class="g">connaissances</span></h1>
-        <p class="mdsc" data-fr="Cinq mises en situation pour valider votre maîtrise du feedback constructif." data-en="Five scenarios to validate your mastery of constructive feedback.">Cinq mises en situation pour valider votre maîtrise du feedback constructif.</p>
+        <p class="mdsc" data-fr="Quatre mises en situation du quotidien professionnel pour valider votre maîtrise du feedback constructif." data-en="Four everyday work scenarios to validate your mastery of constructive feedback.">Quatre mises en situation du quotidien professionnel pour valider votre maîtrise du feedback constructif.</p>
       </div>
       <div class="mnum">03</div>
     </div>
 
-    <div class="quiz-intro"><p data-fr="💡 <strong>Astuce :</strong> chaque question vise une nuance différente — situation, comportement, impact, intention, délai." data-en="💡 <strong>Tip:</strong> each question targets a different nuance — situation, behaviour, impact, intention, timing.">💡 <strong>Astuce :</strong> chaque question vise une nuance différente — situation, comportement, impact, intention, délai.</p></div>
+    <div class="quiz-intro"><p data-fr="💡 <strong>Astuce :</strong> chaque question s'appuie sur une situation réelle de travail — réunion, livrable, collaboration entre collègues." data-en="💡 <strong>Tip:</strong> each question is based on a real work situation — meeting, deliverable, collaboration between colleagues.">💡 <strong>Astuce :</strong> chaque question s'appuie sur une situation réelle de travail — réunion, livrable, collaboration entre collègues.</p></div>
 
     <div id="quiz-container"></div>
 
     <div class="score-box" id="score-box">
       <div class="score-emoji" id="score-emoji">🎉</div>
-      <div class="score-n" id="score-n">0/5</div>
+      <div class="score-n" id="score-n">0/4</div>
       <div class="score-pct" id="score-pct">0% · Score</div>
       <div class="score-msg" id="score-msg"></div>
     </div>
@@ -528,270 +513,166 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
 <script>
 const WEBHOOK='https://script.google.com/macros/s/AKfycby3PWvK07E-MNJ7abWeWIxtOiAX3k08pEhDKxF_QRXhOf2zQMmNOXDrMyZ-rLkVAYzO/exec';
 const MODULE_ID='feedback';
-let currentUser=null;const quizDone={};let quizScore=0;const QUIZ_TOTAL=5;
+let currentUser=null;const quizDone={};let quizScore=0;
 let currentLang='fr';
 
 function toggleLang(){
   currentLang = currentLang==='fr' ? 'en' : 'fr';
   const btn = document.getElementById('lang-btn');
   btn.textContent = currentLang==='fr' ? 'EN' : 'FR';
-
-  // Translate all elements with data-fr / data-en attributes
   document.querySelectorAll('[data-fr]').forEach(el=>{
     const val = currentLang==='fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
     if(val !== null) el.innerHTML = val;
   });
-
-  // Translate placeholders
   const placeholders = {
-    fr: {
-      's': 'Ex : Lors de la réunion projet de mardi matin…',
-      'b': 'Ex : tu as interrompu Marie 3 fois pendant sa présentation',
-      'i': 'Ex : cela a coupé sa dynamique et m\'a donné l\'impression que ses idées comptaient moins'
-    },
-    en: {
-      's': 'E.g. During Tuesday morning\'s project meeting…',
-      'b': 'E.g. you interrupted Marie 3 times during her presentation',
-      'i': 'E.g. it broke her momentum and made me feel her ideas mattered less'
-    }
+    fr: { 's':'Ex : Lors de la réunion de lancement du projet X mardi matin…','b':'Ex : tu as présenté les chiffres sans avoir intégré les retours de l\'équipe','i':'Ex : le client a eu des informations contradictoires et a demandé un report de décision'},
+    en: { 's':'E.g. During the project X kick-off meeting on Tuesday morning…','b':'E.g. you presented the figures without having integrated the team\'s feedback','i':'E.g. the client received contradictory information and asked to postpone the decision'}
   };
   const pl = placeholders[currentLang];
   if(document.getElementById('b-s')) document.getElementById('b-s').placeholder=pl.s;
   if(document.getElementById('b-b')) document.getElementById('b-b').placeholder=pl.b;
   if(document.getElementById('b-i')) document.getElementById('b-i').placeholder=pl.i;
-
-  // Translate login page
-  const loginTitle = document.querySelector('.lb-title');
-  const loginSub = document.querySelector('.lb-sub');
-  const loginLabel = document.querySelector('.lb-label');
-  const loginPlaceholder = document.getElementById('login-email');
-  const loginBtn = document.querySelector('.lb-btn');
-  const loginErr = document.getElementById('login-err');
-  const loginPrivacy = document.querySelector('.lb-privacy');
-  const navTitle = document.querySelector('.nlg');
-
+  const loginTitle=document.querySelector('.lb-title');const loginSub=document.querySelector('.lb-sub');const loginLabel=document.querySelector('.lb-label');const loginPlaceholder=document.getElementById('login-email');const loginBtn=document.querySelector('.lb-btn');const loginErr=document.getElementById('login-err');const loginPrivacy=document.querySelector('.lb-privacy');const navTitle=document.querySelector('.nlg');
   if(currentLang==='en'){
-    if(loginTitle) loginTitle.textContent='Module 3 · Mastering feedback';
-    if(loginSub) loginSub.textContent='Enter your professional email to start this 7-minute module.';
-    if(loginLabel) loginLabel.textContent='Email address';
-    if(loginPlaceholder) loginPlaceholder.placeholder='firstname.lastname@company.com';
-    if(loginBtn) loginBtn.textContent='Start the module →';
-    if(loginErr) loginErr.textContent='Please enter a valid email address.';
-    if(loginPrivacy) loginPrivacy.textContent='Your email is used only to record your participation. No data is shared with third parties.';
-    if(navTitle) navTitle.innerHTML='<span class="icn">💬</span>Module 3 · Feedback';
+    if(loginTitle)loginTitle.textContent='Module 3 · Mastering feedback';if(loginSub)loginSub.textContent='Enter your professional email to start this 7-minute module.';if(loginLabel)loginLabel.textContent='Email address';if(loginPlaceholder)loginPlaceholder.placeholder='firstname.lastname@company.com';if(loginBtn)loginBtn.textContent='Start the module →';if(loginErr)loginErr.textContent='Please enter a valid email address.';if(loginPrivacy)loginPrivacy.textContent='Your email is used only to record your participation. No data is shared with third parties.';if(navTitle)navTitle.innerHTML='<span class="icn">💬</span>Module 3 · Feedback';
   } else {
-    if(loginTitle) loginTitle.textContent='Module 3 · Réussir ses feedbacks';
-    if(loginSub) loginSub.textContent='Entrez votre email professionnel pour démarrer ce module de 7 minutes.';
-    if(loginLabel) loginLabel.textContent='Adresse email';
-    if(loginPlaceholder) loginPlaceholder.placeholder='prenom.nom@entreprise.fr';
-    if(loginBtn) loginBtn.textContent='Démarrer le module →';
-    if(loginErr) loginErr.textContent='Veuillez saisir une adresse email valide.';
-    if(loginPrivacy) loginPrivacy.textContent='Votre email sert uniquement à enregistrer votre participation. Aucune donnée n\'est transmise à des tiers.';
-    if(navTitle) navTitle.innerHTML='<span class="icn">💬</span>Module 3 · Feedback';
+    if(loginTitle)loginTitle.textContent='Module 3 · Réussir ses feedbacks';if(loginSub)loginSub.textContent='Entrez votre email professionnel pour démarrer ce module de 7 minutes.';if(loginLabel)loginLabel.textContent='Adresse email';if(loginPlaceholder)loginPlaceholder.placeholder='prenom.nom@entreprise.fr';if(loginBtn)loginBtn.textContent='Démarrer le module →';if(loginErr)loginErr.textContent='Veuillez saisir une adresse email valide.';if(loginPrivacy)loginPrivacy.textContent='Votre email sert uniquement à enregistrer votre participation. Aucune donnée n\'est transmise à des tiers.';if(navTitle)navTitle.innerHTML='<span class="icn">💬</span>Module 3 · Feedback';
   }
-
-  // Re-render quiz in current lang
   renderQuiz();
-
-  // Update page title
-  document.title = currentLang==='en'
-    ? 'Module 3 · Mastering feedback · Brakson'
-    : 'Module 3 · Réussir ses feedbacks · Brakson';
-
-  // Update builder preview if visible
+  document.title=currentLang==='en'?'Module 3 · Mastering feedback · Brakson':'Module 3 · Réussir ses feedbacks · Brakson';
   updateBuilder();
-
-  // Update example button if already loaded
-  const exBtn = document.getElementById('b-example');
-  if(exBtn && exBtn.textContent !== (currentLang==='en'?'✨ Load an example':'✨ Charger un exemple')){
-    // keep current label, already translated via data-* above
-  }
-
-  // Translate step 3 finish screen
-  const finishTitle = document.querySelector('#screen-3 h2');
-  const finishP = document.querySelector('#screen-3 p');
-  const restartBtn = document.querySelector('#screen-3 .btn-dk');
-  if(currentLang==='en'){
-    if(finishTitle) finishTitle.textContent='Module completed';
-    if(finishP) finishP.innerHTML='Well done! You have completed the <strong>Mastering feedback</strong> module. Your participation has been recorded. Now put it into practice.';
-    if(restartBtn) restartBtn.textContent='↺ Restart the module';
-  } else {
-    if(finishTitle) finishTitle.textContent='Module terminé';
-    if(finishP) finishP.innerHTML='Bravo, vous avez complété le module <strong>Réussir ses feedbacks</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.';
-    if(restartBtn) restartBtn.textContent='↺ Recommencer le module';
-  }
-
-  // Translate quiz navigation buttons
-  const reviewBtn = document.querySelector('#screen-2 .btn-gh');
-  const finishModuleBtn = document.getElementById('btn-finish');
-  if(currentLang==='en'){
-    if(reviewBtn) reviewBtn.textContent='← Review content';
-    if(finishModuleBtn) finishModuleBtn.textContent='Finish module ✓';
-  } else {
-    if(reviewBtn) reviewBtn.textContent='← Revoir le contenu';
-    if(finishModuleBtn) finishModuleBtn.textContent='Terminer le module ✓';
-  }
+  const finishTitle=document.querySelector('#screen-3 h2');const finishP=document.querySelector('#screen-3 p');const restartBtn=document.querySelector('#screen-3 .btn-dk');
+  if(currentLang==='en'){if(finishTitle)finishTitle.textContent='Module completed';if(finishP)finishP.innerHTML='Well done! You have completed the <strong>Mastering feedback</strong> module. Your participation has been recorded. Now put it into practice.';if(restartBtn)restartBtn.textContent='↺ Restart the module';}
+  else{if(finishTitle)finishTitle.textContent='Module terminé';if(finishP)finishP.innerHTML='Bravo, vous avez complété le module <strong>Réussir ses feedbacks</strong>. Votre participation a bien été enregistrée. À vous de jouer maintenant.';if(restartBtn)restartBtn.textContent='↺ Recommencer le module';}
+  const reviewBtn=document.querySelector('#screen-2 .btn-gh');const finishModuleBtn=document.getElementById('btn-finish');
+  if(currentLang==='en'){if(reviewBtn)reviewBtn.textContent='← Review content';if(finishModuleBtn)finishModuleBtn.textContent='Finish module ✓';}
+  else{if(reviewBtn)reviewBtn.textContent='← Revoir le contenu';if(finishModuleBtn)finishModuleBtn.textContent='Terminer le module ✓';}
 }
+
 function sendData(p){fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).catch(()=>{});}
 function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
 function doLogin(){const email=document.getElementById('login-email').value.trim();const err=document.getElementById('login-err');if(!isValidEmail(email)){err.classList.add('show');return;}err.classList.remove('show');currentUser=email;document.getElementById('user-pill').textContent=email;document.getElementById('login-overlay').style.display='none';document.getElementById('app').style.display='block';renderQuiz();sendData({email,module:MODULE_ID,event:'login',ts:new Date().toISOString()});}
-function goStep(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');document.querySelectorAll('.pmini-dot').forEach((d,i)=>{d.classList.remove('active','done');if(i<n)d.classList.add('done');if(i===n)d.classList.add('active');});window.scrollTo({top:0,behavior:'smooth'});}
-
-// Tabs
+function goStep(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 function switchTab(t){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));event.target.classList.add('active');document.getElementById('pane-'+t).classList.add('active');}
 
-// Builder
 function updateBuilder(){
   const s=document.getElementById('b-s').value.trim();
   const b=document.getElementById('b-b').value.trim();
   const i=document.getElementById('b-i').value.trim();
   const out=document.getElementById('b-output');
-  // Quality score
   let q=0;
-  if(s.length>=8) q+=33;
-  if(b.length>=8) q+=33;
-  if(i.length>=8) q+=34;
+  if(s.length>=8)q+=33;if(b.length>=8)q+=33;if(i.length>=8)q+=34;
   document.getElementById('q-fill').style.width=q+'%';
-  // q-label is hidden, no % display
-  const isEn = currentLang==='en';
+  const isEn=currentLang==='en';
   if(s||b||i){
-    const previewLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
+    const previewLabel=isEn?'📋 Feedback preview':'📋 Aperçu de votre feedback';
     let txt=`<div class="builder-out-l">${previewLabel}</div><div class="builder-out-t">`;
-    if(s) txt+=`<mark>${escapeHtml(s)}</mark>, `;
-    if(b) txt+=`<mark>${escapeHtml(b)}</mark> — `;
-    if(i) txt+=`<mark>${escapeHtml(i)}</mark>`;
+    if(s)txt+=`<mark>${escapeHtml(s)}</mark>, `;
+    if(b)txt+=`<mark>${escapeHtml(b)}</mark> — `;
+    if(i)txt+=`<mark>${escapeHtml(i)}</mark>`;
     txt+=`.</div>`;
-    if(q===100){
-      txt += isEn
-        ? `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ Complete SBI — ready to deliver. Tip: follow up with an intent question (SBII): "What led you to do that?"</div>`
-        : `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ SBI complet et prêt à délivrer. Astuce : ajoutez ensuite la question d'intention (SBII) : « qu\'est-ce qui t\'a amené à faire ça ? »</div>`;
-    }
+    if(q===100){txt+=isEn?`<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ Complete SBI — ready to deliver. Tip: follow up with an intent question (SBII): "What led you to do that?"</div>`:`<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ SBI complet et prêt à délivrer. Astuce : ajoutez la question d'intention (SBII) : « qu'est-ce qui t'a amené à faire ça ? »</div>`;}
     out.innerHTML=txt;
   } else {
-    const emptyLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
-    const emptyText = isEn ? 'Enter S, B and I above to see your feedback take shape…' : 'Saisissez S, B et I ci-dessus pour voir votre feedback se construire…';
+    const emptyLabel=isEn?'📋 Feedback preview':'📋 Aperçu de votre feedback';
+    const emptyText=isEn?'Enter S, B and I above to see your feedback take shape…':'Saisissez S, B et I ci-dessus pour voir votre feedback se construire…';
     out.innerHTML=`<div class="builder-out-l">${emptyLabel}</div><div class="builder-out-t" style="color:var(--w70);font-style:italic;">${emptyText}</div>`;
   }
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
 
-const EXAMPLES=[
-  {s:'Lors de la réunion projet de mardi matin',b:'tu as interrompu Marie 3 fois pendant sa présentation',i:'cela a coupé sa dynamique et donné l\'impression que ses idées comptaient moins',q:100},
-  {s:'La semaine dernière',b:'tu as partagé le rapport directement au client sans me le faire valider',i:'',q:66},
-  {s:'Lors de la présentation client du projet X hier matin',b:'tes 3 messages-clés en introduction et tes slides en moins de 5 minutes',i:'ont permis au client de prendre sa décision en 10 minutes',q:100},
-  {s:'Sur les 4 derniers sprints',b:'les spécifications sont arrivées avec 3 à 4 jours de retard',i:'',q:66},
-  {s:'Hier après-midi',b:'tu as pris un appel téléphonique en mode haut-parleur pendant 20 minutes',i:'j\'ai perdu le fil de mon analyse et n\'ai pas pu finir mon livrable dans les temps',q:100},
-  {s:'',b:'tu as présenté les chiffres Q3 avec des visuels très clairs et une synthèse en 3 points',i:'les décideurs ont validé le budget en séance',q:66},
-  {s:'En réunion de direction',b:'',i:'',q:33}
+// Exemples 100% contexte professionnel, tous collaborateurs
+const EXAMPLES_FR=[
+  {s:'Lors de la réunion de suivi projet de jeudi dernier',b:'tu as partagé les nouvelles estimations directement au client sans les avoir validées avec l\'équipe au préalable',i:'le client a eu des informations différentes de celles présentées la semaine précédente, ce qui a créé de la confusion et retardé la décision',q:100},
+  {s:'Sur les 3 derniers comptes-rendus de réunion',b:'les points d\'action étaient listés sans responsable ni délai associé',i:'l\'équipe n\'a pas su qui devait faire quoi, et deux actions sont restées sans suite',q:100},
+  {s:'Lors de la présentation au comité de direction vendredi',b:'tes 3 messages-clés en introduction et tes slides épurées ont permis une lecture immédiate',i:'le comité a pu se positionner en moins de 10 minutes — c\'est rare pour ce type de sujet',q:100},
+  {s:'Cette semaine',b:'tu as répondu aux e-mails de l\'équipe avec un délai moyen de 3 jours',i:'',q:66},
+  {s:'Lors du kick-off du projet Beta lundi matin',b:'tu as pris en charge l\'animation alors que ce n\'était pas prévu et tu as cadré les échanges avec des questions précises',i:'la réunion a tenu les 45 minutes prévues et tout le monde est reparti avec un rôle clair',q:100},
+  {s:'',b:'tu as présenté les chiffres Q3 avec des visuels très clairs',i:'les décideurs ont validé le budget en séance',q:66},
+  {s:'Lors du dernier sprint review',b:'',i:'',q:33}
 ];
+const EXAMPLES_EN=[
+  {s:'During last Thursday\'s project follow-up meeting',b:'you shared the new estimates directly with the client without having them validated by the team first',i:'the client received different information from what was presented the previous week, which created confusion and delayed the decision',q:100},
+  {s:'On the last 3 meeting notes',b:'action points were listed without an owner or deadline attached',i:'the team didn\'t know who needed to do what, and two actions remained unaddressed',q:100},
+  {s:'During Friday\'s executive committee presentation',b:'your 3 key messages in the introduction and your clean slides allowed immediate reading',i:'the committee was able to take a position in under 10 minutes — which is rare for this type of topic',q:100},
+  {s:'This week',b:'you replied to team emails with an average delay of 3 days',i:'',q:66},
+  {s:'During the Beta project kick-off on Monday morning',b:'you took charge of facilitating the meeting even though it wasn\'t planned and framed the discussion with precise questions',i:'the meeting stayed within the 45 minutes scheduled and everyone left with a clear role',q:100},
+  {s:'',b:'you presented the Q3 figures with very clear visuals',i:'the decision-makers approved the budget during the session',q:66},
+  {s:'During the last sprint review',b:'',i:'',q:33}
+];
+
 let exampleIdx=0;
 function loadNextExample(){
-  const ex=EXAMPLES[exampleIdx % EXAMPLES.length];
-  const num=(exampleIdx % EXAMPLES.length)+1;
+  const EXAMPLES=currentLang==='en'?EXAMPLES_EN:EXAMPLES_FR;
+  const ex=EXAMPLES[exampleIdx%EXAMPLES.length];
   exampleIdx++;
   document.getElementById('b-s').value=ex.s;
   document.getElementById('b-b').value=ex.b;
   document.getElementById('b-i').value=ex.i;
-  // Apply quality bar only (no % label)
   document.getElementById('q-fill').style.width=ex.q+'%';
-  // Update preview
-  const isEn = currentLang==='en';
+  const isEn=currentLang==='en';
   const out=document.getElementById('b-output');
   const s=ex.s,b=ex.b,i=ex.i;
   if(s||b||i){
-    const previewLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
+    const previewLabel=isEn?'📋 Feedback preview':'📋 Aperçu de votre feedback';
     let txt=`<div class="builder-out-l">${previewLabel}</div><div class="builder-out-t">`;
-    if(s) txt+=`<mark>${escapeHtml(s)}</mark>, `;
-    if(b) txt+=`<mark>${escapeHtml(b)}</mark>`;
-    if(b&&i) txt+=` — `;
-    if(i) txt+=`<mark>${escapeHtml(i)}</mark>`;
+    if(s)txt+=`<mark>${escapeHtml(s)}</mark>, `;
+    if(b)txt+=`<mark>${escapeHtml(b)}</mark>`;
+    if(b&&i)txt+=` — `;
+    if(i)txt+=`<mark>${escapeHtml(i)}</mark>`;
     txt+=`.</div>`;
     if(ex.q<100){
       const missing=[];
-      if(!s.trim()) missing.push(isEn?'<strong>Situation</strong>':'la <strong>Situation</strong>');
-      if(!b.trim()) missing.push(isEn?'<strong>Behaviour</strong>':'le <strong>Comportement</strong>');
-      if(!i.trim()) missing.push(isEn?'<strong>Impact</strong>':'l\'<strong>Impact</strong>');
-      txt += isEn
-        ? `<div style="margin-top:12px;font-size:13px;color:#ffb347;font-weight:600;">⚠ Incomplete feedback — missing ${missing.join(' and ')}. Complete it to make it actionable.</div>`
-        : `<div style="margin-top:12px;font-size:13px;color:#ffb347;font-weight:600;">⚠ Feedback incomplet — il manque ${missing.join(' et ')}. Complétez pour le rendre actionnable.</div>`;
+      if(!s.trim())missing.push(isEn?'<strong>Situation</strong>':'la <strong>Situation</strong>');
+      if(!b.trim())missing.push(isEn?'<strong>Behaviour</strong>':'le <strong>Comportement</strong>');
+      if(!i.trim())missing.push(isEn?'<strong>Impact</strong>':'l\'<strong>Impact</strong>');
+      txt+=isEn?`<div style="margin-top:12px;font-size:13px;color:#ffb347;font-weight:600;">⚠ Incomplete — missing ${missing.join(' and ')}. Complete it to make it actionable.</div>`:`<div style="margin-top:12px;font-size:13px;color:#ffb347;font-weight:600;">⚠ Incomplet — il manque ${missing.join(' et ')}. Complétez pour le rendre actionnable.</div>`;
     } else {
-      txt += isEn
-        ? `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ Complete SBI — ready to deliver.</div>`
-        : `<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ SBI complet et prêt à délivrer.</div>`;
+      txt+=isEn?`<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ Complete SBI — ready to deliver.</div>`:`<div style="margin-top:12px;font-size:13px;color:var(--acc);font-weight:700;">✓ SBI complet et prêt à délivrer.</div>`;
     }
     out.innerHTML=txt;
-  } else {
-    const emptyLabel = isEn ? '📋 Feedback preview' : '📋 Aperçu de votre feedback';
-    const emptyText = isEn ? 'Enter S, B and I above to see your feedback take shape…' : 'Saisissez S, B et I ci-dessus pour voir votre feedback se construire…';
-    out.innerHTML=`<div class="builder-out-l">${emptyLabel}</div><div class="builder-out-t" style="color:var(--w70);font-style:italic;">${emptyText}</div>`;
   }
-  const nextNum=(exampleIdx % EXAMPLES.length)+1;
-  const exBtn = document.getElementById('b-example');
-  exBtn.textContent = isEn ? `✨ Next example (${nextNum}/${EXAMPLES.length})` : `✨ Exemple suivant (${nextNum}/${EXAMPLES.length})`;
+  const nextNum=(exampleIdx%EXAMPLES.length)+1;
+  const exBtn=document.getElementById('b-example');
+  exBtn.textContent=isEn?`✨ Next example (${nextNum}/${EXAMPLES.length})`:`✨ Exemple suivant (${nextNum}/${EXAMPLES.length})`;
 }
-function loadExample(idx){loadNextExample();}  
 function resetBuilder(){document.getElementById('b-s').value='';document.getElementById('b-b').value='';document.getElementById('b-i').value='';updateBuilder();}
-function copyBuilder(){
-  const s=document.getElementById('b-s').value.trim();
-  const b=document.getElementById('b-b').value.trim();
-  const i=document.getElementById('b-i').value.trim();
-  if(!s||!b||!i){alert(currentLang==='en'?'Please fill in all 3 S, B, I fields before copying.':'Remplissez les 3 champs S, B, I avant de copier.');return;}
-  const txt=`${s}, ${b} — ${i}.`;
-  navigator.clipboard.writeText(txt).then(()=>{
-    const btn=document.getElementById('b-copy');const orig=btn.textContent;
-    btn.textContent=currentLang==='en'?'✓ Copied!':'✓ Copié!';setTimeout(()=>btn.textContent=orig,1500);
-    sendData({email:currentUser,module:MODULE_ID,event:'sbi_built',ts:new Date().toISOString()});
-  });
-}
 
-// Scenarios
-function ans(id,letter,ok,msg){
-  const cont=document.getElementById('ch-'+id);
-  if(cont.dataset.done) return;
-  cont.dataset.done='1';
-  const letters=['A','B','C'];
-  cont.querySelectorAll('.ch').forEach((b,i)=>{
-    const oc=b.getAttribute('onclick');
-    if(oc.includes(`'${letter}'`)) {
-      if(ok) b.classList.add('ok');
-      else b.classList.add('ko');
-    } else if(oc.includes(',true,')) {
-      b.classList.add('reveal');
-    } else {
-      b.classList.add('disabled');
-    }
-  });
-  const fb=document.getElementById('fb-'+id);
-  fb.textContent=msg;fb.className='fb show '+(ok?'pos':'neg');
-}
-
-// QUIZ
+// QUIZ — situations professionnelles concrètes
 const QUIZ={
   fr:[
-  {q:'Dans la méthode SBI (Center for Creative Leadership), que représente le « B » ?',opts:['Le bilan global de la situation','Le comportement observable et factuel','Le bénéfice attendu du changement','La bonne intention présumée'],correct:1,
-    fb:['Non — un bilan suppose un jugement, qu\'il faut justement éviter en feedback.','✓ Exact. Behavior = ce que vous avez VU ou ENTENDU, pas ce que vous interprétez. Le fait observable est la base solide du feedback.','Le bénéfice est dans le « I » (Impact) et la « C » de DESC. Pas dans le B.','C\'est le « I » de l\'extension SBII (Intent), pas le B.']},
-  {q:'Quelle est la principale différence entre un feedback efficace et inefficace ?',opts:['La sévérité du ton','Le caractère factuel vs évaluatif','La longueur du message','Le canal utilisé (oral/écrit)'],correct:1,
-    fb:['La sévérité bloque, elle n\'aide pas. Un feedback ferme peut être doux dans la forme.','✓ Correct. Le facteur clé est : faits observables vs jugement de personnalité. Le cerveau accueille les faits, ferme face aux jugements.','Un feedback peut être court et très efficace (méthode SBI tient en 2 phrases).','Le canal peut compter, mais la forme du message prime largement.']},
-  {q:'Le « ratio Losada » (Losada & Heaphy, 2004) recommande quel équilibre feedback positif / correctif dans les équipes haute performance ?',opts:['1:1','3:1','5,6:1','10:1'],correct:2,
-    fb:['Trop équilibré — les équipes haute perf vont nettement plus vers le positif.','C\'est un raccourci souvent cité, mais le chiffre exact mesuré est plus élevé.','✓ Correct. Étude Losada : 5,6 positifs pour 1 correctif dans les équipes haute performance, contre 0,36 pour 1 dans les équipes en difficulté. NB : étude critiquée mais le principe (positif >> correctif) reste validé.','Trop déséquilibré — devient flagornerie et perd de la crédibilité.']},
-  {q:'Pourquoi un feedback dans les 24h est-il généralement plus efficace ?',opts:['Il prend la personne au dépourvu','Le contexte est frais pour les deux parties','Il évite les conversations difficiles','Il permet de rappeler son autorité'],correct:1,
-    fb:['Surprendre n\'est pas un objectif — c\'est même contre-productif (active la défensive).','✓ Correct. Dans les 24h, la situation est précise dans les deux mémoires. Au-delà, les détails se brouillent et les émotions s\'amplifient. Le feedback devient flou et inactionnable.','Au contraire — c\'est l\'occasion d\'avoir une conversation difficile mais utile.','Le feedback n\'est pas un outil de pouvoir mais de progression mutuelle.']}
+    {q:'Dans la méthode SBI, que représente le « B » (Behavior) ?',
+     opts:['Le bilan global de la relation avec le collègue','Le comportement observable et factuel — ce qu\'on a vu ou entendu','Le bénéfice attendu pour l\'équipe','La bonne intention présumée derrière l\'action'],correct:1,
+     fb:['Non — un bilan implique un jugement global, qu\'on cherche précisément à éviter.','✓ Exact. Behavior = ce que vous avez VU ou ENTENDU dans la situation, pas votre interprétation. Le fait observable est ce qui permet à l\'autre d\'entendre le feedback sans se défendre.','Le bénéfice est dans le « I » (Impact). Le B reste factuel.','C\'est le « I » de l\'extension SBII (Intent). La question d\'intention vient après l\'impact, pas à la place du comportement.']},
+    {q:'Un collègue a rendu son livrable avec 3 jours de retard. Quelle formulation SBI est la plus efficace ?',
+     opts:['« Tu es toujours en retard, c\'est frustrant pour tout le monde. »','« Lors du projet X la semaine dernière, le livrable est arrivé 3 jours après la date convenue. J\'ai dû reporter la revue client, ce qui a décalé notre planning. »','« Je pense que tu n\'es pas organisé dans ton travail. »','« Tu aurais dû me prévenir plus tôt. »'],correct:1,
+     fb:['Évaluatif (« toujours ») + jugement général. Déclenchera de la défensive, pas de la résolution.','✓ Correct. S : « projet X la semaine dernière » — B : « livrable arrivé 3 jours après la date » — I : « j\'ai dû reporter, planning décalé ». Factuel, bienveillant, actionnable.','Jugement de personnalité. La personne ne peut pas agir sur « être désorganisé », seulement sur un comportement précis.','Vague et accusatoire. Pas de situation précise, pas d\'impact — la personne ne sait pas quoi changer.']},
+    {q:'Pourquoi la question « Qu\'est-ce qui t\'a amené à faire ça ? » (extension SBII) est-elle importante en contexte pro ?',
+     opts:['Elle montre qu\'on doute de la compétence de la personne','Elle transforme le feedback en dialogue et révèle souvent une contrainte ou un malentendu','Elle permet d\'éviter de donner le feedback négatif','Elle est obligatoire dans la méthode SBI de base'],correct:1,
+     fb:['Non — au contraire, elle montre de la curiosité et du respect pour la vision de l\'autre.','✓ Correct. En contexte pro, derrière un comportement gênant se cache souvent une contrainte (priorités concurrentes, mauvaise communication amont, incompréhension du périmètre). La question transforme le feedback en résolution commune.','Ce n\'est pas son objectif — au contraire, elle complète le feedback. On donne d\'abord le SBI, puis on ouvre le dialogue.','Non — l\'extension SBII est optionnelle mais très recommandée. Le SBI de base s\'arrête à l\'Impact.']},
+    {q:'Le « ratio Losada » recommande quel équilibre feedback positif / correctif dans les équipes performantes ?',
+     opts:['1 positif pour 1 correctif','3 positifs pour 1 correctif','5,6 positifs pour 1 correctif','10 positifs pour 1 correctif'],correct:2,
+     fb:['Trop équilibré — les équipes haute performance penchent nettement plus vers le positif.','C\'est souvent cité comme règle simple, mais le chiffre mesuré dans l\'étude est plus élevé.','✓ Correct. Étude Losada & Heaphy (2004) : 5,6 positifs pour 1 correctif dans les équipes haute performance vs 0,36 pour 1 dans les équipes en difficulté. Cela ne veut pas dire éviter les correctifs — mais investir activement dans les feedbacks positifs spécifiques.','Trop déséquilibré dans l\'autre sens — cela devient de la flatterie et perd en crédibilité.']}
   ],
   en:[
-  {q:'In the SBI method (Center for Creative Leadership), what does the "B" stand for?',opts:['The overall balance of the situation','The observable, factual behaviour','The expected benefit of change','The assumed good intention'],correct:1,
-    fb:['No — a balance implies a judgement, which is precisely what good feedback avoids.','✓ Correct. Behavior = what you SAW or HEARD, not your interpretation. The observable fact is the solid foundation of feedback.','The benefit belongs in the "I" (Impact) and the "C" of DESC. Not the B.','That\'s the "I" in the SBII extension (Intent), not the B.']},
-  {q:'What is the main difference between effective and ineffective feedback?',opts:['The severity of tone','Its factual vs evaluative nature','The length of the message','The channel used (verbal/written)'],correct:1,
-    fb:['Severity blocks, it doesn\'t help. Firm feedback can still be gentle in form.','✓ Correct. The key factor is: observable facts vs personality judgement. The brain welcomes facts, closes down against judgements.','Feedback can be short and very effective (the SBI method fits in 2 sentences).','The channel can matter, but the substance of the message matters far more.']},
-  {q:'The "Losada ratio" (Losada & Heaphy, 2004) recommends what balance of positive vs corrective feedback in high-performing teams?',opts:['1:1','3:1','5.6:1','10:1'],correct:2,
-    fb:['Too balanced — high-performing teams lean far more towards the positive.','This shortcut is often cited, but the exact measured figure is higher.','✓ Correct. Losada study: 5.6 positives for every 1 corrective in high-performing teams, vs 0.36 for 1 in struggling teams. Note: the study has been critiqued, but the principle (positive >> corrective) remains validated.','Too unbalanced — it becomes flattery and loses credibility.']},
-  {q:'Why is feedback given within 24 hours generally more effective?',opts:['It catches the person off guard','The context is fresh for both parties','It avoids difficult conversations','It reinforces authority'],correct:1,
-    fb:['Catching someone off guard is not an objective — it is actually counter-productive (triggers defensiveness).','✓ Correct. Within 24 hours, the situation is precise in both people\'s memories. Beyond that, details blur and emotions amplify. The feedback becomes vague and unactionable.','On the contrary — it is the opportunity for a difficult but useful conversation.','Feedback is not a power tool but a mutual development one.']}
+    {q:'In the SBI method, what does the "B" (Behavior) stand for?',
+     opts:['The overall assessment of the relationship with the colleague','The observable, factual behaviour — what was seen or heard','The expected benefit for the team','The assumed good intention behind the action'],correct:1,
+     fb:['No — an overall assessment implies a global judgement, which is precisely what we want to avoid.','✓ Correct. Behavior = what you SAW or HEARD in the situation, not your interpretation. The observable fact is what allows the other person to receive feedback without becoming defensive.','The benefit is in the "I" (Impact). The B stays factual.','That\'s the "I" in the SBII extension (Intent). The intent question comes after the impact, not in place of the behaviour.']},
+    {q:'A colleague submitted their deliverable 3 days late. Which SBI formulation is most effective?',
+     opts:['« You\'re always late — it\'s frustrating for everyone. »','« On project X last week, the deliverable arrived 3 days after the agreed date. I had to reschedule the client review, which pushed back our timeline. »','« I think you\'re not organised in your work. »','« You should have warned me sooner. »'],correct:1,
+     fb:['Evaluative ("always") + global judgement. Will trigger defensiveness, not resolution.','✓ Correct. S: "project X last week" — B: "deliverable arrived 3 days late" — I: "I had to reschedule, timeline pushed back". Factual, caring, actionable.','Personality judgement. The person can\'t act on "being disorganised", only on a specific behaviour.','Vague and accusatory. No precise situation, no impact — the person doesn\'t know what to change.']},
+    {q:'Why is the question "What led you to do that?" (SBII extension) important in a work context?',
+     opts:['It shows you doubt the person\'s competence','It turns feedback into a dialogue and often reveals a constraint or misunderstanding','It allows you to avoid giving negative feedback','It is mandatory in the basic SBI method'],correct:1,
+     fb:['No — on the contrary, it shows curiosity and respect for the other person\'s perspective.','✓ Correct. In a work context, behind a problematic behaviour there is often a constraint (competing priorities, poor upstream communication, unclear scope). The question turns feedback into joint problem-solving.','That\'s not its purpose — on the contrary, it completes the feedback. You give the SBI first, then open the dialogue.','No — the SBII extension is optional but highly recommended. Basic SBI stops at Impact.']},
+    {q:'The "Losada ratio" recommends what balance of positive vs corrective feedback in high-performing teams?',
+     opts:['1 positive for 1 corrective','3 positives for 1 corrective','5.6 positives for 1 corrective','10 positives for 1 corrective'],correct:2,
+     fb:['Too balanced — high-performing teams lean far more towards the positive.','Often cited as a simple rule, but the figure measured in the study is higher.','✓ Correct. Losada & Heaphy study (2004): 5.6 positives for 1 corrective in high-performing teams vs 0.36 for 1 in struggling teams. This doesn\'t mean avoiding corrective feedback — but actively investing in specific positive feedback.','Too unbalanced in the other direction — it becomes flattery and loses credibility.']}
   ]
 };
 
 function renderQuiz(){
-  const questions = QUIZ[currentLang] || QUIZ.fr;
-  const qLabel = currentLang==='en' ? 'Question' : 'Question';
+  const questions=QUIZ[currentLang]||QUIZ.fr;
+  const qLabel=currentLang==='en'?'Question':'Question';
   const c=document.getElementById('quiz-container');c.innerHTML='';
   questions.forEach((q,i)=>{
     const div=document.createElement('div');div.className='quiz-q';div.id='quiz-q-'+i;
@@ -800,9 +681,9 @@ function renderQuiz(){
   });
 }
 function answerQ(qi,oi){if(quizDone[qi])return;quizDone[qi]=true;const questions=QUIZ[currentLang]||QUIZ.fr;const q=questions[qi];if(oi===q.correct)quizScore++;const cont=document.getElementById('quiz-os-'+qi);cont.querySelectorAll('.quiz-o').forEach((btn,i)=>{if(i===oi&&oi===q.correct)btn.classList.add('ok');else if(i===oi&&oi!==q.correct)btn.classList.add('ko');else if(i===q.correct&&oi!==q.correct)btn.classList.add('reveal');else btn.classList.add('disabled');});const fb=document.getElementById('qfb-'+qi);fb.textContent=q.fb[oi];fb.className='qfb show '+(oi===q.correct?'pos':'neg');if(Object.keys(quizDone).length===questions.length)setTimeout(showScore,500);}
-function showScore(){const sb=document.getElementById('score-box');const total=(QUIZ[currentLang]||QUIZ.fr).length;const pct=Math.round(quizScore/total*100);document.getElementById('score-n').textContent=quizScore+'/'+total;document.getElementById('score-pct').textContent=pct+' · Score';let msg,emoji;if(currentLang==='en'){if(pct>=80){msg='Excellent! You have mastered the SBI/DESC methods and their nuances. Put it into practice this week.';emoji='🏆';confettiBurst();}else if(pct>=60){msg='Good score. A few nuances to review, particularly around ratios and the SBII extension.';emoji='🌟';}else{msg='A few points to deepen — focus especially on the SBI builder and the methods.';emoji='💪';}}else{if(pct>=80){msg='Excellent ! Vous maîtrisez les méthodes SBI/DESC et leurs nuances. Mettez en pratique cette semaine.';emoji='🏆';confettiBurst();}else if(pct>=60){msg='Bon score. Quelques nuances à revoir, notamment sur les ratios et l\'extension SBII.';emoji='🌟';}else{msg='Quelques points à approfondir — reprenez surtout le constructeur SBI et les méthodes.';emoji='💪';}}document.getElementById('score-emoji').textContent=emoji;document.getElementById('score-msg').textContent=msg;sb.classList.add('show');document.getElementById('btn-finish').style.display='inline-flex';sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:total,event:'quiz_done',ts:new Date().toISOString()});}
+function showScore(){const sb=document.getElementById('score-box');const total=(QUIZ[currentLang]||QUIZ.fr).length;const pct=Math.round(quizScore/total*100);document.getElementById('score-n').textContent=quizScore+'/'+total;document.getElementById('score-pct').textContent=pct+'% · Score';let msg,emoji;if(currentLang==='en'){if(pct>=75){msg='Excellent! You have mastered SBI/DESC and their professional nuances. Use it this week with a colleague.';emoji='🏆';confettiBurst();}else if(pct>=50){msg='Good score. A few nuances to review, particularly around the SBII extension and the positive/corrective ratio.';emoji='🌟';}else{msg='A few points to deepen — review the SBI builder and the work examples in particular.';emoji='💪';}}else{if(pct>=75){msg='Excellent ! Vous maîtrisez le SBI/DESC et ses nuances pro. Mettez-le en pratique cette semaine avec un collègue.';emoji='🏆';confettiBurst();}else if(pct>=50){msg='Bon score. Quelques nuances à revoir, notamment sur l\'extension SBII et le ratio positif/correctif.';emoji='🌟';}else{msg='Quelques points à approfondir — reprenez surtout le constructeur SBI et les exemples pro.';emoji='💪';}}document.getElementById('score-emoji').textContent=emoji;document.getElementById('score-msg').textContent=msg;sb.classList.add('show');document.getElementById('btn-finish').style.display='inline-flex';sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:total,event:'quiz_done',ts:new Date().toISOString()});}
 function confettiBurst(){const colors=['#A0EB9D','#1e3bbf','#2347d4','#FFD700','#FF6B6B'];for(let i=0;i<60;i++){const c=document.createElement('div');c.className='confetti';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.left=(50+Math.random()*40-20)+'%';c.style.top='40%';c.style.borderRadius=Math.random()>.5?'50%':'2px';c.style.transform=`rotate(${Math.random()*360}deg)`;document.body.appendChild(c);const dx=(Math.random()-.5)*600,dy=Math.random()*500+200,dur=1500+Math.random()*1500;c.animate([{transform:c.style.transform,opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.2,.6,.4,1)'});setTimeout(()=>c.remove(),dur);}}
-function restartModule(){Object.keys(quizDone).forEach(k=>delete quizDone[k]);quizScore=0;document.getElementById('score-box').classList.remove('show');document.getElementById('btn-finish').style.display='none';exampleIdx=0;const exBtn=document.getElementById('b-example');exBtn.textContent=currentLang==='en'?'✨ Load an example':'✨ Charger un exemple';renderQuiz();goStep(0);}
+function restartModule(){Object.keys(quizDone).forEach(k=>delete quizDone[k]);quizScore=0;document.getElementById('score-box').classList.remove('show');document.getElementById('btn-finish').style.display='none';exampleIdx=0;const exBtn=document.getElementById('b-example');exBtn.textContent=currentLang==='en'?'✨ Load a work example':'✨ Charger un exemple pro';renderQuiz();goStep(0);}
 </script>
 </body>
 </html>
