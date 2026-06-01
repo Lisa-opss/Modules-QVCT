@@ -392,9 +392,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       <div class="dim-card" onclick="toggleDim(this)">
         <div class="dim-head">
           <div class="dim-emoji">✨</div>
-          <div class="dim-num" data-fr="04 · Énergie <span class='dim-name'>Spirituelle</span>" data-en="04 · <span class='dim-name'>Spiritual</span> Energy">04 · Énergie <span class="dim-name">Spirituelle</span></div>
+          <div class="dim-num" data-fr="04 · Énergie <span class='dim-name'>Vocationnelle</span>" data-en="04 · <span class='dim-name'>Vocational</span> Energy">04 · Énergie <span class="dim-name">Vocationnelle</span></div>
         </div>
-        <p class="dim-cap" data-fr="L'énergie du sens est le moteur de l'engagement durable." data-en="The energy of meaning is the engine of sustainable engagement.">L'énergie du sens est le moteur de l'engagement durable.</p>
+        <p class="dim-cap" data-fr="L'énergie vocationnelle est le moteur de l'engagement durable." data-en="Vocational energy is the engine of sustainable engagement.">L'énergie vocationnelle est le moteur de l'engagement durable.</p>
         <div class="dim-toggle"><span data-fr="Voir les leviers" data-en="See the levers">Voir les leviers</span> <span class="arr">▾</span></div>
         <div class="dim-detail"><div class="dim-detail-inner"><ul>
           <li data-fr="<strong>Reliez&nbsp;les&nbsp;tâches&nbsp;à&nbsp;vos&nbsp;valeurs&nbsp;:</strong> Se demander régulièrement « pourquoi est-ce que je fais cela ? »" data-en="<strong>Connect tasks to your values:</strong> Regularly ask yourself « why am I doing this? »"><strong>Reliez&nbsp;les&nbsp;tâches&nbsp;à&nbsp;vos&nbsp;valeurs&nbsp;:</strong> Se demander régulièrement « pourquoi est-ce que je fais cela ? »</li>
@@ -414,7 +414,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
         <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="💪 Physique" data-en="💪 Physical">💪 Physique</span><span class="diag-item-v" id="v-phy">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-phy" oninput="updateDiag()"></div>
         <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="❤️ Émotionnelle" data-en="❤️ Emotional">❤️ Émotionnelle</span><span class="diag-item-v" id="v-emo">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-emo" oninput="updateDiag()"></div>
         <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="🧠 Mentale" data-en="🧠 Mental">🧠 Mentale</span><span class="diag-item-v" id="v-men">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-men" oninput="updateDiag()"></div>
-        <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="✨ Sens" data-en="✨ Meaning">✨ Sens</span><span class="diag-item-v" id="v-spi">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-spi" oninput="updateDiag()"></div>
+        <div class="diag-item"><div class="diag-item-h"><span class="diag-item-l" data-fr="✨ Vocationnelle" data-en="✨ Vocational">✨ Vocationnelle</span><span class="diag-item-v" id="v-spi">5</span></div><input type="range" min="1" max="10" value="5" class="diag-slider" id="s-spi" oninput="updateDiag()"></div>
       </div>
       <div class="diag-result" id="diag-result"><strong>Score moyen : 5,0 / 10</strong> — Bougez les curseurs pour découvrir votre dimension la plus en tension et le levier prioritaire à activer aujourd'hui.</div>
     </div>
@@ -428,9 +428,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
           <defs><linearGradient id="cg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#A0EB9D" stop-opacity=".55"/><stop offset="1" stop-color="#A0EB9D" stop-opacity="0"/></linearGradient></defs>
           <line x1="40" y1="180" x2="570" y2="180" stroke="#dde4f5" stroke-width="2"/>
           <line x1="40" y1="20" x2="40" y2="180" stroke="#dde4f5" stroke-width="2"/>
-          <!-- Axe X : 7h=40 … 20h=570 → 13h sur 530px → 40.8px/h
-               9h=122  10h=163  11h=203  13h=285  14h=326  15h=366  16h=407  17h=448  18h=489  20h=570
-               Pic 1 centré 10h (x=163), creux centré 14h (x=326), pic 2 centré 17h (x=448) -->
           <path d="M40,155
             C65,155 100,55 163,55
             C218,55 258,155 326,155
@@ -574,28 +571,22 @@ function toggleLang(){
   lang = lang==='fr' ? 'en' : 'fr';
   document.documentElement.lang = lang;
   document.getElementById('lang-btn').textContent = lang==='fr' ? 'EN' : 'FR';
-  // Replace innerHTML for elements with data-fr / data-en
   document.querySelectorAll('[data-fr][data-en]').forEach(el=>{
     const v = el.getAttribute('data-'+lang);
     if(v!==null) el.innerHTML = v;
   });
-  // Re-render quiz in current language
   QUIZ = lang==='fr' ? QUIZ_FR : QUIZ_EN;
   renderQuiz();
-  // Mettre à jour screen-3 si actif
   if(currentStep===3){
     document.querySelectorAll('#screen-3 [data-fr][data-en]').forEach(el=>{
       const v=el.getAttribute('data-'+lang);
       if(v!==null) el.innerHTML=v;
     });
   }
-  // Re-bind score totals
   document.getElementById('score-n').textContent=quizScore+'/'+QUIZ.length;
-  // Refresh tooltip data
   document.querySelectorAll('.cpt').forEach(p=>{
     const v=p.getAttribute('data-'+lang); if(v) p.setAttribute('data-info',v);
   });
-  // Refresh diag (sliders)
   if(typeof updateDiag==='function') updateDiag();
 }
 
@@ -613,8 +604,8 @@ function toggleDim(card){ card.classList.toggle('expanded'); }
 // DIAG SLIDERS
 function updateDiag(){
   const ids=['phy','emo','men','spi'];
-  const labelsFr={phy:'physique',emo:'émotionnelle',men:'mentale',spi:'le sens'};
-  const labelsEn={phy:'physical',emo:'emotional',men:'mental',spi:'meaning'};
+  const labelsFr={phy:'physique',emo:'émotionnelle',men:'mentale',spi:'vocationnelle'};
+  const labelsEn={phy:'physical',emo:'emotional',men:'mental',spi:'vocational'};
   const labels = lang==='fr' ? labelsFr : labelsEn;
   let vals={};
   ids.forEach(id=>{
@@ -647,7 +638,6 @@ function getLever(d){
 
 // CURVE TOOLTIP
 document.addEventListener('DOMContentLoaded',()=>{
-  // Curve interactivity
   setTimeout(()=>{
     const tt=document.getElementById('curve-tooltip');
     if(!tt) return;
@@ -716,7 +706,7 @@ function timerMode(m){
 // QUIZ — bilingue
 const QUIZ_FR = [
   {q:'Selon Loehr & Schwartz, quelle est la ressource <em>fondamentale</em> de la haute performance durable ?',opts:['Le temps disponible dans la journée','L\'énergie, dans ses 4 dimensions','La motivation intrinsèque','La discipline et l\'organisation'],correct:1,
-    fb:['Le temps est important, mais sans énergie même le temps libre est improductif. La gestion de l\'énergie prime.','✓ Exact. L\'énergie — physique, émotionnelle, mentale et spirituelle — est la ressource clé identifiée par Loehr & Schwartz après 25 ans de recherche avec des athlètes de haut niveau.','La motivation est liée à l\'énergie (notamment émotionnelle), mais ce n\'est pas la réponse la plus précise dans ce modèle.','La discipline aide à structurer mais ne crée pas l\'énergie. Sans énergie, la discipline s\'épuise.']},
+    fb:['Le temps est important, mais sans énergie même le temps libre est improductif. La gestion de l\'énergie prime.','✓ Exact. L\'énergie — physique, émotionnelle, mentale et vocationnelle — est la ressource clé identifiée par Loehr & Schwartz après 25 ans de recherche avec des athlètes de haut niveau.','La motivation est liée à l\'énergie (notamment émotionnelle), mais ce n\'est pas la réponse la plus précise dans ce modèle.','La discipline aide à structurer mais ne crée pas l\'énergie. Sans énergie, la discipline s\'épuise.']},
   {q:'À quelle fréquence notre cerveau réclame-t-il une micro-pause selon les rythmes ultradiens (Kleitman, 1950) ?',opts:['Toutes les 30 minutes','Toutes les 60 à 90 minutes environ','Toutes les 3 heures','Cela dépend uniquement de la motivation'],correct:1,
     fb:['30 minutes est trop court — c\'est plutôt le rythme Pomodoro classique, qui est utile mais pas physiologiquement câblé.','✓ Juste. Le BRAC (Basic Rest-Activity Cycle) découvert par Kleitman dure 60 à 120 min, avec une moyenne autour de 90 min. Au-delà, l\'attention chute mécaniquement.','3h est trop long. La fatigue cognitive s\'installe et la qualité décroît avant.','Faux : c\'est un rythme biologique câblé, indépendant de la motivation. Forcer ne le fait pas disparaître.']},
   {q:'Quelle est la meilleure période pour planifier vos tâches les plus complexes ?',opts:['Le creux de l\'après-midi (13h-15h)','Peu importe, l\'effort compense','Les pics cognitifs (9h-11h et 16h-18h)','Le matin uniquement, dès 7h'],correct:2,
@@ -726,7 +716,7 @@ const QUIZ_FR = [
 ];
 const QUIZ_EN = [
   {q:'According to Loehr & Schwartz, what is the <em>fundamental</em> resource for sustainable high performance?',opts:['Time available during the day','Energy, in its 4 dimensions','Intrinsic motivation','Discipline and organisation'],correct:1,
-    fb:['Time matters, but without energy even free time is unproductive. Energy management comes first.','✓ Correct. Energy — physical, emotional, mental and spiritual — is the key resource identified by Loehr & Schwartz after 25 years of research with elite athletes.','Motivation is linked to energy (especially emotional), but it is not the most precise answer in this model.','Discipline helps structure but does not create energy. Without energy, discipline drains.']},
+    fb:['Time matters, but without energy even free time is unproductive. Energy management comes first.','✓ Correct. Energy — physical, emotional, mental and vocational — is the key resource identified by Loehr & Schwartz after 25 years of research with elite athletes.','Motivation is linked to energy (especially emotional), but it is not the most precise answer in this model.','Discipline helps structure but does not create energy. Without energy, discipline drains.']},
   {q:'How often does our brain need a micro-break according to ultradian rhythms (Kleitman, 1950)?',opts:['Every 30 minutes','Approximately every 60 to 90 minutes','Every 3 hours','It only depends on motivation'],correct:1,
     fb:['30 minutes is too short — closer to the classic Pomodoro rhythm, useful but not physiologically wired.','✓ Right. The BRAC (Basic Rest-Activity Cycle) discovered by Kleitman lasts 60-120 min, averaging around 90 min. Beyond that, attention drops mechanically.','3h is too long. Cognitive fatigue builds and quality declines well before.','False: it is a hard-wired biological rhythm, independent of motivation. Forcing does not make it disappear.']},
   {q:'When is the best time to schedule your most complex tasks?',opts:['Afternoon trough (1-3pm)','It doesn\'t matter, effort compensates','Cognitive peaks (9-11am and 4-6pm)','Mornings only, from 7am'],correct:2,
@@ -753,7 +743,6 @@ function renderQuiz(){
     <div class="qfb" id="qfb-${i}"></div>`;
     c.appendChild(div);
   });
-  // Reapply done states if a previous answer existed (after lang switch)
   Object.keys(quizDone).forEach(k=>{
     const qi=parseInt(k);const oi=quizDone[k].oi;
     if(typeof oi!=='number')return;
@@ -767,7 +756,6 @@ function renderQuiz(){
     });
     const fb=document.getElementById('qfb-'+qi);fb.textContent=q.fb[oi];fb.className='qfb show '+(oi===q.correct?'pos':'neg');
   });
-  // If all answered, also re-show score box
   if(Object.keys(quizDone).length===QUIZ.length && document.getElementById('score-box').classList.contains('show')){
     showScore();
   }
@@ -790,7 +778,6 @@ function answerQ(qi,oi){
   fb.textContent=q.fb[oi];
   fb.className='qfb show '+(oi===correct?'pos':'neg');
   document.getElementById('quiz-q-'+qi).classList.add('answered');
-  // Check all done
   if(Object.keys(quizDone).length===QUIZ.length){
     setTimeout(showScore,500);
   }
@@ -863,7 +850,6 @@ function restartModule(){
 // FINISH
 function finishModule(){
   sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:QUIZ.length,event:'module_finished',ts:new Date().toISOString()});
-  // Mettre à jour les textes de screen-3 selon la langue active
   document.querySelectorAll('#screen-3 [data-fr][data-en]').forEach(el=>{
     const v=el.getAttribute('data-'+lang);
     if(v!==null) el.innerHTML=v;
