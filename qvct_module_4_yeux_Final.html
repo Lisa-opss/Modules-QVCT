@@ -569,7 +569,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
 
     <div class="snav">
       <button class="btn-gh" onclick="goStep(1)" data-fr="← Revoir le contenu" data-en="← Review content">← Revoir le contenu</button>
-      <button class="btn-dk" id="btn-finish" onclick="goStep(3)" style="display:none;" data-fr="Terminer le module ✓" data-en="Finish module ✓">Terminer le module ✓</button>
+      <button class="btn-dk" id="btn-finish" onclick="finishModule()" data-fr="Terminer le module ✓" data-en="Finish module ✓">Terminer le module ✓</button>
     </div>
   </div>
 </div>
@@ -692,6 +692,11 @@ function doLogin(){
   renderQuiz();
   sendData({email,module:MODULE_ID,event:'login',ts:new Date().toISOString()});
 }
+function finishModule(){
+  sendData({email:currentUser,module:MODULE_ID,score:quizScore,total:QUIZ_TOTAL,event:'module_finished',ts:new Date().toISOString()});
+  goStep(3);
+}
+
 function goStep(n){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+n).classList.add('active');
@@ -987,7 +992,6 @@ function showScore(){
   document.getElementById('score-emoji').textContent=emoji;
   document.getElementById('score-msg').textContent=msg;
   sb.classList.add('show');
-  document.getElementById('btn-finish').style.display='inline-flex';
   document.getElementById('finish-emoji').textContent=emoji;
   // Translate quiz navigation buttons to match current lang
   const reviewBtn=document.querySelector('#screen-2 .btn-gh');
@@ -1019,7 +1023,6 @@ function restartModule(){
   Object.keys(quizDone).forEach(k=>delete quizDone[k]);
   quizScore=0;
   document.getElementById('score-box').classList.remove('show');
-  document.getElementById('btn-finish').style.display='none';
   const isEn=currentLang==='en';
   const reviewBtn=document.querySelector('#screen-2 .btn-gh');
   const finishModuleBtn=document.getElementById('btn-finish');
