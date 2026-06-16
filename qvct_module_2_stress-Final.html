@@ -277,7 +277,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 44px;height:66px;d
       <input class="lb-input" type="email" id="login-email" placeholder="prenom.nom@entreprise.fr" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
     <button class="lb-btn" onclick="doLogin()">Démarrer le module →</button>
-    <div class="lb-err" id="login-err">Veuillez saisir une adresse email valide.</div>
+    <div class="lb-err" id="login-err">Veuillez vous connecter avec votre email professionnel.</div>
     <div class="lb-privacy">Votre email sert uniquement à enregistrer votre participation. Aucune donnée n'est transmise à des tiers.</div>
   </div>
 </div>
@@ -553,7 +553,7 @@ const QUIZ_TOTAL=5;
 let currentLang='fr';
 
 function sendData(p){fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).catch(()=>{});}
-function isValidEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());}
+function isValidEmail(e){return /^[^\s@]+@(brakson\.com|chargemap\.com|saabre\.com|admovia\.com)$/.test(e.trim());}
 function doLogin(){const email=document.getElementById('login-email').value.trim();const err=document.getElementById('login-err');if(!isValidEmail(email)){err.classList.add('show');return;}err.classList.remove('show');currentUser=email;document.getElementById('user-pill').textContent=email;document.getElementById('login-overlay').style.display='none';document.getElementById('app').style.display='block';renderQuiz();updateYD();sendData({email,module:MODULE_ID,event:'login',ts:new Date().toISOString()});}
 
 function goStep(n){
